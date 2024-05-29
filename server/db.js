@@ -47,6 +47,8 @@ const createFoodie = async (username, password, email, is_admin) => {
   return response.rows[0];
 };
 
+// decided to keep hours in the restaurant table and made days/hours in object format
+//originally thought to put hours in a seperate table to refer to restaurant ID
 const createTables = async () => {
   const SQL = `
   DROP TABLE IF EXISTS restaurant_hours;
@@ -107,9 +109,38 @@ const createTables = async () => {
   await client.query(SQL);
 };
 
+const fetchFoodies = async () => {
+  const SQL = `
+    SELECT id, username 
+    FROM foodie
+  `;
+  const response = await client.query(SQL);
+  return response.rows;
+};
+
+const fetchRestaurants = async () => {
+  const SQL = `
+    SELECT *
+    FROM restaurant
+  `;
+  const response = await client.query(SQL);
+  return response.rows;
+};
+
+//how to create wishlists. to finish tomorrow!!!
+const createWishlist = async ({ user_id, skill_id }) => {
+  const SQL = `
+    INSERT INTO user_skills(id, user_id, skill_id) VALUES ($1, $2, $3) RETURNING * 
+  `;
+  const response = await client.query(SQL, [uuid.v4(), user_id, skill_id]);
+  return response.rows[0];
+};
+
 module.exports = {
   client,
   createRestaurant,
   createTables,
   createFoodie,
+  fetchFoodies,
+  fetchRestaurants,
 };

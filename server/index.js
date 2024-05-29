@@ -3,6 +3,8 @@ const {
   createTables,
   createRestaurant,
   createFoodie,
+  fetchFoodies,
+  fetchRestaurants,
 } = require("./db");
 const express = require("express");
 
@@ -41,6 +43,16 @@ const init = async () => {
     createRestaurant(
       "Jefes",
       1,
+      {
+        monday: "12:00pm-8:00pm",
+        tuesday: "12:00pm-8:00pm",
+        wednesday: "12:00pm-8:00pm",
+        thursday: "12:00pm-8:00pm",
+        friday: "12:00pm-8:00pm",
+        saturday: "12:00pm-8:00pm",
+        monday: "12:00pm-8:00pm",
+        sunday: "closed",
+      },
       "1234 6th street",
       "tacotuesday.com/picture",
       "tacos.com"
@@ -48,15 +60,22 @@ const init = async () => {
     createRestaurant(
       "Pho Kim Long Restaurant",
       2,
-      { monday: "7:00-5:00", tuesday: "6:00-6:00pm" },
+      {
+        monday: "10:00am-8:00pm",
+        tuesday: "10:00am-:00pm",
+        wednesday: "closed",
+        thursday: "closed",
+        friday: "12:00am-12:00pm",
+        saturday: "12:00pm-12:00pm",
+        sunday: "10:00am=8:00pm",
+      },
       "2082 N Capitol Ave, San Jose",
       "www.phokimlongsanjose.com",
       "https://cdn.usarestaurants.info/assets/uploads/388896ccc7e34e8fad3088489c4357cf_-united-states-california-santa-clara-county-san-jose-445599-pho-kim-longhtm.jpg"
     ),
   ]);
-  console.log(beky, nammo, char, jam, ella, jefes, phokimlong);
-  // console.log(await fetchUsers());
-  // console.log(await fetchPlaces());
+  console.log(await fetchFoodies());
+  console.log(await fetchRestaurants());
   // const [wishlist] = await Promise.all([
   //   createVacation({
   //     user_id: beky_id,
