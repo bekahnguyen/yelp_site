@@ -78,8 +78,8 @@ const createTables = async () => {
        CREATE TABLE restaurant(
           id SERIAL PRIMARY KEY,
           name VARCHAR(250) NOT NULL, 
-          hours VARCHAR(250) NOT NULL,
-          cuisine_id INTEGER REFERENCES cuisine(id) NOT NULL,
+          hours VARCHAR(250),
+          cuisine_id INTEGER REFERENCES cuisine(id),
           location VARCHAR(250),
           img text,
           website text
