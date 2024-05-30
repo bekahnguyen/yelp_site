@@ -11,7 +11,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-// ROUTES
+// ROUTES A. Restaurants:
 app.get("/api/restaurant", async (req, res, next) => {
   try {
     const SQL = `
@@ -40,7 +40,7 @@ app.get("/api/restaurant/:id", async (req, res, next) => {
 app.get("/api/restaurant/cuisine/:id", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM restaurant WHERE cusisne id=$1
+    SELECT * FROM restaurant WHERE cuisine_id=$1
     `;
     const response = await client.query(SQL, [req.params.id]);
     res.send(response.rows);
@@ -50,6 +50,8 @@ app.get("/api/restaurant/cuisine/:id", async (req, res, next) => {
 });
 
 //for admin to create new restaurant
+//fix the responses. when i do response.rows there are errors
+
 app.post("/api/restaurant", (req, res, next) => {
   try {
     const SQL = `
@@ -65,13 +67,15 @@ app.post("/api/restaurant", (req, res, next) => {
       req.body.img,
       req.body.website,
     ]);
-    res.send(response.rows[0]);
+    res.sendStatus(202);
   } catch (error) {
     next(error);
   }
 });
 
-//admin to update //NOT WORKING ...YET!
+//admin to update //
+//when first tried, i updated the name and got a lot of errors for not adding any other fields
+// changed a lot of fields from not null to be null, hopefully i dont regret that.
 app.put("/api/restaurant/:id", (req, res, next) => {
   try {
     const SQL = `
@@ -89,12 +93,13 @@ app.put("/api/restaurant/:id", (req, res, next) => {
       req.body.website,
       req.params.id,
     ]);
-    res.send(response.rows[0]);
+    res.sendStatus(200);
   } catch (error) {
     next(error);
   }
 });
 
+//working
 app.delete("/api/restaurant/:id", (req, res, next) => {
   try {
     const SQL = `
@@ -102,11 +107,13 @@ app.delete("/api/restaurant/:id", (req, res, next) => {
     WHERE id=$1
     `;
     const response = client.query(SQL, [req.params.id]);
-    res.send(response.rows[0]);
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }
 });
+
+//Routes B- USER:
 //get api/user/me
 //get/post/update/delete api/user/me/user_favorite
 //get/post/update/delete api/user/me/user_wishlist

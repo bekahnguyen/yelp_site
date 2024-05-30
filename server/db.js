@@ -70,11 +70,11 @@ const createTables = async () => {
       INSERT into cuisine(id, name) VALUES(6, 'Indian');
       CREATE table foodie(
           id UUID PRIMARY KEY,
-          username VARCHAR(50) NOT NULL,
+          username VARCHAR(50) NOT NULL UNIQUE,
           password VARCHAR(50) NOT NULL,
           email TEXT NOT NULL,
           is_admin BOOLEAN default false
-      );
+      );  
        CREATE TABLE restaurant(
           id SERIAL PRIMARY KEY,
           name VARCHAR(250) NOT NULL, 
@@ -87,7 +87,8 @@ const createTables = async () => {
       CREATE TABLE foodie_wishlist(
         id UUID PRIMARY KEY,
         foodie_id UUID REFERENCES foodie(id) NOT NULL,
-        restaurant_id INTEGER REFERENCES restaurant(id) NOT NULL
+        restaurant_id INTEGER REFERENCES restaurant(id) NOT NULL,
+        CONSTRAINT unique_foodie_wishlist UNIQUE(foodie_id, restaurant_id)
     );  
     CREATE TABLE foodie_reviews(
       id UUID PRIMARY KEY,
@@ -102,7 +103,8 @@ const createTables = async () => {
     foodie_id UUID REFERENCES foodie(id) NOT NULL,
     restaurant_id INTEGER REFERENCES restaurant(id) NOT NULL,
     body text,
-    img text
+    img text,
+    CONSTRAINT unique_foodie_favorites UNIQUE(foodie_id, restaurant_id)
 );    
 
   `;
