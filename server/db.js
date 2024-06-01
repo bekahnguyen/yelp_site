@@ -3,6 +3,7 @@ const client = new pg.Client(
   process.env.DATABASE_URL || "postgres://localhost/ecommerce_site_db"
 );
 //import uuid
+//import bycrypt and hash passwords
 const { v4: uuidv4 } = require("uuid");
 
 // need a new table to update restaurant times depending on the day.
@@ -51,7 +52,6 @@ const createFoodie = async (username, password, email, is_admin) => {
 //originally thought to put hours in a seperate table to refer to restaurant ID
 const createTables = async () => {
   const SQL = `
-  DROP TABLE IF EXISTS restaurant_hours;
   DROP TABLE IF EXISTS foodie_reviews;
   DROP TABLE IF EXISTS foodie_favorites;
   DROP TABLE IF EXISTS foodie_wishlist;

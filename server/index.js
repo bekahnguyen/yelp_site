@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 
 // ROUTES A. Restaurants:
-app.get("/api/restaurant", async (req, res, next) => {
+app.get("/api/restaurants", async (req, res, next) => {
   try {
     const SQL = `
     SELECT * FROM restaurant
@@ -24,7 +24,7 @@ app.get("/api/restaurant", async (req, res, next) => {
   }
 });
 
-app.get("/api/restaurant/:id", async (req, res, next) => {
+app.get("/api/restaurants/:id", async (req, res, next) => {
   try {
     const SQL = `
     SELECT * FROM restaurant WHERE id=$1
@@ -37,7 +37,7 @@ app.get("/api/restaurant/:id", async (req, res, next) => {
 });
 
 //want to be able to see certain restaurants that have this cuisine, or would I filter this later on?
-app.get("/api/restaurant/cuisine/:id", async (req, res, next) => {
+app.get("/api/restaurants/cuisine/:id", async (req, res, next) => {
   try {
     const SQL = `
     SELECT * FROM restaurant WHERE cuisine_id=$1
@@ -99,6 +99,8 @@ app.put("/api/restaurant/:id", (req, res, next) => {
   }
 });
 
+//patch if user tells us then include it in query //patch request
+
 //working
 app.delete("/api/restaurant/:id", (req, res, next) => {
   try {
@@ -118,6 +120,12 @@ app.delete("/api/restaurant/:id", (req, res, next) => {
 //get/post/update/delete api/user/me/user_favorite
 //get/post/update/delete api/user/me/user_wishlist
 //get/delete/post/update api/user/me/user_reviews
+//get all review comments//
+
+//TO DO:
+//api/restaurants/:id/reviews/:review_id/comments
+//to delete/edit
+//as anADMIN : api/restaurants/:id/reviews/:review_id/comments/:comment_id
 //api/
 
 const init = async () => {
