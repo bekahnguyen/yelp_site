@@ -1,21 +1,36 @@
 const {
   client,
   createTables,
-  createRestaurant,
-  createFoodie,
-  fetchFoodies,
-  fetchRestaurants,
+  createWinery,
+  createSomm,
+  fetchSomms,
+  fetchWineries,
+  authenticate,
+  findUserByToken,
+  createReview,
+  destroyReviews,
+  createComment,
 } = require("./db");
-const express = require("express");
 
+const express = require("express");
 const app = express();
 app.use(express.json());
 
-// ROUTES A. Restaurants:
-app.get("/api/restaurants", async (req, res, next) => {
+//for deployment only
+const path = require("path");
+app.get("/", (req, res) =>
+  res.sendFile(path.join(__dirname, "../client/index.html"))
+);
+
+app.use("/assets", express.static(path.join(__dirname, "../client/assets")));
+
+//npm run build
+
+// ROUTES A. wineries:
+app.get("/api/wineries", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM restaurant
+    SELECT * FROM winery
     `;
     const response = await client.query(SQL);
     res.send(response);
@@ -24,10 +39,23 @@ app.get("/api/restaurants", async (req, res, next) => {
   }
 });
 
-app.get("/api/restaurants/:id", async (req, res, next) => {
+app.get("/api/ava_districts", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM restaurant WHERE id=$1
+    SELECT * FROM ava_district
+    `;
+    const response = await client.query(SQL);
+    res.send(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//to look at a particular winery and see the details
+app.get("/api/wineries/:id", async (req, res, next) => {
+  try {
+    const SQL = `
+    SELECT * FROM winery WHERE id=$1
     `;
     const response = await client.query(SQL, [req.params.id]);
     res.send(response.rows[0]);
@@ -36,11 +64,11 @@ app.get("/api/restaurants/:id", async (req, res, next) => {
   }
 });
 
-//want to be able to see certain restaurants that have this cuisine, or would I filter this later on?
-app.get("/api/restaurants/cuisine/:id", async (req, res, next) => {
+//want to be able to see certain wineries that have this ava_district_id, or would I filter this later on?
+app.get("/api/wineries/ava_district/:id", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM restaurant WHERE cuisine_id=$1
+    SELECT * FROM winery WHERE ava_district_id=$1
     `;
     const response = await client.query(SQL, [req.params.id]);
     res.send(response.rows);
@@ -49,20 +77,20 @@ app.get("/api/restaurants/cuisine/:id", async (req, res, next) => {
   }
 });
 
-//for admin to create new restaurant
+//for admin to create new winery
 //fix the responses. when i do response.rows there are errors
 
-app.post("/api/restaurant", (req, res, next) => {
+app.post("/api/winery", (req, res, next) => {
   try {
     const SQL = `
-    INSERT into restaurant(name, hours, cuisine_id, location, img, website)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT into winery(name, hours, ava_district_id, location, img, website)
+    VALUES ($1, $2, $3, $4, $5, $6,)
     RETURNING*;
     `;
     const response = client.query(SQL, [
       req.body.name,
       req.body.hours,
-      req.body.cuisine_id,
+      req.body.ava_district_id,
       req.body.location,
       req.body.img,
       req.body.website,
@@ -76,18 +104,18 @@ app.post("/api/restaurant", (req, res, next) => {
 //admin to update //
 //when first tried, i updated the name and got a lot of errors for not adding any other fields
 // changed a lot of fields from not null to be null, hopefully i dont regret that.
-app.put("/api/restaurant/:id", (req, res, next) => {
+app.put("/api/winery/:id", (req, res, next) => {
   try {
     const SQL = `
-    UPDATE restaurant
-    SET name=$1, hours=$2, cuisine_id=$3, location=$4, img=$5, website=$6
+    UPDATE winery
+    SET name=$1, hours=$2, ava_district_id_id=$3, location=$4, img=$5, website=$6
     WHERE id=$7
     RETURNING*;
     `;
     const response = client.query(SQL, [
       req.body.name,
       req.body.hours,
-      req.body.cuisine_id,
+      req.body.ava_district_id_id,
       req.body.location,
       req.body.img,
       req.body.website,
@@ -102,10 +130,10 @@ app.put("/api/restaurant/:id", (req, res, next) => {
 //patch if user tells us then include it in query //patch request
 
 //working
-app.delete("/api/restaurant/:id", (req, res, next) => {
+app.delete("/api/winery/:id", (req, res, next) => {
   try {
     const SQL = `
-    DELETE * FROM restaurant
+    DELETE * FROM winery
     WHERE id=$1
     `;
     const response = client.query(SQL, [req.params.id]);
@@ -116,103 +144,179 @@ app.delete("/api/restaurant/:id", (req, res, next) => {
 });
 
 //Routes B- USER:
-//get api/user/me
+//get api/somms/me
+const isLoggedIn = async (req, res, next) => {
+  console.log("is logged in route is hit!");
+  try {
+    req.somm = await findUserByToken(req.headers.authorization);
+    console.log("req.som:", req.somm);
+    next();
+  } catch (ex) {
+    next(ex);
+  }
+};
+
+app.post("/api/auth/login", async (req, res, next) => {
+  console.log("api auth login hit");
+  try {
+    res.send(await authenticate(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.get("/api/auth/me", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await findUserByToken(req.headers.authorization));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+//register form? DONE!
+app.post("/api/somms/", async (req, res, next) => {
+  try {
+    await createSomm({
+      first_name: req.body.firstName,
+      last_name: req.body.lastName,
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    });
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+//working!!
+app.get("/api/somms", async (req, res, next) => {
+  try {
+    res.send(await fetchSomms());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+//a list of all of their reviews. also to be broken down per winery?
+app.get("/api/somms/:id/reviews", async (req, res, next) => {
+  try {
+    const SQL = `
+    SELECT * FROM somm_reviews WHERE id=$1
+    `;
+    const response = await client.query(SQL, [req.params.id]);
+    res.send(response.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//is this an inner join????
+//how to filter reviews based on winery?
+app.get("/api/wineries/:id/reviews", async (req, res, next) => {
+  try {
+    const SQL = `
+    SELECT title, rating, comment
+     FROM somm_reviews 
+    WHERE winery_id=$1
+    `;
+    const response = await client.query(SQL, [req.params.id]);
+    res.send(response.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//post a review from a certain somm accessing the winery they reviewed.
+
+app.post("/api/winery/:id/reviews", async (req, res, next) => {
+  try {
+    res.status(201).send(
+      await createReview({
+        winery_id: req.body.winery_id,
+        rating: req.body.rating,
+        title: req.body.title,
+        comment: req.body.comment,
+      })
+    );
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+//to review or post comments?
+app.post(
+  "api/wineries/:id/reviews/:review_id/comments",
+  async (req, res, next) => {
+    try {
+      res.status(201).send(
+        await createComment({
+          winery_id: req.params.id,
+          somm_review_id: req.params.review_id,
+          comment: req.body.comment,
+        })
+      );
+    } catch (ex) {
+      next(ex);
+    }
+  }
+);
+
+app.patch("/api/somms/:id/reviews/:id") ??
+  //to delete their reviews.
+
+  //for users to delete their own reviews. and for admin to delete reviews, too.
+  app.delete("/api/somms/:somm_id/reviews/:id", async (req, res, next) => {
+    try {
+      await destroyReviews({ somm_id: req.params.somm_id, id: req.params.id });
+      res.sendStatus(204);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+//how to get SOMMS to make an itinerary with multiple wineries?
+//needs: winery, time, reservation made (with a checkbox), then a + button to add a new one.
+app.post("/api/somms/:id/favorites", isLoggedIn, async (req, res, next) => {
+  try {
+    if (req.params.id !== req.somm.id) {
+      const error = Error("not authorized");
+      error.status = 401;
+      throw error;
+    }
+    res.status(201).send(
+      await createItinerary({
+        user_id: req.params.id,
+        winery_id: req.body.winery_id,
+      })
+    );
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 //get/post/update/delete api/user/me/user_favorite
 //get/post/update/delete api/user/me/user_wishlist
 //get/delete/post/update api/user/me/user_reviews
 //get all review comments//
 
 //TO DO:
-//api/restaurants/:id/reviews/:review_id/comments
+
 //to delete/edit
-//as anADMIN : api/restaurants/:id/reviews/:review_id/comments/:comment_id
+//as anADMIN : api/wineries/:id/reviews/:review_id/comments/:comment_id
 //api/
 
 const init = async () => {
   console.log("connecting to database");
   await client.connect();
   console.log("connected to database");
-  await createTables();
-  console.log("created tables");
-  const [beky, nammo, char, jam, ella, jefes, phokimlong] = await Promise.all([
-    createFoodie("beky", "foodie", "bekahritter@gmail.com", false),
-    createFoodie("nam", "eatsalot", "nnguyen@nguyening.com", false),
-    createFoodie("charlie", "givemepizza", "char@nguyening.com", true),
-    createFoodie("jamey", "fruitboy", "jamjam@nguyening.com", true),
-    createFoodie("ella", "eatsnothing", "ell@nguyening.com", true),
-    createRestaurant(
-      "Aliyah’s Kitchen and Grill",
-      1,
-      {
-        monday: "12:00pm-8:00pm",
-        tuesday: "12:00pm-8:00pm",
-        wednesday: "12:00pm-8:00pm",
-        thursday: "12:00pm-8:00pm",
-        friday: "12:00pm-8:00pm",
-        saturday: "12:00pm-8:00pm",
-        monday: "12:00pm-8:00pm",
-        sunday: "closed",
-      },
-      "1234 6th street",
-      "https://lh3.googleusercontent.com/p/AF1QipPGsIX5gGlrXFHv_B1JVsUAYfp9RX1Kt3cXOfZt=s1360-w1360-h1020",
-      "https://www.aliyahskitchen.com"
-    ),
-    createRestaurant(
-      "Q Pot Korean BBQ & Hotpot",
-      4,
-      {
-        monday: "12:00pm-8:00pm",
-        tuesday: "12:00pm-8:00pm",
-        wednesday: "12:00pm-8:00pm",
-        thursday: "12:00pm-8:00pm",
-        friday: "12:00pm-8:00pm",
-        saturday: "12:00pm-8:00pm",
-        monday: "12:00pm-8:00pm",
-        sunday: "closed",
-      },
-      "1610 Capitol Expy, San Jose, CA 95121",
-      "https://lh3.googleusercontent.com/p/AF1QipPLrExxYqDO6OB-txUGdph6tRxKeO0i3vHxPCTl=s1360-w1360-h1020",
-      "https://www.qpotsanjose.com/"
-    ),
-    createRestaurant(
-      "Pho Kim Long Restaurant",
-      2,
-      {
-        monday: "10:00am-8:00pm",
-        tuesday: "10:00am-:00pm",
-        wednesday: "closed",
-        thursday: "closed",
-        friday: "12:00am-12:00pm",
-        saturday: "12:00pm-12:00pm",
-        sunday: "10:00am=8:00pm",
-      },
-      "2082 N Capitol Ave, San Jose",
-      "www.phokimlongsanjose.com",
-      "https://cdn.usarestaurants.info/assets/uploads/388896ccc7e34e8fad3088489c4357cf_-united-states-california-santa-clara-county-san-jose-445599-pho-kim-longhtm.jpg"
-    ),
-    createRestaurant(
-      "Pho Y #1 Noodle House",
-      2,
-      {
-        monday: "10:00am-8:00pm",
-        tuesday: "10:00am-:00pm",
-        wednesday: "closed",
-        thursday: "closed",
-        friday: "12:00am-12:00pm",
-        saturday: "12:00pm-12:00pm",
-        sunday: "10:00am=8:00pm",
-      },
-      "1660 E Capitol Expy, San Jose, CA 95121",
-      "https://order.online/store/pho-y-1-noodle-house-649361",
-      "https://lh3.googleusercontent.com/p/AF1QipMyOm0s0t2PB3g9NN0NkMqa9lCIuxbtrBmXjQ2z=s1360-w1360-h1020"
-    ),
-  ]);
-  console.log(await fetchFoodies());
-  console.log(await fetchRestaurants());
+  // await createTables();
+  // console.log("created tables");
+
+  console.log(await fetchSomms()), console.log(await fetchWineries());
   // const [wishlist] = await Promise.all([
   //   createVacation({
   //     user_id: beky_id,
-  //     restaurant_id: nyc.id,
+  //     winery_id: nyc.id,
   //     departure_date: "03/03/2023",
   //   }),
   //   createVacation({

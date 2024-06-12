@@ -2,147 +2,291 @@ const pg = require("pg");
 const client = new pg.Client(
   process.env.DATABASE_URL || "postgres://localhost/ecommerce_site_db"
 );
-//import uuid
-//import bycrypt and hash passwords
-const { v4: uuidv4 } = require("uuid");
 
-// need a new table to update restaurant times depending on the day.
-const createRestaurant = async (
+const uuid = require("uuid");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const JWT = process.env.JWT || "shhh";
+
+// need a new table to update winery times depending on the day.
+const createWinery = async (
   name,
-  cuisine_id,
+  address,
+  phone,
   hours,
-  location,
+  ava_district_id,
   img,
-  website
+  website,
+  reservations_required
 ) => {
   const SQL = `  
-      INSERT INTO restaurant(name, cuisine_id, hours, location, img, website) 
-      VALUES($1, $2, $3, $4, $5, $6) 
+      INSERT INTO winery(name, address, phone, hours, ava_district_id, img, website, reservations_required) 
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8) 
       RETURNING *`;
   const response = await client.query(SQL, [
     name,
-    cuisine_id,
+    address,
+    phone,
     hours,
-    location,
+    ava_district_id,
     img,
     website,
+    reservations_required,
   ]);
   return response.rows[0];
 };
 
-//changing "foodie" to represent "user" as user is a designated keyword id rather not use..r
+//somm to represent "user" as user is a designated keyword id rather not use. Somm= sommelier
 
-const createFoodie = async (username, password, email, is_admin) => {
+const createSomm = async ({
+  first_name,
+  last_name,
+  username,
+  password,
+  email,
+  is_admin,
+}) => {
   const SQL = `
-    INSERT INTO foodie(id, username, password, email, is_admin)
-     VALUES($1, $2, $3, $4, $5) 
+    INSERT INTO somm(id, first_name, last_name, username, password, email, is_admin)
+     VALUES($1, $2, $3, $4, $5, $6, $7) 
      RETURNING *
   `;
   const response = await client.query(SQL, [
-    uuidv4(),
+    uuid.v4(),
+    first_name,
+    last_name,
     username,
-    password,
+    await bcrypt.hash(password, 5),
     email,
     is_admin,
   ]);
   return response.rows[0];
 };
 
-// decided to keep hours in the restaurant table and made days/hours in object format
-//originally thought to put hours in a seperate table to refer to restaurant ID
+const authenticate = async ({ username, password }) => {
+  console.log(username, password);
+  const SQL = `
+  SELECT id, password
+  FROM somm
+  WHERE username =$1
+  `;
+  const response = await client.query(SQL, [username]);
+  if (
+    !response.rows.length ||
+    (await bcrypt.compare(password, response.rows[0].password)) === false
+  ) {
+    const error = Error("not authorized");
+    error.status = 401;
+    throw error;
+  }
+  const token = await jwt.sign({ id: response.rows[0].id }, JWT);
+  console.log("token:", token);
+  console.log("authenticated!");
+  return { token };
+};
+
+const findUserByToken = async (token) => {
+  let id;
+  try {
+    const tokenNoBearer = token.split(" ")[1];
+    const payload = jwt.verify(tokenNoBearer, JWT);
+    id = payload.id;
+  } catch (ex) {
+    const error = Error("not authorized");
+    error.status = 401;
+    throw error;
+  }
+  const SQL = `
+    SELECT id, username
+    FROM somm
+    WHERE id = $1
+  `;
+  const response = await client.query(SQL, [id]);
+  if (!response.rows.length) {
+    const error = Error("not authorized");
+    error.status = 401;
+    throw error;
+  }
+  return response.rows[0];
+};
+
+// decided to keep hours in the winery table and made days/hours in object format
+//originally thought to put hours in a seperate table to refer to winery ID
 const createTables = async () => {
   const SQL = `
-  DROP TABLE IF EXISTS foodie_reviews;
-  DROP TABLE IF EXISTS foodie_favorites;
-  DROP TABLE IF EXISTS foodie_wishlist;
-  DROP TABLE IF EXISTS restaurant;
-  DROP TABLE IF EXISTS cuisine;
-      DROP TABLE IF EXISTS foodie;
-      CREATE TABLE cuisine(
-        id INTEGER PRIMARY KEY,
-        name VARCHAR
-      );
-      INSERT into cuisine(id, name) VALUES(1,'Mexican');
-      INSERT into cuisine(id, name) VALUES(2,'Vietnamese');
-      INSERT into cuisine(id, name) VALUES(3,'Italian');
-      INSERT into cuisine(id, name) VALUES(4,'Korean');
-      INSERT into cuisine(id, name) VALUES(5,'BBQ');
-      INSERT into cuisine(id, name) VALUES(6, 'Indian');
-      CREATE table foodie(
+  DROP TABLE IF EXISTS somm_comments;
+  DROP TABLE IF EXISTS somm_reviews;
+  DROP TABLE IF EXISTS somm_favorites;
+  DROP TABLE IF EXISTS somm_wishlist;
+  DROP TABLE IF EXISTS winery;
+  DROP TABLE IF EXISTS ava_district;
+      DROP TABLE IF EXISTS somm;
+          CREATE TABLE ava_district (
+        id SERIAL PRIMARY KEY,
+        location VARCHAR(255) NOT NULL
+    );
+    INSERT INTO ava_district (location) VALUES ('Adelaida District');
+    INSERT INTO ava_district (location) VALUES ('Creston District');
+    INSERT INTO ava_district (location) VALUES ('El Pomar District');
+    INSERT INTO ava_district (location) VALUES ('Paso Robles Estrella District');
+    INSERT INTO ava_district (location) VALUES ('Paso Robles Geneseo District');
+    INSERT INTO ava_district (location) VALUES ('Paso Robles Highlands District');
+    INSERT INTO ava_district (location) VALUES ('Paso Robles Willow Creek District');
+    INSERT INTO ava_district (location) VALUES ('San Juan Creek');
+    INSERT INTO ava_district (location) VALUES ('San Miguel District');
+    INSERT INTO ava_district (location) VALUES ('Santa Margarita Ranch');
+    INSERT INTO ava_district (location) VALUES ('Templeton Gap District');
+      CREATE table somm(
           id UUID PRIMARY KEY,
+          first_name VARCHAR (250),
+          last_name VARCHAR (250),
           username VARCHAR(50) NOT NULL UNIQUE,
-          password VARCHAR(50) NOT NULL,
-          email TEXT NOT NULL,
+          password text NOT NULL,
+          email VARCHAR(250) NOT NULL,
           is_admin BOOLEAN default false
       );  
-       CREATE TABLE restaurant(
+       CREATE TABLE winery(
           id SERIAL PRIMARY KEY,
           name VARCHAR(250) NOT NULL, 
-          hours VARCHAR(250),
-          cuisine_id INTEGER REFERENCES cuisine(id),
-          location VARCHAR(250),
+          address VARCHAR(255),
+          phone VARCHAR(255),
+          hours VARCHAR,
+          description TEXT,
           img text,
-          website text
+          website text,
+          reservations_required BOOLEAN default false,
+          ava_district_id INTEGER REFERENCES ava_district(id)
       );
-      CREATE TABLE foodie_wishlist(
+      INSERT INTO winery(name, address, phone, hours, description, img, website, reservations_required, ava_district_id)
+      VALUES('DAOU Vineyards','2777 Hidden Mountain Rd, Paso Robles, CA','805-226-5460', '10:00 AM - 5:00 PM','Nestled ontop of a hill and just bought for 1 billion dollars','https://winemaps.com/sites/default/files/styles/large/public/2019-10/readytogo_5.jpg?itok=uspdG2tR','https://www.daouvineyards.com', False, 1),
+      ('Halter Ranch Vineyard', '8910 Adelaida Rd, Paso Robles, CA','805-226-9455','10:00 AM - 5:00 PM', 'Halter Ranch Description', 'https://media-cdn.tripadvisor.com/media/photo-s/13/bd/4f/12/our-beautiful-covered.jpg','https://www.halterranch.com', False, 1),
+      ('LAventure Winery','2815 Live Oak Rd, Paso Robles, CA','805-227-1588','10:00 AM - 4:00 PM', 'description of winery and also fix the title','https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/57/f6/98/winery.jpg?w=1200&h=-1&s=1','https://www.aventurewine.com', False, 7),
+      ('Turley Wine Cellars', '2900 Vineyard Dr, Templeton, CA','805-434-1030', '10:00 AM - 5:00 PM', 'description of turley', 'https://media-cdn.tripadvisor.com/media/photo-s/19/9a/ae/b6/photo0jpg.jpg,', 'https://www.turleywinecellars.com', False, 7),
+      ('Eberle Winery', '3810 CA-46, Paso Robles, CA','805-238-9607', '10:00 AM - 5:00 PM', 'description of eberle','www.example.com', 'https://www.eberlewinery.com', False, 11),
+      ('Villa Creek Cellars','5995 Peachy Canyon Rd, Paso Robles, CA','805-238-7145','11:00 AM - 5:00 PM', 'description of villa creek. mention reservation website: https://www.exploretock.com/villacreekcellars/', 'https://media-cdn.tripadvisor.com/media/photo-s/1d/bf/fb/44/ariel-view-of-the-maha.jpg','https://www.villacreek.com', False, 1),
+      ('Denner Vineyards', '5414 Vineyard Dr, Paso Robles, CA','805-239-4287','10:00 AM - 5:00 PM', 'description of denner', 'https://ak.jogurucdn.com/media/image/p14/place-2017-03-21-12-c5e1b924d092bcade8d9ecc06b6869ba.jpg','https://www.dennervineyards.com', False, 7),
+      ('Peachy Canyon Winery','2020 Nacimiento Lake Dr, Paso Robles, CA','805-239-1918','10:00 AM - 5:00 PM', 'description of peachy canyon', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/a9/48/23/the-big-chair-at-our.jpg?w=1200&h=-1&s=1','https://www.peachycanyon.com', False, 1),
+      ('Sculpterra Winery & Sculpture Garden','5015 Linne Rd, Paso Robles, CA','805-226-8881','10:00 AM - 5:00 PM', 'description of sculpterra','https://media-cdn.tripadvisor.com/media/photo-s/02/66/f4/1e/sculpterra-winery-sculpture.jpg','https://sculpterra.com/', False, 3),
+      ('Epoch Estate Wines', '7505 York Mountain Rd, Templeton, CA','805-237-7575','10:00 AM - 4:00 PM', 'better description of epoch', 'https://www.cooperchase.com/wp-content/uploads/2021/12/epoch-1a-768x444.jpg','https://www.epochwines.com', False, 7),
+      ('Brecon Estate','7450 Vineyard Dr, Paso Robles, CA','805-239-2200','11:00 AM - 5:00 PM', 'decription of brecon', 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d1b2e430123665.561457900e12d.jpg', 'https://www.breconestate.com',False, 5),
+      
+('Tooth & Nail Winery', '3090 Anderson Rd, Paso Robles, CA','805-369-6100','10:00 AM - 6:00 PM', 'description of tooth and nail','https://sanluisobispoguide.com/wp-content/uploads/2020/05/Willow-Creek-District-Tooth-Nail-Winery-1024x691.jpg','https://www.toothandnailwine.com', False, 7),
+
+      ('Niner Wine Estates', '2400 CA-46, Paso Robles, CA','805-239-2233','10:00 AM - 5:00 PM', 'description of niner', 'https://th.bing.com/th/id/OLC.lzBvUs9Q7E5rmQ480x360?&rs=1&pid=ImgDetMain','https://www.ninerwine.com', False, 7),
+      ('Austin Hope & Treana Tasting Cellar', '1585 Live Oak Rd, Paso Robles, CA','805-238-4112','10:00 AM - 4:00 PM', 'Ausitn Hope Description', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/8b/7f/b1/our-tasting-cellar-feature.jpg?w=1200&h=-1&s=1', 'https://www.hopefamilywines.com', False, 11);
+  CREATE TABLE somm_wishlist(
         id UUID PRIMARY KEY,
-        foodie_id UUID REFERENCES foodie(id) NOT NULL,
-        restaurant_id INTEGER REFERENCES restaurant(id) NOT NULL,
-        CONSTRAINT unique_foodie_wishlist UNIQUE(foodie_id, restaurant_id)
+        somm_id UUID REFERENCES somm(id) NOT NULL,
+        winery_id INTEGER REFERENCES winery(id) NOT NULL,
+        CONSTRAINT unique_somm_wishlist UNIQUE(somm_id, winery_id)
     );  
-    CREATE TABLE foodie_reviews(
+    CREATE TABLE somm_reviews(
       id UUID PRIMARY KEY,
       title VARCHAR,
-      body text,
-      foodie_id UUID REFERENCES foodie(id) NOT NULL,
-      restaurant_id INTEGER REFERENCES restaurant(id) NOT NULL,
+      rating integer,
+      comment text,
+      somm_id UUID REFERENCES somm(id) NOT NULL,
+      winery_id INTEGER REFERENCES winery(id) NOT NULL,
       img text
   );  
-  CREATE TABLE foodie_favorites(
+CREATE TABLE somm_comments(
+id UUID PRIMARY KEY,
+body TEXT,
+somm_review_id UUID REFERENCES somm_reviews(id)
+);
+  CREATE TABLE somm_favorites(
     id UUID PRIMARY KEY,   
-    foodie_id UUID REFERENCES foodie(id) NOT NULL,
-    restaurant_id INTEGER REFERENCES restaurant(id) NOT NULL,
+    somm_id UUID REFERENCES somm(id) NOT NULL,
+    winery_id INTEGER REFERENCES winery(id) NOT NULL,
     body text,
     img text,
-    CONSTRAINT unique_foodie_favorites UNIQUE(foodie_id, restaurant_id)
+    CONSTRAINT unique_somm_favorites UNIQUE(somm_id, winery_id)
 );    
 
   `;
   await client.query(SQL);
 };
 
-const fetchFoodies = async () => {
+const createReview = async ({ somm_id, winery_id, rating, title, comment }) => {
+  const SQL = `
+      INSERT INTO somm_reviews(id, somm_id, , winery_id, rating, title, comment)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+  `;
+  const response = await client.query(SQL, [
+    uuid.v4(),
+    somm_id,
+    winery_id,
+    rating,
+    title,
+    comment,
+  ]);
+  return response.rows[0];
+};
+
+const createComment = async ({ winery_id, somm_review_id, comment }) => {
+  const SQL = `
+      INSERT INTO somm_comments(id, winery_id, somm_review_id, comment)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+  `;
+  const response = await client.query(SQL, [
+    uuid.v4(),
+    winery_id,
+    somm_review_id,
+    comment,
+  ]);
+  return response.rows[0];
+};
+
+const destroyReviews = async ({ id, somm_id }) => {
+  console.log(id, user_id);
+  const SQL = `
+      DELETE FROM somm_reviews
+      WHERE id = $1 AND somm_id=$2
+  `;
+  await client.query(SQL, [id, somm_id]);
+};
+
+const fetchSomms = async () => {
   const SQL = `
     SELECT id, username 
-    FROM foodie
+    FROM somm
   `;
   const response = await client.query(SQL);
   return response.rows;
 };
 
-const fetchRestaurants = async () => {
+const fetchWineries = async () => {
   const SQL = `
     SELECT *
-    FROM restaurant
+    FROM winery
   `;
   const response = await client.query(SQL);
   return response.rows;
 };
 
 //how to create wishlists. to finish tomorrow!!!
-const createWishlist = async ({ user_id, skill_id }) => {
+const createWishlist = async ({ somm_id, winery_id }) => {
   const SQL = `
-    INSERT INTO user_skills(id, user_id, skill_id) VALUES ($1, $2, $3) RETURNING * 
+    INSERT INTO somm_wishlist(id, somm_id, winery_id) VALUES ($1, $2, $3) RETURNING * 
   `;
-  const response = await client.query(SQL, [uuid.v4(), user_id, skill_id]);
+  const response = await client.query(SQL, [uuid.v4(), somm_id, winery_id]);
   return response.rows[0];
 };
 
+//create itinerary. includes: winery name, time, reservations(yes/no),
+
 module.exports = {
   client,
-  createRestaurant,
+  createWinery,
   createTables,
-  createFoodie,
-  fetchFoodies,
-  fetchRestaurants,
+  createSomm,
+  fetchSomms,
+  fetchWineries,
+  authenticate,
+  findUserByToken,
+  createReview,
+  destroyReviews,
+  createComment,
 };
