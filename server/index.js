@@ -149,7 +149,6 @@ const isLoggedIn = async (req, res, next) => {
   console.log("is logged in route is hit!");
   try {
     req.somm = await findUserByToken(req.headers.authorization);
-    console.log("req.som:", req.somm);
     next();
   } catch (ex) {
     next(ex);
@@ -198,10 +197,11 @@ app.get("/api/somms", async (req, res, next) => {
 });
 
 //a list of all of their reviews. also to be broken down per winery?
-app.get("/api/somms/:id/reviews", async (req, res, next) => {
+app.get("/api/somms/:id/reviews", isLoggedIn, async (req, res, next) => {
+  console.log("api/somms/:id/reviews route was HIT!");
   try {
     const SQL = `
-    SELECT * FROM somm_reviews WHERE id=$1
+    SELECT * FROM somm_reviews WHERE somm_id=$1
     `;
     const response = await client.query(SQL, [req.params.id]);
     res.send(response.rows);

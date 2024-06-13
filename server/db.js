@@ -89,6 +89,7 @@ const findUserByToken = async (token) => {
   let id;
   try {
     const tokenNoBearer = token.split(" ")[1];
+    console.log(tokenNoBearer);
     const payload = jwt.verify(tokenNoBearer, JWT);
     id = payload.id;
   } catch (ex) {
@@ -107,7 +108,6 @@ const findUserByToken = async (token) => {
     error.status = 401;
     throw error;
   }
-  return response.rows[0];
 };
 
 // decided to keep hours in the winery table and made days/hours in object format
