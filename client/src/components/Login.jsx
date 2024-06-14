@@ -1,5 +1,5 @@
 /* TODO - add your code to create a functional React component that renders a login form */
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export default function Login({ somm, setSomm }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch(`/api/auth/login`, {
+    const response = await fetch(`/api/somms/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,20 +24,25 @@ export default function Login({ somm, setSomm }) {
       body: JSON.stringify({ username, password }),
     });
     const json = await response.json();
+    console.log(response.status);
     if (response.ok) {
       window.localStorage.setItem("token", json.token);
+      console.log("json token set");
       attemptLoginWithToken();
     }
   };
 
   const attemptLoginWithToken = async () => {
+    console.log("attempt login with token route hit");
     const token = window.localStorage.getItem("token");
-    const response = await fetch("/api/auth/me", {
+    const response = await fetch("/api/somms/me", {
       headers: {
         authorization: `Bearer ${token}`,
       },
     });
+    console.log(response);
     const json = await response.json();
+    console.log(json);
     console.log("json:", json);
     if (response.ok) {
       setSomm(json);

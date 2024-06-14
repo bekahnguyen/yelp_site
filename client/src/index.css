@@ -19,15 +19,17 @@ body {
   flex-wrap: wrap;
 }
 
-/* 
+#reviewForm {
+  display: flex;
+  width: 300px;
+}
+
 .wineCard {
   margin-top: 10vh;
-  border: 2px solid rgba(196, 22, 68, 0.729);
   border-radius: 10px;
   width: 50vh;
   text-align: center;
-
-} */
+}
 
 .winePic {
   height: 50%;

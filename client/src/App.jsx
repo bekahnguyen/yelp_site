@@ -1,26 +1,20 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, Link, useParams } from "react-router-dom";
+import { Route, Routes, Link } from "react-router-dom";
 import Wineries from "./components/Wineries";
 import Account from "./components/Account";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Reviews from "./components/Reviews";
 import SingleWinery from "./components/SingleWinery";
 import Navigations from "./components/Navigations";
-let { wineryId } = useParams;
 
-function App({}) {
-  const [token, setToken] = useState("");
+function App() {
   const [somm, setSomm] = useState({});
-
-  useEffect(() => {
-    attemptLoginWithToken();
-    console.log("Logged in!", token);
-  }, []);
 
   const attemptLoginWithToken = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
-      const response = await fetch(`/api/auth/me`, {
+      const response = await fetch(`/api/somms/me`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -36,34 +30,29 @@ function App({}) {
 
   return (
     <>
+      <h1>Paso App</h1>
       <Navigations />
-
       <div id="main-routes">
         <Routes>
           <Route path="/" element={<Wineries />}></Route>
           <Route
             path="/Account"
-            element={<Account token={token} somm={somm} />}
+            element={<Account somm={somm} setSomm={setSomm} />}
           ></Route>
           <Route
-            path="/Register"
-            element={<Register token={token} setToken={setToken} />}
+            path="/Somms/Register"
+            element={<Register setSomm={setSomm} />}
           ></Route>
           <Route
             path="/Login"
-            element={
-              <Login
-                setToken={setToken}
-                token={token}
-                setSomm={setSomm}
-                somm={somm}
-              />
-            }
+            element={<Login setSomm={setSomm} somm={somm} />}
           ></Route>
           <Route
-            path="/:wineId"
-            element={<SingleWinery token={token} />}
+            path="/:wineId/Reviews"
+            element={<Reviews somm={somm} />}
           ></Route>
+
+          <Route path="/:wineId" element={<SingleWinery />}></Route>
         </Routes>
       </div>
     </>

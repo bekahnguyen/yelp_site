@@ -4,27 +4,7 @@ import { useEffect, useState } from "react";
 // must make this route in my PSQL:
 
 export default function Account({ somm }) {
-  // const [somm, setSomm] = useState([]);
-
-  // useEffect(() => {
-
-  //   console.log("account token:", token);
-  //   const getMe = async () => {
-  //     const response = await fetch(`api/auth/me`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     const result = await response.json();
-  //     console.log("result:", result);
-  //     setSomm(result);
-  //   };
-  //   getMe();
-  //   reviewList(token);
-  // }, [token]);
-
   const reviewList = async () => {
-    //doesnt work here.
     const token = window.localStorage.getItem("token");
     console.log(token);
     const response = await fetch(`/api/somms/${somm.id}/reviews`, {
