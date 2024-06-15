@@ -13,9 +13,10 @@ export default function Account({ somm }) {
       },
     });
     const result = await response.json();
-    console.log(result);
+    return result;
   };
 
+  //make past reviews open in new tab to the side
   return (
     <>
       <p>Welcome back, {somm.username}!</p>

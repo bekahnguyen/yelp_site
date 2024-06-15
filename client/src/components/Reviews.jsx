@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Reviews({ somm }) {
   const { wineId } = useParams();
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
+  const token = window.localStorage.getItem("token");
 
   const submitReview = async (event) => {
     event.preventDefault();
@@ -13,6 +14,7 @@ export default function Reviews({ somm }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ title, rating, comment }),
     });
@@ -23,18 +25,20 @@ export default function Reviews({ somm }) {
   //see all reviews for winery.
 
   //to FIX
-  // const seesReview = async () => {
-  //   const response = await `api/winery${wineId}/Reviews`, {
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //     });
-  //   }
+  const seesReview = async () => {
+    try {
+      const response = await fetch(`/api/winery/${wineId}/reviews`);
+      const result = await response.json();
+      if (result.error) throw result.error;
+      return result.rows;
+    } catch (error) {
+      console.log("Oh no, couldn't get reviews");
+    }
+  };
 
-  //   const result = await response.json();
-  //   console.log(result);
-  // };
-  // seesReview();
+  useEffect(() => {
+    seesReview();
+  }, []);
 
   //ask John how he did this
   // wineReview={
@@ -58,7 +62,7 @@ export default function Reviews({ somm }) {
           max="5"
           onChange={(event) => setRating(Number(event.target.value))}
         />
-        console.log(rating)
+
         <label htmlFor="Title">Title:</label>
         <input
           value={title}

@@ -41,10 +41,8 @@ export default function Login({ somm, setSomm }) {
         authorization: `Bearer ${token}`,
       },
     });
-    console.log(response);
+
     const json = await response.json();
-    console.log(json);
-    console.log("json:", json);
     if (response.ok) {
       setSomm(json);
       navigate("/Account");
