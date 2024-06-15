@@ -12,6 +12,7 @@ body {
 #container {
   display: flex;
   flex-wrap: wrap;
+  align-self: flex-end;
 }
 
 .contain {
@@ -22,6 +23,10 @@ body {
 #reviewForm {
   display: flex;
   width: 300px;
+}
+
+#mainPageHeading {
+  text-align: center;
 }
 
 .wineCard {

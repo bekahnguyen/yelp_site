@@ -47,6 +47,7 @@ export default function SingleWinery() {
   };
   //need to import reviews from reviews table and average them out.
   // have option to click picture and go to website.
+  // if checkbox is clicked, add winery to somm_been there table that i
   return (
     <>
       <h2> {selectedWinery.name} </h2>
@@ -62,7 +63,7 @@ export default function SingleWinery() {
         <button onClick={leaveReview}>Leave a review</button>
         <p>Reservations Required:{selectedWinery.reservation_required}</p>
         <button onClick={handleCheckOut}>Add to your itinerary.</button>
-        <button onClick={handleClick}>Return to all wineries.</button>
+        <button onClick={handleClick}>Back.</button>
       </div>
     </>
   );

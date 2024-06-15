@@ -30,7 +30,7 @@ function App() {
 
   return (
     <>
-      <h1>Paso App</h1>
+      <h1 id="mainPageHeader">Paso App</h1>
       <Navigations />
       <div id="main-routes">
         <Routes>

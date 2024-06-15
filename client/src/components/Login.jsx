@@ -24,10 +24,10 @@ export default function Login({ somm, setSomm }) {
       body: JSON.stringify({ username, password }),
     });
     const json = await response.json();
+    console.log(json);
     console.log(response.status);
     if (response.ok) {
       window.localStorage.setItem("token", json.token);
-      console.log("json token set");
       attemptLoginWithToken();
     }
   };
@@ -35,6 +35,7 @@ export default function Login({ somm, setSomm }) {
   const attemptLoginWithToken = async () => {
     console.log("attempt login with token route hit");
     const token = window.localStorage.getItem("token");
+    console.log("i got the token!:", token);
     const response = await fetch("/api/somms/me", {
       headers: {
         authorization: `Bearer ${token}`,

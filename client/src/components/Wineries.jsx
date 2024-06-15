@@ -26,9 +26,7 @@ export default function Wineries() {
     }
   };
 
-  // const moreDetails = () => {
-  //   navigate("/SingleWinery");
-  // };
+  //figure out how to align the box in the middle
 
   return (
     <>
