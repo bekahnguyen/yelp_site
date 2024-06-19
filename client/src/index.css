@@ -20,6 +20,15 @@ body {
   flex-wrap: wrap;
 }
 
+.reviewBox {
+  border: 10px solid black;
+  padding-bottom: 2px;
+}
+
+ul {
+  list-style-type: none;
+}
+
 #reviewForm {
   display: flex;
   width: 300px;

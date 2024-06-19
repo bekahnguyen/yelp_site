@@ -1,11 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Reviews({ somm }) {
   const { wineId } = useParams();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
+  const [reviews, setReviews] = useState([]);
   const token = window.localStorage.getItem("token");
 
   const submitReview = async (event) => {
@@ -19,7 +22,7 @@ export default function Reviews({ somm }) {
       body: JSON.stringify({ title, rating, comment }),
     });
     const result = await response.json();
-    console.log(result);
+    navigate(`/${wineId}`);
   };
 
   //see all reviews for winery.
@@ -28,24 +31,19 @@ export default function Reviews({ somm }) {
   const seesReview = async () => {
     try {
       const response = await fetch(`/api/winery/${wineId}/reviews`);
-      const result = await response.json();
+      let result = await response.json();
       if (result.error) throw result.error;
-      return result.rows;
+      console.log(result);
+      setReviews(result);
     } catch (error) {
       console.log("Oh no, couldn't get reviews");
+      return reviews;
     }
   };
 
   useEffect(() => {
     seesReview();
   }, []);
-
-  //ask John how he did this
-  // wineReview={
-  //   rating:
-  //   title:
-  //   comment:
-  // }
 
   return (
     <>
@@ -77,10 +75,30 @@ export default function Reviews({ somm }) {
           id="Comment"
           name="Comment"
         />
+
         <button type="submit" onClick={submitReview}>
           Submit
         </button>
       </form>
+      <ul id="reviews">
+        {reviews.map((review) => {
+          return (
+            <>
+              <div className="reviewBox" key={review.id}>
+                <p>Posted by:{somm.username}</p>
+                <p>on:</p>
+                {review.date}
+                <li> {review.rating}</li>
+                <li> {review.title}</li>
+                <li>{review.comment}</li>
+                <button>Comment</button>
+                <button>Heart</button>
+              </div>
+            </>
+          );
+        })}
+        <li></li>
+      </ul>
     </>
   );
 }

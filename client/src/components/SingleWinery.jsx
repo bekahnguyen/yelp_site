@@ -31,11 +31,6 @@ export default function SingleWinery() {
   const leaveReview = async () => {
     navigate(`/${wineId}/Reviews`);
 
-    // wineReview={
-    //   rating: ,
-    //   title:,
-    //   comment:,
-    // }
     //pop up form that allows them to write their thoughts. then on SUBMIT,
     //posts to that.
     //insert into somm_reviews * Rating, title, comment.
@@ -47,7 +42,9 @@ export default function SingleWinery() {
   };
   //need to import reviews from reviews table and average them out.
   // have option to click picture and go to website.
-  // if checkbox is clicked, add winery to somm_been there table that i
+  // if checkbox is clicked, add winery to somm_been
+
+  //<button onClick={handleCheckOut}>Add to your itinerary.</button>
   return (
     <>
       <h2> {selectedWinery.name} </h2>
@@ -60,9 +57,8 @@ export default function SingleWinery() {
         <p>Hours: {selectedWinery.hours}</p>
         <p>Website: {selectedWinery.website}</p>
         <p>Phone: {selectedWinery.phone}</p>
-        <button onClick={leaveReview}>Leave a review</button>
-        <p>Reservations Required:{selectedWinery.reservation_required}</p>
-        <button onClick={handleCheckOut}>Add to your itinerary.</button>
+        <button onClick={leaveReview}>Notes</button>
+        <p>Reservations Required:{selectedWinery.reservations_required}</p>
         <button onClick={handleClick}>Back.</button>
       </div>
     </>
