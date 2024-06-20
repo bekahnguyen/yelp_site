@@ -55,6 +55,21 @@ export default function Reviews({ somm }) {
       }
     );
     const result = await response.json();
+    console.log(result);
+  };
+
+  const handleDelete = async () => {
+    const response = await fetch(`/api/somms/${somm.id}/reviews/${review.id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: window.localStorage.getItem("token"),
+      },
+    });
+    if (response.ok) {
+      response.status(204);
+    } else {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -111,6 +126,7 @@ export default function Reviews({ somm }) {
                   type="text"
                   onChange={(event) => setReviewComment(event.target.value)}
                 />
+                <button onClick={handleDelete}>Delete Review</button>
                 <button onClick={submitComment}>Comment</button>
                 <button>Heart</button>
                 <div>Replies:</div>

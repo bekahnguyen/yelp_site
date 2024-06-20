@@ -64,7 +64,6 @@ const createSomm = async ({
 };
 
 const authenticate = async ({ username, password }) => {
-  console.log(username, password);
   const SQL = `
   SELECT id, password
   FROM somm
@@ -86,12 +85,14 @@ const authenticate = async ({ username, password }) => {
 };
 
 const findUserByToken = async (token) => {
+  console.log("find user by token, token:", token);
   let id;
   try {
     const tokenNoBearer = token.split(" ")[1];
-    console.log(tokenNoBearer);
+    console.log("token without bearer:", tokenNoBearer);
     const payload = jwt.verify(tokenNoBearer, JWT);
     id = payload.id;
+    console.log(id);
   } catch (ex) {
     const error = Error("not authorized");
     error.status = 401;
@@ -103,11 +104,13 @@ const findUserByToken = async (token) => {
     WHERE id = $1
   `;
   const response = await client.query(SQL, [id]);
+  console.log("response.rows:", response.rows);
   if (!response.rows.length) {
     const error = Error("not authorized");
     error.status = 401;
     throw error;
   }
+  return response.rows[0];
 };
 
 // decided to keep hours in the winery table and made days/hours in object format
@@ -191,6 +194,8 @@ const createTables = async () => {
   );  
 CREATE TABLE somm_comments(
 id UUID PRIMARY KEY,
+ created_at TIMESTAMP default now();
+ updated_at TIMESTAMP default now();
 body TEXT,
 somm_review_id UUID REFERENCES somm_reviews(id)
 );
@@ -207,10 +212,17 @@ somm_review_id UUID REFERENCES somm_reviews(id)
   await client.query(SQL);
 };
 
-const createReview = async ({ somm_id, winery_id, rating, title, comment }) => {
+const createReview = async ({
+  somm_id,
+  winery_id,
+  rating,
+  title,
+  comment,
+  img,
+}) => {
   const SQL = `
-      INSERT INTO somm_reviews(id, somm_id, , winery_id, rating, title, comment)
-      VALUES ($1, $2, $3, $4, $5, $6)
+      INSERT INTO somm_reviews(id, somm_id, winery_id, rating, title, comment, img)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *
   `;
   const response = await client.query(SQL, [
@@ -220,19 +232,19 @@ const createReview = async ({ somm_id, winery_id, rating, title, comment }) => {
     rating,
     title,
     comment,
+    img,
   ]);
   return response.rows[0];
 };
 
-const createComment = async ({ winery_id, somm_review_id, comment }) => {
+const createComment = async ({ somm_review_id, comment }) => {
   const SQL = `
-      INSERT INTO somm_comments(id, winery_id, somm_review_id, comment)
-      VALUES ($1, $2, $3, $4)
+      INSERT INTO somm_comments(id, somm_review_id, comment)
+      VALUES ($1, $2, $3)
       RETURNING *
   `;
   const response = await client.query(SQL, [
     uuid.v4(),
-    winery_id,
     somm_review_id,
     comment,
   ]);
@@ -250,7 +262,7 @@ const destroyReviews = async ({ id, somm_id }) => {
 
 const fetchSomms = async () => {
   const SQL = `
-    SELECT id, username 
+    SELECT id, username
     FROM somm
   `;
   const response = await client.query(SQL);

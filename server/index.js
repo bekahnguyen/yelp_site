@@ -1,3 +1,4 @@
+const { getMaxListeners } = require("events");
 const {
   client,
   createTables,
@@ -155,8 +156,8 @@ const isLoggedIn = async (req, res, next) => {
   }
 };
 
-app.post("/api/auth/login", async (req, res, next) => {
-  console.log("api auth login hit");
+app.post("/api/somms/login", async (req, res, next) => {
+  console.log("api somm login hit");
   try {
     res.send(await authenticate(req.body));
   } catch (ex) {
@@ -164,7 +165,7 @@ app.post("/api/auth/login", async (req, res, next) => {
   }
 });
 
-app.get("/api/auth/me", isLoggedIn, async (req, res, next) => {
+app.get("/api/somms/me", isLoggedIn, async (req, res, next) => {
   try {
     res.send(await findUserByToken(req.headers.authorization));
   } catch (ex) {
@@ -198,7 +199,6 @@ app.get("/api/somms", async (req, res, next) => {
 
 //a list of all of their reviews. also to be broken down per winery?
 app.get("/api/somms/:id/reviews", isLoggedIn, async (req, res, next) => {
-  console.log("api/somms/:id/reviews route was HIT!");
   try {
     const SQL = `
     SELECT * FROM somm_reviews WHERE somm_id=$1
@@ -212,14 +212,14 @@ app.get("/api/somms/:id/reviews", isLoggedIn, async (req, res, next) => {
 
 //is this an inner join????
 //how to filter reviews based on winery?
-app.get("/api/wineries/:id/reviews", async (req, res, next) => {
+app.get("/api/winery/:wineId/reviews", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT title, rating, comment
+    SELECT *
      FROM somm_reviews 
     WHERE winery_id=$1
     `;
-    const response = await client.query(SQL, [req.params.id]);
+    const response = await client.query(SQL, [req.params.wineId]);
     res.send(response.rows);
   } catch (error) {
     next(error);
@@ -228,14 +228,15 @@ app.get("/api/wineries/:id/reviews", async (req, res, next) => {
 
 //post a review from a certain somm accessing the winery they reviewed.
 
-app.post("/api/winery/:id/reviews", async (req, res, next) => {
+app.post("/api/winery/:wineId/reviews", isLoggedIn, async (req, res, next) => {
   try {
     res.status(201).send(
       await createReview({
-        winery_id: req.body.winery_id,
         rating: req.body.rating,
         title: req.body.title,
         comment: req.body.comment,
+        winery_id: req.params.wineId,
+        somm_id: req.somm.id,
       })
     );
   } catch (ex) {
@@ -245,13 +246,14 @@ app.post("/api/winery/:id/reviews", async (req, res, next) => {
 
 //to review or post comments?
 app.post(
-  "api/wineries/:id/reviews/:review_id/comments",
+  "/api/wineries/:id/reviews/:review_id/comments/",
+  isLoggedIn,
   async (req, res, next) => {
     try {
       res.status(201).send(
         await createComment({
           winery_id: req.params.id,
-          somm_review_id: req.params.review_id,
+          somm_review_id: req.body.somm_review_id,
           comment: req.body.comment,
         })
       );
@@ -309,10 +311,19 @@ const init = async () => {
   console.log("connecting to database");
   await client.connect();
   console.log("connected to database");
-  // await createTables();
+
   // console.log("created tables");
 
   console.log(await fetchSomms()), console.log(await fetchWineries());
+  // const nam = await createSomm({
+  //   first_name: "nam",
+  //   last_name: "nguyen",
+  //   username: "namnam",
+  //   password: "321",
+  //   email: "nguyen.k.nam@gmail.com",
+  //   is_admin: true,
+  // });
+  // console.log(nam);
   // const [wishlist] = await Promise.all([
   //   createVacation({
   //     user_id: beky_id,

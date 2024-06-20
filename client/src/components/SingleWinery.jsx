@@ -37,9 +37,6 @@ export default function SingleWinery() {
     //on Submit:
   };
 
-  const handleCheckOut = () => {
-    console.log("button working");
-  };
   //need to import reviews from reviews table and average them out.
   // have option to click picture and go to website.
   // if checkbox is clicked, add winery to somm_been
@@ -47,12 +44,17 @@ export default function SingleWinery() {
   //<button onClick={handleCheckOut}>Add to your itinerary.</button>
   return (
     <>
-      <h2> {selectedWinery.name} </h2>
+      <h2> {selectedWinery.name}</h2>
+      <h5>
+        <span>
+          {" "}
+          <input type="checkbox" /> Visited{" "}
+        </span>
+      </h5>
 
       <div container="singleWineryDetails">
         <img src={selectedWinery.img} />
         <p>Average Review Score:</p>
-        <input type="checkbox" /> Visited
         <p>Description: {selectedWinery.description}</p>
         <p>Hours: {selectedWinery.hours}</p>
         <p>Website: {selectedWinery.website}</p>
