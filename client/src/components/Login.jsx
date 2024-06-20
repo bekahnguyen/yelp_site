@@ -44,6 +44,7 @@ export default function Login({ somm, setSomm }) {
     if (response.ok) {
       setSomm(json);
       navigate("/Account");
+      console.log(somm);
     } else {
       window.localStorage.removeItem("token");
     }

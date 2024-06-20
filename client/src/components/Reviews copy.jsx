@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Reviews({ somm }) {
   const { wineId } = useParams();
+  const { reviewId } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState("");
@@ -28,6 +29,7 @@ export default function Reviews({ somm }) {
 
   //see all reviews for winery.
 
+  //to FIX
   const seesReview = async () => {
     try {
       const response = await fetch(`/api/winery/${wineId}/reviews`);
@@ -44,7 +46,7 @@ export default function Reviews({ somm }) {
   const submitComment = async (event) => {
     event.preventDefault();
     const response = await fetch(
-      `/api/winery/${wineId}/reviews/:review_id/comments`,
+      `/api/winery/${wineId}/reviews/${reviewId}/comments`,
       {
         method: "POST",
         headers: {
@@ -113,11 +115,11 @@ export default function Reviews({ somm }) {
                 />
                 <button onClick={submitComment}>Comment</button>
                 <button>Heart</button>
-                <div>Replies:</div>
               </div>
             </>
           );
         })}
+        <li></li>
       </ul>
     </>
   );

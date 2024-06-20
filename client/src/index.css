@@ -21,8 +21,8 @@ body {
 }
 
 .reviewBox {
-  border: 10px solid black;
-  padding-bottom: 2px;
+  border: 2px solid rgb(192, 62, 218);
+  margin-bottom: 3px;
 }
 
 ul {
