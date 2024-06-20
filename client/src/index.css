@@ -25,6 +25,14 @@ body {
   margin-bottom: 3px;
 }
 
+/*make it a scroll box*/
+
+.myReviewBox {
+  border: 2px solid rgb(192, 62, 218);
+  margin-bottom: 3px;
+  width: 200px;
+}
+
 ul {
   list-style-type: none;
 }

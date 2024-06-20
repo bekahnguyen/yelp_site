@@ -37,8 +37,12 @@ export default function Account({ somm }) {
       {myReviews.map((myReview) => {
         return (
           <>
-            <div classname="reviewBox" key={myReview.id}>
-              <p>{myReview.title}</p>;
+            <div className="myReviewBox" key={myReview.id}>
+              <p>Winery: {myReview.winery_id}</p>
+              <p>Title: {myReview.title}</p>
+              <p>Rating:{myReview.rating}</p>
+
+              <p>Comment: {myReview.comment}</p>
             </div>
           </>
         );
