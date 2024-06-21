@@ -41,10 +41,9 @@ export default function Reviews({ somm }) {
     }
   };
 
-  const submitComment = async (event) => {
-    event.preventDefault();
+  const submitComment = async (id) => {
     const response = await fetch(
-      `/api/winery/${wineId}/reviews/:review_id/comments`,
+      `/api/winery/${wineId}/reviews/${id}/comments`,
       {
         method: "POST",
         headers: {
@@ -58,8 +57,9 @@ export default function Reviews({ somm }) {
     console.log(result);
   };
 
-  const handleDelete = async () => {
-    const response = await fetch(`/api/somms/${somm.id}/reviews/${review.id}`, {
+  const handleDelete = async (id) => {
+    console.log(id);
+    const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
       method: "DELETE",
       headers: {
         authorization: window.localStorage.getItem("token"),
@@ -68,7 +68,7 @@ export default function Reviews({ somm }) {
     if (response.ok) {
       response.status(204);
     } else {
-      console.error(error);
+      console.log(response.status);
     }
   };
 
@@ -121,13 +121,16 @@ export default function Reviews({ somm }) {
                 <li> {review.title}</li>
                 <li>{review.comment}</li>
                 <p>Posted by:{review.somm_id}</p>
-
                 <input
                   type="text"
                   onChange={(event) => setReviewComment(event.target.value)}
                 />
-                <button onClick={handleDelete}>Delete Review</button>
-                <button onClick={submitComment}>Comment</button>
+                <button onClick={() => handleDelete(review.id)}>
+                  Delete Review
+                </button>
+                <button onClick={() => submitComment(review.id)}>
+                  Comment
+                </button>
                 <button>Heart</button>
                 <div>Replies:</div>
               </div>

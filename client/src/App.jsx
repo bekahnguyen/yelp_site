@@ -11,23 +11,6 @@ import Navigations from "./components/Navigations";
 function App() {
   const [somm, setSomm] = useState({});
 
-  const attemptLoginWithToken = async () => {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      const response = await fetch(`/api/somms/me`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-      const json = await response.json();
-      if (response.ok) {
-        setSomm(json);
-      } else {
-        window.localStorage.removeItem("token");
-      }
-    }
-  };
-
   return (
     <>
       <h1 id="mainPageHeader">Paso App</h1>

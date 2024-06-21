@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 
 export default function Wineries() {
   const [wineries, setWineries] = useState([]);
+  const [filteredWineries, setFilteredWineries] = useState([]);
 
   const getWineryList = async () => {
     const wineryList = await getWineries();
@@ -26,7 +27,14 @@ export default function Wineries() {
     }
   };
 
-  //figure out how to align the box in the middle
+  const onInputChange = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    const filteredWineries = wineries.filter((winery) =>
+      winery.name.toLowerCase().includes(searchTerm)
+    );
+
+    setFilteredWineries(filteredWineries);
+  };
 
   return (
     <>
@@ -39,9 +47,15 @@ export default function Wineries() {
             <Link to={`/${winery.id}`}>More Details!</Link>
           </div>
         ))}
-        {wineries.map((winery) => (
-          <SingleWinery key={winery.id} winery={winery} />
-        ))}
+
+        <div className="searchbar">
+          <label>
+            Search for a Winery:
+            <input onChange={onInputChange} />
+          </label>
+        </div>
+
+        <input onChange={onInputChange} />
       </div>
     </>
   );
