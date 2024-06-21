@@ -50,6 +50,11 @@ export default function Login({ somm, setSomm }) {
     }
   };
 
+  const logout = () => {
+    window.localStorage.removeItem("token");
+    setSomm({});
+  };
+
   // review API and find the endpoint to log in. Get tokens. Possibly receive tokens as prop? Make sure people can't log in if no info
 
   //isLoggedin? : add Account Details to search Bar.

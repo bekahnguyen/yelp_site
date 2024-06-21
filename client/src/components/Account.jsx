@@ -22,13 +22,33 @@ export default function Account({ somm }) {
     setMyReviews(result);
   };
 
+  //somm to delete a past review.
   const handleDelete = async (id) => {
+    console.log("route hit!");
     const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
       method: "DELETE",
       headers: {
         authorization: window.localStorage.getItem("token"),
       },
     });
+    reviewList();
+    if (response.ok) {
+      response.status(204);
+    } else {
+      console.log(response.status);
+    }
+  };
+
+  // somm to edit a review. update table so that only one review per winery.
+  const handleEdit = async (id) => {
+    console.log("route hit!");
+    const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
+      method: "PATCH",
+      headers: {
+        authorization: window.localStorage.getItem("token"),
+      },
+    });
+    reviewList();
     if (response.ok) {
       response.status(204);
     } else {
@@ -59,6 +79,9 @@ export default function Account({ somm }) {
               <p>Comment: {myReview.comment}</p>
               <button onClick={() => handleDelete(myReview.id)}>
                 Delete Review
+              </button>
+              <button onClick={() => handleEdit(myReview.id)}>
+                Edit Review
               </button>
             </div>
           </>
