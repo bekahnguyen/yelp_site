@@ -2,6 +2,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+//show edit or delete button on regular customer page, conditionally render if "is admin?"
+//or
+//could build whole new page. CMS. dont worry about style
+
 export default function Navigations() {
   return (
     <>
@@ -9,7 +13,7 @@ export default function Navigations() {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/">Peruse</Link>
-          <Link to="/Login">Login</Link>
+          ////////log out button<Link to="/Login">Login</Link>
           <Link to="/Account">Account</Link>
         </div>
       </nav>

@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 
 export default function Account({ somm }) {
   const [myReviews, setMyReviews] = useState([]);
+  const token = window.localStorage.getItem("token");
 
   useEffect(() => {
     reviewList();
   }, []);
 
   const reviewList = async () => {
-    const token = window.localStorage.getItem("token");
     const response = await fetch(`/api/somms/${somm.id}/reviews`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -77,12 +77,8 @@ export default function Account({ somm }) {
               <p>Rating:{myReview.rating}</p>
 
               <p>Comment: {myReview.comment}</p>
-              <button onClick={() => handleDelete(myReview.id)}>
-                Delete Review
-              </button>
-              <button onClick={() => handleEdit(myReview.id)}>
-                Edit Review
-              </button>
+              <button onClick={() => handleDelete(myReview.id)}>Delete</button>
+              <button onClick={() => handleEdit(myReview.id)}>Edit</button>
             </div>
           </>
         );

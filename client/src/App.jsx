@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Reviews from "./components/Reviews";
 import SingleWinery from "./components/SingleWinery";
 import Navigations from "./components/Navigations";
+import AdminWineries from "./components/ADMIN/AdminWineries";
 
 function App() {
   const [somm, setSomm] = useState({});
@@ -23,7 +24,7 @@ function App() {
             element={<Account somm={somm} setSomm={setSomm} />}
           ></Route>
           <Route
-            path="/Somms/Register"
+            path="/Register"
             element={<Register setSomm={setSomm} />}
           ></Route>
           <Route
@@ -34,7 +35,7 @@ function App() {
             path="/:wineId/Reviews"
             element={<Reviews somm={somm} />}
           ></Route>
-
+          <Route path="/AdminWineries" element={<AdminWineries />}></Route>
           <Route path="/:wineId" element={<SingleWinery />}></Route>
         </Routes>
       </div>

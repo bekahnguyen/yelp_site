@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ReviewCard from "./ReviewCard";
 
 export default function Reviews({ somm }) {
   const { wineId } = useParams();
@@ -9,7 +10,6 @@ export default function Reviews({ somm }) {
   const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
-  const [reviewComment, setReviewComment] = useState("");
   const token = window.localStorage.getItem("token");
 
   const submitReview = async (event) => {
@@ -38,37 +38,6 @@ export default function Reviews({ somm }) {
     } catch (error) {
       console.log("Oh no, couldn't get reviews");
       return reviews;
-    }
-  };
-
-  const submitComment = async (id) => {
-    const response = await fetch(
-      `/api/winery/${wineId}/reviews/${id}/comments`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ reviewComment }),
-      }
-    );
-    const result = await response.json();
-    console.log(result);
-  };
-
-  const handleDelete = async (id) => {
-    console.log(id);
-    const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
-      method: "DELETE",
-      headers: {
-        authorization: window.localStorage.getItem("token"),
-      },
-    });
-    if (response.ok) {
-      response.status(204);
-    } else {
-      console.log(response.status);
     }
   };
 
@@ -112,31 +81,9 @@ export default function Reviews({ somm }) {
         </button>
       </form>
       <ul id="reviews">
-        {reviews.map((review) => {
-          return (
-            <>
-              <div className="reviewBox" key={review.id}>
-                {review.date}
-                <li> {review.rating}</li>
-                <li> {review.title}</li>
-                <li>{review.comment}</li>
-                <p>Posted by:{review.somm_id}</p>
-                <input
-                  type="text"
-                  onChange={(event) => setReviewComment(event.target.value)}
-                />
-                <button onClick={() => handleDelete(review.id)}>
-                  Delete Review
-                </button>
-                <button onClick={() => submitComment(review.id)}>
-                  Comment
-                </button>
-                <button>Heart</button>
-                <div>Replies:</div>
-              </div>
-            </>
-          );
-        })}
+        {reviews.map((review) => (
+          <ReviewCard review={review} key={review.id} />
+        ))}
       </ul>
     </>
   );

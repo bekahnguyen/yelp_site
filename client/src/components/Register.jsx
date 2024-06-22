@@ -1,7 +1,6 @@
 /* TODO - add your code to create a functional React component that renders a registration form */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const APIURL = "http://localhost:3000";
 
 export default function Register({ setSomm }) {
   const navigate = useNavigate();
@@ -25,7 +24,10 @@ export default function Register({ setSomm }) {
     const result = await response.json();
     console.log(result);
     setSomm(result.token);
-    navigate("/Account");
+    alert("successfully registered!");
+    if (token) {
+      navigate("/Account");
+    }
   };
 
   //navigate to log in after button is pushed

@@ -38,6 +38,14 @@ export default function Wineries() {
 
   return (
     <>
+      <div className="searchbar">
+        <label>
+          Search for a Winery:
+          <input onChange={onInputChange} />
+        </label>
+      </div>
+
+      <input onChange={onInputChange} />
       <div id="container">
         {wineries.map((winery) => (
           <div key={winery.id} className="wineCard">
@@ -47,15 +55,6 @@ export default function Wineries() {
             <Link to={`/${winery.id}`}>More Details!</Link>
           </div>
         ))}
-
-        <div className="searchbar">
-          <label>
-            Search for a Winery:
-            <input onChange={onInputChange} />
-          </label>
-        </div>
-
-        <input onChange={onInputChange} />
       </div>
     </>
   );
