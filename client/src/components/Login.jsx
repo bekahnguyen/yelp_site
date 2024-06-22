@@ -43,11 +43,7 @@ export default function Login({ somm, setSomm }) {
     const json = await response.json();
     if (response.ok) {
       setSomm(json);
-      console.log(json);
-
       somm.is_admin ? navigate("/AdminWineries") : navigate("/Account");
-
-      console.log(somm);
     } else {
       window.localStorage.removeItem("token");
     }

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 //or
 //could build whole new page. CMS. dont worry about style
 
-export default function Navigations() {
+export default function Navigations({ somm }) {
   return (
     <>
       //change to hamburger menu? put in top right?
@@ -15,6 +15,9 @@ export default function Navigations() {
           <Link to="/">Peruse</Link>
           ////////log out button<Link to="/Login">Login</Link>
           <Link to="/Account">Account</Link>
+          {somm.is_admin ? (
+            <Link to="/AdminReviews">Admin: Reviews</Link>
+          ) : null}
         </div>
       </nav>
     </>
