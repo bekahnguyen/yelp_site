@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 export default function AdminReviews({ somm }) {
   const [allReviews, setAllReviews] = useState([]);
-  const { wineId } = useParams;
+  const token = window.localStorage.getItem("token");
 
   const getReviews = async () => {
     try {
@@ -19,18 +19,15 @@ export default function AdminReviews({ somm }) {
   };
 
   const deleteReview = async (id) => {
-    console.log(id);
-    const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
-      method: "DELETE",
-      headers: {
-        authorization: window.localStorage.getItem("token"),
-      },
-    });
-    if (response.ok) {
-      getReviews();
-      response.status(204);
-    } else {
-      console.log(response.status);
+    {
+      const response = await fetch(`/api/reviews/${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        getReviews();
+      } else {
+        console.log("Something is not working");
+      }
     }
   };
 
@@ -40,11 +37,12 @@ export default function AdminReviews({ somm }) {
 
   return (
     <>
+      {!somm.is_admin ? <h1> Sorry, you're UNAUTHORIZED.</h1> : null}
       {allReviews.map((review) => {
         return (
           <div>
             <li>DATE: {review.created_at}</li>
-            <li>POSTED BY SOMM:{review.somm_id}</li>
+            <li>POSTED BY SOMM:{review.somm_username}</li>
             <li>{review.title}</li>
             <li>{review.comment}</li>
             <button

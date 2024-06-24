@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-export default function ReviewCard({ review }) {
+export default function ReviewCard({ review, somm }) {
   const [reply, setReply] = useState([]);
   const { wineId } = useParams();
   const token = window.localStorage.getItem("token");
 
   const submitComment = async (id) => {
+    !somm.id ? alert("You must be logged in to leave a comment") : null;
     const response = await fetch(
       `/api/wineries/${wineId}/reviews/${id}/comments/`,
       {

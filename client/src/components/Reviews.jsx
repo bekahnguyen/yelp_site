@@ -13,6 +13,7 @@ export default function Reviews({ somm }) {
   const token = window.localStorage.getItem("token");
 
   const submitReview = async (event) => {
+    !somm.id ? alert("Sorry, you must be logged in to leave a review.") : null;
     event.preventDefault();
     const response = await fetch(`/api/winery/${wineId}/reviews`, {
       method: "POST",
@@ -82,7 +83,7 @@ export default function Reviews({ somm }) {
       </form>
       <ul id="reviews">
         {reviews.map((review) => (
-          <ReviewCard review={review} key={review.id} />
+          <ReviewCard review={review} somm={somm} key={review.id} />
         ))}
       </ul>
     </>

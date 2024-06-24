@@ -25,7 +25,6 @@ export default function Login({ somm, setSomm }) {
     });
     const json = await response.json();
     console.log(json);
-    console.log(response.status);
     if (response.ok) {
       window.localStorage.setItem("token", json.token);
       attemptLoginWithToken();
@@ -33,6 +32,7 @@ export default function Login({ somm, setSomm }) {
   };
 
   const attemptLoginWithToken = async () => {
+    console.log("attempt login with token, hit");
     const token = window.localStorage.getItem("token");
     const response = await fetch("/api/somms/me", {
       headers: {
@@ -41,6 +41,7 @@ export default function Login({ somm, setSomm }) {
     });
 
     const json = await response.json();
+    console.log(response);
     if (response.ok) {
       setSomm(json);
       somm.is_admin ? navigate("/AdminWineries") : navigate("/Account");
