@@ -44,7 +44,7 @@ export default function ReviewCard({ review, somm }) {
       <li> {review.rating}</li>
       <li> {review.title}</li>
       <li>{review.comment}</li>
-      <p>Posted by:{review.somm_id}</p>
+      <p>Posted by:{review.id}</p>
       <input
         type="text"
         value={reply}

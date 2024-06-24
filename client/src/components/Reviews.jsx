@@ -24,6 +24,7 @@ export default function Reviews({ somm }) {
       body: JSON.stringify({ title, rating, comment }),
     });
     const result = await response.json();
+    alert("Thank you for your review!");
     navigate(`/${wineId}`);
   };
 
