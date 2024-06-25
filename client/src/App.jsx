@@ -14,6 +14,9 @@ import AllUsers from "./components/ADMIN/AllUsers";
 
 function App() {
   const [somm, setSomm] = useState({});
+  const [wineryList, setWineryList] = useState([]);
+
+  console.log(wineryList);
 
   return (
     <>
@@ -22,7 +25,10 @@ function App() {
       <Navigations somm={somm} />
       <div id="main-routes">
         <Routes>
-          <Route path="/" element={<AdminWineries somm={somm} />}></Route>
+          <Route
+            path="/"
+            element={<Wineries somm={somm} wineryList={wineryList} />}
+          ></Route>
           <Route
             path="/Account"
             element={<Account somm={somm} setSomm={setSomm} />}
@@ -43,6 +49,12 @@ function App() {
           <Route
             path="/AdminReviews"
             element={<AdminReviews somm={somm} />}
+          ></Route>
+          <Route
+            path="/AdminWineries"
+            element={
+              <AdminWineries somm={somm} setWineryList={setWineryList} />
+            }
           ></Route>
           <Route path="/AllUsers" element={<AllUsers somm={somm} />}></Route>
 
