@@ -70,9 +70,9 @@ export default function Account({ somm }) {
   return (
     <>
       {!somm.id ? (
-        <h6>
-          Please <Link to="/Login">Login</Link> to see this page.
-        </h6>
+        <h5>
+          <Link to="/Login">Sign In </Link>or Create an Account Today!
+        </h5>
       ) : (
         <>
           <p>Welcome back, {somm.username}!</p>

@@ -26,5 +26,5 @@ export default function AdminWineries({ somm, setWineryList }) {
     }
   };
 
-  return <> Edit or Add</>;
+  return <div>{!somm.id ? <h6>401</h6> : <h3>Edit or Add</h3>}</div>;
 }
