@@ -60,7 +60,9 @@ export default function SingleWinery() {
         <p>Website: {selectedWinery.website}</p>
         <p>Phone: {selectedWinery.phone}</p>
         <button onClick={leaveReview}>Notes</button>
-        <p>Reservations Required:{selectedWinery.reservations_required}</p>
+        {selectedWinery.reservations_required ? (
+          <h6>Reservations required.</h6>
+        ) : null}
         <button onClick={handleClick}>Back.</button>
       </div>
     </>

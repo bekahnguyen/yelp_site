@@ -18,10 +18,9 @@ export default function Navigations({ somm }) {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/">Peruse</Link>
-          <Link to="/Login">Login</Link>
+          {somm ? null : <Link to="/Login">Login</Link>}
           <Link to="/Account">Account</Link>
           {somm.is_admin ? <Link to="/AdminHome">Admin</Link> : null}
-          <button onClick={handleLogout}> Log out.</button>
         </div>
       </nav>
     </>

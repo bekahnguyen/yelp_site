@@ -66,7 +66,7 @@ export default function Reviews({ somm }) {
               name="Rating"
               min="0"
               max="5"
-              default="0"
+              default="3"
               onChange={(event) => setRating(Number(event.target.value))}
             />
 

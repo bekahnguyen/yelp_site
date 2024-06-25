@@ -61,10 +61,6 @@ export default function AdminReviews({ somm }) {
                   {" "}
                   Delete.
                 </button>
-                <footer>
-                  {" "}
-                  <button onClick={backHome}>Back </button>
-                </footer>
               </div>
             );
           })}
