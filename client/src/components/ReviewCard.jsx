@@ -5,6 +5,7 @@ export default function ReviewCard({ review, somm }) {
   const [reply, setReply] = useState([]);
   const { wineId } = useParams();
   const [allReplies, setAllReplies] = useState([]);
+  const token = window.localStorage.getItem("token");
 
   useEffect(() => {
     getComments();
@@ -21,7 +22,6 @@ export default function ReviewCard({ review, somm }) {
   };
 
   const submitComment = async (id) => {
-    const token = window.localStorage.getItem("token");
     console.log(token);
     const response = await fetch(
       `/api/wineries/${wineId}/reviews/${id}/comments/`,
@@ -40,15 +40,14 @@ export default function ReviewCard({ review, somm }) {
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
     const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
       method: "DELETE",
       headers: {
-        authorization: window.localStorage.getItem("token"),
+        authorization: `Bearer ${token}`,
       },
     });
     if (response.ok) {
-      response.status(204);
+      alert("Successfully deleted review");
     } else {
       console.log(response.status);
     }
@@ -72,11 +71,13 @@ export default function ReviewCard({ review, somm }) {
       ) : null}
       <button onClick={() => submitComment(review.id)}>Comment</button>
       <button>Heart</button>
-      <div>
-        {allReplies.map((reply) => {
-          return <li>{reply.reply}</li>;
-        })}
-      </div>
+      <ul>
+        <div className="commentBox">
+          {allReplies.map((reply) => {
+            return <li>{reply.reply}</li>;
+          })}
+        </div>
+      </ul>
     </div>
   );
 }

@@ -15,7 +15,6 @@ export default function Navigations({ somm }) {
 
   return (
     <>
-      //change to hamburger menu? put in top right?
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/">Peruse</Link>

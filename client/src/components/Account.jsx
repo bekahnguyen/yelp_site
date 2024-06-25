@@ -28,12 +28,12 @@ export default function Account({ somm }) {
     const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
       method: "DELETE",
       headers: {
-        authorization: window.localStorage.getItem("token"),
+        authorization: `Bearer ${token}`,
       },
     });
     reviewList();
     if (response.ok) {
-      response.status(204);
+      console.log(":)");
     } else {
       console.log(response.status);
     }
@@ -45,7 +45,7 @@ export default function Account({ somm }) {
     const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
       method: "PATCH",
       headers: {
-        authorization: window.localStorage.getItem("token"),
+        authorization: `Bearer ${token}`,
       },
     });
     reviewList();

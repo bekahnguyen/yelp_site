@@ -25,6 +25,11 @@ body {
   margin-bottom: 3px;
 }
 
+.commentBox {
+  border: 2px solid rgb(240, 89, 177);
+  width: 100%;
+}
+
 /*make it a scroll box*/
 
 .myReviewBox {

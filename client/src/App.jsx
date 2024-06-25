@@ -16,6 +16,7 @@ function App() {
   return (
     <>
       <h1 id="mainPageHeader">Paso App</h1>
+      Hi, {somm.username}
       <Navigations somm={somm} />
       <div id="main-routes">
         <Routes>
