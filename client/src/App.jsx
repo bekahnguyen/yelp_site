@@ -22,7 +22,7 @@ function App() {
       <Navigations somm={somm} />
       <div id="main-routes">
         <Routes>
-          <Route path="/" element={<Wineries />}></Route>
+          <Route path="/" element={<AdminWineries somm={somm} />}></Route>
           <Route
             path="/Account"
             element={<Account somm={somm} setSomm={setSomm} />}
@@ -38,10 +38,6 @@ function App() {
           <Route
             path="/:wineId/Reviews"
             element={<Reviews somm={somm} />}
-          ></Route>
-          <Route
-            path="/AdminWineries"
-            element={<AdminWineries somm={somm} />}
           ></Route>
           <Route path="/AdminHome" element={<AdminHome somm={somm} />}></Route>
           <Route
