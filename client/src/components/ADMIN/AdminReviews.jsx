@@ -42,7 +42,7 @@ export default function AdminReviews({ somm }) {
         return (
           <div>
             <li>DATE: {review.created_at}</li>
-            <li>POSTED BY SOMM:{review.somm_username}</li>
+            <li>POSTED BY SOMM:{review.somm_id}</li>
             <li>{review.title}</li>
             <li>{review.comment}</li>
             <button

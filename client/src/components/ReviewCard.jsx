@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function ReviewCard({ review, somm }) {
   const [reply, setReply] = useState([]);
   const { wineId } = useParams();
-  const token = window.localStorage.getItem("token");
+  const [allReplies, setAllReplies] = useState([]);
+
+  useEffect(() => {
+    getComments();
+  }, []);
+
+  const getComments = async () => {
+    const response = await fetch(
+      `/api/wineries/${wineId}/reviews/${review.id}/comments/`
+    );
+    let result = await response.json();
+    console.log(result);
+    if (result.error) throw result.error;
+    setAllReplies(result);
+  };
 
   const submitComment = async (id) => {
-    !somm.id ? alert("You must be logged in to leave a comment") : null;
+    const token = window.localStorage.getItem("token");
+    console.log(token);
     const response = await fetch(
       `/api/wineries/${wineId}/reviews/${id}/comments/`,
       {
@@ -21,6 +36,7 @@ export default function ReviewCard({ review, somm }) {
     );
     const result = await response.json();
     console.log(result);
+    getComments();
   };
 
   const handleDelete = async (id) => {
@@ -44,16 +60,23 @@ export default function ReviewCard({ review, somm }) {
       <li> {review.rating}</li>
       <li> {review.title}</li>
       <li>{review.comment}</li>
-      <p>Posted by:{review.id}</p>
+      <li>{review.somm_id}</li>
+      <p>Posted by:{review.somm_id}</p>
       <input
         type="text"
         value={reply}
         onChange={(event) => setReply(event.target.value)}
       />
-      <button onClick={() => handleDelete(review.id)}>Delete Review</button>
+      {somm.id === review.somm_id ? (
+        <button onClick={() => handleDelete(review.id)}>Delete Review</button>
+      ) : null}
       <button onClick={() => submitComment(review.id)}>Comment</button>
       <button>Heart</button>
-      <div>Replies:</div>
+      <div>
+        {allReplies.map((reply) => {
+          return <li>{reply.reply}</li>;
+        })}
+      </div>
     </div>
   );
 }

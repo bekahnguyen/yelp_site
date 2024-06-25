@@ -13,7 +13,6 @@ export default function Reviews({ somm }) {
   const token = window.localStorage.getItem("token");
 
   const submitReview = async (event) => {
-    !somm.id ? alert("Sorry, you must be logged in to leave a review.") : null;
     event.preventDefault();
     const response = await fetch(`/api/winery/${wineId}/reviews`, {
       method: "POST",
@@ -60,6 +59,7 @@ export default function Reviews({ somm }) {
           name="Rating"
           min="0"
           max="5"
+          default="3"
           onChange={(event) => setRating(Number(event.target.value))}
         />
 

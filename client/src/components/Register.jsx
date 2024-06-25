@@ -68,13 +68,16 @@ export default function Register({ setSomm }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            required
           />
         </label>
         <label>
           <input
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
+            required
           />
         </label>
 
