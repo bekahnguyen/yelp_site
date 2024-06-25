@@ -43,30 +43,33 @@ export default function AdminReviews({ somm }) {
   return (
     <>
       {!somm.is_admin ? (
-        <h1> Sorry, you're not authorized to be here</h1>
-      ) : null}
-      {allReviews.map((review) => {
-        return (
-          <div>
-            <li>DATE: {review.created_at}</li>
-            <li>POSTED BY SOMM:{review.somm_id}</li>
-            <li>{review.title}</li>
-            <li>{review.comment}</li>
-            <button
-              onClick={() => {
-                deleteReview(review.id);
-              }}
-            >
-              {" "}
-              Delete.
-            </button>
-            <footer>
-              {" "}
-              <button onClick={backHome}>Back </button>
-            </footer>
-          </div>
-        );
-      })}
+        <h1> 401</h1>
+      ) : (
+        <>
+          {allReviews.map((review) => {
+            return (
+              <div>
+                <li>DATE: {review.created_at}</li>
+                <li>POSTED BY SOMM:{review.somm_id}</li>
+                <li>{review.title}</li>
+                <li>{review.comment}</li>
+                <button
+                  onClick={() => {
+                    deleteReview(review.id);
+                  }}
+                >
+                  {" "}
+                  Delete.
+                </button>
+                <footer>
+                  {" "}
+                  <button onClick={backHome}>Back </button>
+                </footer>
+              </div>
+            );
+          })}
+        </>
+      )}
     </>
   );
 }

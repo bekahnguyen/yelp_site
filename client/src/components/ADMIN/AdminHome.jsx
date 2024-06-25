@@ -8,16 +8,22 @@ export default function AdminHome({ somm }) {
   };
   return (
     <>
-      <h1>Hi, {somm.username}</h1>Take me to...{" "}
-      <form>
-        <select onChange={(event) => handleSubmit(event.target.value)}>
-          <option value=""></option>
-          <option value="/AllUsers"> Users</option>
-          <option value="/AdminReviews">Reviews</option>
-          <option value="/AdminWineries">Wineries</option>
-          <option value="/AdminComments">Bodacious Bananas</option>
-        </select>
-      </form>
+      {!somm.is_admin ? (
+        <h1 id="unauth">401</h1>
+      ) : (
+        <>
+          <h1>Hi, {somm.username}</h1>Take me to...{" "}
+          <form>
+            <select onChange={(event) => handleSubmit(event.target.value)}>
+              <option value=""></option>
+              <option value="/AllUsers"> Users</option>
+              <option value="/AdminReviews">Reviews</option>
+              <option value="/AdminWineries">Wineries</option>
+              <option value="/AdminComments">Bodacious Bananas</option>
+            </select>
+          </form>
+        </>
+      )}
     </>
   );
 }

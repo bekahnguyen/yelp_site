@@ -1,5 +1,6 @@
 /* TODO - add your code to create a functional React component that renders account details for a logged in user. Fetch the account data from the provided API. You may consider conditionally rendering a message for other users that prompts them to log in or create an account.  */
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 // get reviews user has posted:
 
@@ -55,34 +56,46 @@ export default function Account({ somm }) {
       console.log(response.status);
     }
   };
-
-  //make past reviews open in new tab to the side
-  return (
-    <>
-      <p>Welcome back, {somm.username}!</p>
-      {/* <p>Current itinerary:</p>
+  {
+    /* <p>Current itinerary:</p>
       Nothing at the moment! Let's get started!
       <form>
         <input type="text" placeholder="Winery Name:"></input>
         <input type="text" placeholder="Time:"></input>
         <input type="checkbox" placeholder="Reservation made?"></input>
-      </form> */}
-      <p> Past Reviews:</p>
-      {myReviews.map((myReview) => {
-        return (
-          <>
-            <div className="myReviewBox" key={myReview.id} id={myReview.id}>
-              <p>Winery: {myReview.winery_id}</p>
-              <p>Title: {myReview.title}</p>
-              <p>Rating:{myReview.rating}</p>
+      </form> */
+  }
 
-              <p>Comment: {myReview.comment}</p>
-              <button onClick={() => handleDelete(myReview.id)}>Delete</button>
-              <button onClick={() => handleEdit(myReview.id)}>Edit</button>
-            </div>
-          </>
-        );
-      })}
+  //make past reviews open in new tab to the side
+  return (
+    <>
+      {!somm.id ? (
+        <h6>
+          Please <Link to="/Login">Login</Link> to see this page.
+        </h6>
+      ) : (
+        <>
+          <p>Welcome back, {somm.username}!</p>
+          <p> Past Reviews:</p>
+          {myReviews.map((myReview) => {
+            return (
+              <>
+                <div className="myReviewBox" key={myReview.id} id={myReview.id}>
+                  <p>Winery: {myReview.winery_id}</p>
+                  <p>Title: {myReview.title}</p>
+                  <p>Rating:{myReview.rating}</p>
+
+                  <p>Comment: {myReview.comment}</p>
+                  <button onClick={() => handleDelete(myReview.id)}>
+                    Delete
+                  </button>
+                  <button onClick={() => handleEdit(myReview.id)}>Edit</button>
+                </div>
+              </>
+            );
+          })}
+        </>
+      )}
     </>
   );
 }
