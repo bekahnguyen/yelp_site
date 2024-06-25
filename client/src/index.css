@@ -25,6 +25,14 @@ body {
   margin-bottom: 3px;
 }
 
+#userList {
+  list-style-type: lower-roman;
+  padding: 2%;
+}
+
+#userBox {
+  border: 2px black;
+}
 .commentBox {
   border: 2px solid rgb(240, 89, 177);
   width: 100%;

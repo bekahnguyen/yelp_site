@@ -9,6 +9,8 @@ import SingleWinery from "./components/SingleWinery";
 import Navigations from "./components/Navigations";
 import AdminWineries from "./components/ADMIN/AdminWineries";
 import AdminReviews from "./components/ADMIN/AdminReviews";
+import AdminHome from "./components/ADMIN/AdminHome";
+import AllUsers from "./components/ADMIN/AllUsers";
 
 function App() {
   const [somm, setSomm] = useState({});
@@ -41,10 +43,12 @@ function App() {
             path="/AdminWineries"
             element={<AdminWineries somm={somm} />}
           ></Route>
+          <Route path="/AdminHome" element={<AdminHome somm={somm} />}></Route>
           <Route
             path="/AdminReviews"
             element={<AdminReviews somm={somm} />}
           ></Route>
+          <Route path="/AllUsers" element={<AllUsers somm={somm} />}></Route>
 
           <Route path="/:wineId" element={<SingleWinery />}></Route>
         </Routes>

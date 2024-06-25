@@ -44,7 +44,7 @@ export default function Login({ somm, setSomm }) {
     console.log(response);
     if (response.ok) {
       setSomm(json);
-      somm.is_admin ? navigate("/AdminWineries") : navigate("/Account");
+      somm.is_admin ? navigate("/AdminHome") : navigate("/Account");
     } else {
       window.localStorage.removeItem("token");
     }

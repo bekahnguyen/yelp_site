@@ -23,7 +23,7 @@ export default function Wineries() {
       if (result.error) throw result.error;
       return result.rows;
     } catch (error) {
-      console.log(error, "Oh no, couldn't get wineries");
+      console.log("Oh no, couldn't get wineries");
     }
   };
 

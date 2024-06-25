@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function AdminReviews({ somm }) {
   const [allReviews, setAllReviews] = useState([]);
   const token = window.localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const getReviews = async () => {
     try {
@@ -35,9 +36,15 @@ export default function AdminReviews({ somm }) {
     getReviews();
   }, []);
 
+  const backHome = () => {
+    navigate("/AdminHome");
+  };
+
   return (
     <>
-      {!somm.is_admin ? <h1> Sorry, you're UNAUTHORIZED.</h1> : null}
+      {!somm.is_admin ? (
+        <h1> Sorry, you're not authorized to be here</h1>
+      ) : null}
       {allReviews.map((review) => {
         return (
           <div>
@@ -53,6 +60,10 @@ export default function AdminReviews({ somm }) {
               {" "}
               Delete.
             </button>
+            <footer>
+              {" "}
+              <button onClick={backHome}>Back </button>
+            </footer>
           </div>
         );
       })}
