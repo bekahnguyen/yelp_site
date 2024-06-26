@@ -41,10 +41,9 @@ export default function Login({ somm, setSomm }) {
     });
 
     const json = await response.json();
-    console.log(response);
     if (response.ok) {
       setSomm(json);
-      somm.is_admin ? navigate("/AdminHome") : navigate("/Account");
+      somm.is_admin ? navigate("/AdminHome") : navigate("/");
     } else {
       window.localStorage.removeItem("token");
     }

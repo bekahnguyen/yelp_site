@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import Wineries from "../Wineries";
 import { useNavigate } from "react-router-dom";
 
-export default function AdminWineries({ somm }) {
-  const [newWinery, setNewWinery] = useState([]);
+export default function AdminWineries({ somm, setWineries, wineries }) {
   const [name, setWineryName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [hours, setHours] = useState("");
   const [ava_district_id, setAVADistrictId] = useState("");
   const [img, setImg] = useState("");
+  const [description, setDescription] = useState("");
   const [website, setWebsite] = useState("");
   const [reservations_required, setReservations] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
-    console.log("handle submit hit");
     event.preventDefault();
     const response = await fetch(`/api/wineries/`, {
       method: "POST",
@@ -25,6 +25,7 @@ export default function AdminWineries({ somm }) {
         name,
         address,
         phone,
+        description,
         hours,
         ava_district_id,
         img,
@@ -35,9 +36,26 @@ export default function AdminWineries({ somm }) {
     console.log(response);
     const result = await response.json();
     console.log(result);
-    setNewWinery(result.rows);
-    console.log(newWinery);
+    await setWineries(...wineries, result);
+    console.log(wineries);
     alert("successfully created!");
+    navigate("/AdminHome");
+  };
+
+  const editWinery = async (id) => {
+    console.log(id);
+    const response = await fetch("/api/");
+  };
+
+  const deleteWinery = async (id) => {
+    console.log(id);
+    const response = await fetch(`/api/winery/${id}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      console.log(response.status);
+      setWineries(...wineries);
+    }
   };
 
   return (
@@ -49,6 +67,7 @@ export default function AdminWineries({ somm }) {
           <p> hello, admin</p>
 
           <form>
+            <label>Add new winery:</label>
             <input
               type="text"
               placeholder="Winery name"
@@ -58,6 +77,11 @@ export default function AdminWineries({ somm }) {
               type="text"
               placeholder="address"
               onChange={(e) => setAddress(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="description"
+              onChange={(e) => setDescription(e.target.value)}
             />
             <input
               type="text"
@@ -93,6 +117,26 @@ export default function AdminWineries({ somm }) {
               Submit
             </button>
           </form>
+          {wineries.map((winery) => {
+            return (
+              <ul id="adminWinery" key={winery.id}>
+                <>
+                  <li> {winery.name}</li>
+                  <li> {winery.address}</li>
+                  <li>{winery.hours}</li>
+                  <li> {winery.ava_district_id}</li>
+                  <li> {winery.img}</li>
+                  <li> {winery.website}</li>
+                  <li>{website.reservations_required}</li>
+                  <button onClick={() => editWinery(winery.id)}>Edit</button>
+                  <button onClick={() => deleteWinery(winery.id)}>
+                    {" "}
+                    Delete
+                  </button>
+                </>
+              </ul>
+            );
+          })}
         </>
       )}
     </div>

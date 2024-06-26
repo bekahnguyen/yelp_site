@@ -15,6 +15,14 @@ export default function AllUsers({ somm }) {
     }
   };
 
+  const handleAuth = () => {
+    console.log("authenticated!");
+  };
+
+  const banUser = () => {
+    console.log("user is banned!");
+  };
+
   const back = () => {
     navigate("/AdminHome");
   };
@@ -29,10 +37,10 @@ export default function AllUsers({ somm }) {
         <h6>403</h6>
       ) : (
         <div>
-          <p> All Users:</p>
-          <ul id="userList">
-            {users.map((user) => {
-              return (
+          <h1> All Users:</h1>
+          {users.map((user) => {
+            return (
+              <ul id="userList">
                 <>
                   <div id="userBox">
                     <li>{user.username}</li>
@@ -40,11 +48,13 @@ export default function AllUsers({ somm }) {
                     <li>{user.last_name}</li>
                     <li> {user.id}</li>
                     <li>{user.email}</li>
+                    <button onClick={handleAuth}>Make Admin</button>
+                    <button onClick={banUser}>Ban User</button>
                   </div>
                 </>
-              );
-            })}
-          </ul>
+              </ul>
+            );
+          })}
         </div>
       )}
       <button onClick={back}>Back.</button>

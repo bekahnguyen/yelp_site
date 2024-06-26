@@ -15,6 +15,10 @@ body {
   align-self: flex-end;
 }
 
+#adminWinery {
+  border: 2px solid black;
+}
+
 .contain {
   display: flex;
   flex-wrap: wrap;
@@ -26,8 +30,10 @@ body {
 }
 
 #userList {
-  list-style-type: lower-roman;
+  list-style-type: circle;
   padding: 2%;
+  border: 4px solid rgb(15, 15, 14);
+  width: fit-content;
 }
 
 #unauth {
@@ -75,10 +81,6 @@ ul {
   height: 50%;
   width: 50%;
   margin: 5%;
-}
-
-.bookcard:hover {
-  background-color: rgb(40, 174, 82);
 }
 
 .navbar-container {

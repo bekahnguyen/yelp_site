@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Register({ setSomm }) {
+export default function Register({ setSomm, somm }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -23,9 +23,9 @@ export default function Register({ setSomm }) {
     });
     const result = await response.json();
     console.log(result);
-    setSomm(result.token);
+    setSomm(result);
     alert("successfully registered!");
-    if (token) {
+    if (somm) {
       navigate("/Account");
     }
   };
