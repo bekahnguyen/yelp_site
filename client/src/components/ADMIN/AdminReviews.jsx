@@ -43,7 +43,7 @@ export default function AdminReviews({ somm }) {
   return (
     <>
       {!somm.is_admin ? (
-        <h1> 401</h1>
+        <h1> 403</h1>
       ) : (
         <>
           {allReviews.map((review) => {

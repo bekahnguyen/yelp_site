@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 //or
 //could build whole new page. CMS. dont worry about style
 
-export default function Navigations({ somm }) {
+export default function Navigations({ somm, setSomm }) {
   const navigate = useNavigate();
   const handleLogout = () => {
+    console.log("logging youout");
     window.localStorage.removeItem("token");
+    setSomm({});
     navigate("/");
   };
 
@@ -21,6 +23,7 @@ export default function Navigations({ somm }) {
           {somm ? null : <Link to="/Login">Login</Link>}
           <Link to="/Account">Account</Link>
           {somm.is_admin ? <Link to="/AdminHome">Admin</Link> : null}
+          <button onClick={handleLogout}>Logout.</button>
         </div>
       </nav>
     </>

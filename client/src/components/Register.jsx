@@ -34,7 +34,7 @@ export default function Register({ setSomm }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form>
         <label>
           <input
             type="text"

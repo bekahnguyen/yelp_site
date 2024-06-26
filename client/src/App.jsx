@@ -14,21 +14,15 @@ import AllUsers from "./components/ADMIN/AllUsers";
 
 function App() {
   const [somm, setSomm] = useState({});
-  const [wineryList, setWineryList] = useState([]);
-
-  console.log(wineryList);
 
   return (
     <>
       <h1 id="mainPageHeader">Paso App</h1>
       Hi, {somm.username}
-      <Navigations somm={somm} />
+      <Navigations somm={somm} setSomm={setSomm} />
       <div id="main-routes">
         <Routes>
-          <Route
-            path="/"
-            element={<Wineries somm={somm} wineryList={wineryList} />}
-          ></Route>
+          <Route path="/" element={<Wineries somm={somm} />}></Route>
           <Route
             path="/Account"
             element={<Account somm={somm} setSomm={setSomm} />}
@@ -52,9 +46,7 @@ function App() {
           ></Route>
           <Route
             path="/AdminWineries"
-            element={
-              <AdminWineries somm={somm} setWineryList={setWineryList} />
-            }
+            element={<AdminWineries somm={somm} />}
           ></Route>
           <Route path="/AllUsers" element={<AllUsers somm={somm} />}></Route>
 

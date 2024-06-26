@@ -71,7 +71,8 @@ export default function Account({ somm }) {
     <>
       {!somm.id ? (
         <h5>
-          <Link to="/Login">Sign In </Link>or Create an Account Today!
+          <Link to="/Login">Sign In </Link>or{" "}
+          <Link to="/Register">Create an Account </Link> Today!
         </h5>
       ) : (
         <>
