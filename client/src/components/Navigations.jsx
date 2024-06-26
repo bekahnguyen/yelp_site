@@ -15,6 +15,9 @@ export default function Navigations({ somm, setSomm }) {
     navigate("/");
   };
 
+  const handleSubmit = (event) => {
+    navigate(event);
+  };
   return (
     <>
       <nav className="navbar">
@@ -22,7 +25,18 @@ export default function Navigations({ somm, setSomm }) {
           <Link to="/">Peruse</Link>
           {somm ? null : <Link to="/Login">Login</Link>}
           <Link to="/Account">Account</Link>
-          {somm.is_admin ? <Link to="/AdminHome">Admin</Link> : null}
+          {somm.is_admin ? (
+            <select
+              class="form-select form-select-sm"
+              aria-label=".form-select-sm example"
+              onChange={(event) => handleSubmit(event.target.value)}
+            >
+              <option selected>ADMIN:</option>
+              <option value="/AllUsers">Users</option>
+              <option value="/AdminReviews">Reviews</option>
+              <option value="/AdminWineries">Wineries</option>
+            </select>
+          ) : null}
           <button onClick={handleLogout}>Logout.</button>
         </div>
       </nav>

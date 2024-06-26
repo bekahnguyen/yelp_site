@@ -36,7 +36,7 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
     console.log(response);
     const result = await response.json();
     console.log(result);
-    await setWineries(...wineries, result);
+    setWineries(...wineries, result);
     console.log(wineries);
     alert("successfully created!");
     navigate("/AdminHome");
@@ -44,7 +44,6 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
 
   const editWinery = async (id) => {
     console.log(id);
-    const response = await fetch("/api/");
   };
 
   const deleteWinery = async (id) => {
@@ -64,8 +63,6 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
         404
       ) : (
         <>
-          <p> hello, admin</p>
-
           <form>
             <label>Add new winery:</label>
             <input
@@ -125,7 +122,10 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
                   <li> {winery.address}</li>
                   <li>{winery.hours}</li>
                   <li> {winery.ava_district_id}</li>
-                  <li> {winery.img}</li>
+                  <li>
+                    {" "}
+                    <img id="adminWinePic" src={winery.img}></img>
+                  </li>
                   <li> {winery.website}</li>
                   <li>{website.reservations_required}</li>
                   <button onClick={() => editWinery(winery.id)}>Edit</button>

@@ -36,6 +36,11 @@ body {
   width: fit-content;
 }
 
+#adminWinePic {
+  width: 10%;
+  height: 10%;
+}
+
 #unauth {
   background-image: url("../src/assets/What-is-a-401-Error-and-How-Do-You-Fix.jpg")
     fixed center;

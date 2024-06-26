@@ -2,16 +2,15 @@ import { useState, useEffect } from "react";
 import SingleWinery from "./SingleWinery";
 import { Link, useParams } from "react-router-dom";
 
-export default function Wineries() {
-  const [wineries, setWineries] = useState([]);
+export default function Wineries({ wineries, setWineries }) {
   const [filteredWineries, setFilteredWineries] = useState([]);
 
-  const getWineryList = async () => {
-    const wineryList = await getWineries();
-    setWineries(wineryList);
-  };
-
   useEffect(() => {
+    const getWineryList = async () => {
+      const wineryList = await getWineries();
+      setWineries(wineryList);
+      setFilteredWineries(wineries);
+    };
     getWineryList();
   }, []);
 

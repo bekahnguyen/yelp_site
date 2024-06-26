@@ -64,7 +64,7 @@ function App() {
               />
             }
           ></Route>
-          <Route path="/AllUsers" element={<AllUsers somm={somm} />}></Route>
+          <Route path="/allUsers" element={<AllUsers somm={somm} />}></Route>
 
           <Route path="/:wineId" element={<SingleWinery />}></Route>
         </Routes>
