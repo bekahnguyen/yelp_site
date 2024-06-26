@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default function AdminWineries({ somm, setWineries, wineries }) {
   const [name, setWineryName] = useState("");
@@ -11,8 +11,6 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
   const [description, setDescription] = useState("");
   const [website, setWebsite] = useState("");
   const [reservations_required, setReservations] = useState("");
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,14 +34,15 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
     console.log(response);
     const result = await response.json();
     console.log(result);
-    setWineries(...wineries, result);
+    await setWineries(...wineries, result);
     console.log(wineries);
     alert("successfully created!");
-    navigate("/AdminHome");
+    navigate("/");
   };
 
   const editWinery = async (id) => {
     console.log(id);
+    const response = await fetch("/api/");
   };
 
   const deleteWinery = async (id) => {
@@ -63,6 +62,7 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
         404
       ) : (
         <>
+          <p> hello, admin</p>
           <form>
             <label>Add new winery:</label>
             <input
@@ -116,25 +116,25 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
           </form>
           {wineries.map((winery) => {
             return (
-              <ul id="adminWinery" key={winery.id}>
-                <>
-                  <li> {winery.name}</li>
-                  <li> {winery.address}</li>
-                  <li>{winery.hours}</li>
-                  <li> {winery.ava_district_id}</li>
-                  <li>
-                    {" "}
-                    <img id="adminWinePic" src={winery.img}></img>
-                  </li>
-                  <li> {winery.website}</li>
-                  <li>{website.reservations_required}</li>
-                  <button onClick={() => editWinery(winery.id)}>Edit</button>
-                  <button onClick={() => deleteWinery(winery.id)}>
-                    {" "}
-                    Delete
-                  </button>
-                </>
-              </ul>
+              <>
+                <ul id="adminWinery" key={winery.id}>
+                  <>
+                    <li> {winery.name}</li>
+                    <li> {winery.address}</li>
+                    <li>{winery.hours}</li>
+                    <li> {winery.ava_district_id}</li>
+                    <li> {winery.img}</li>
+                    <li> {winery.website}</li>
+                    <li>{website.reservations_required}</li>
+                    <button onClick={() => editWinery(winery.id)}>Edit</button>
+                    <button onClick={() => deleteWinery(winery.id)}>
+                      {" "}
+                      Delete
+                    </button>
+                  </>
+                </ul>
+                ;
+              </>
             );
           })}
         </>

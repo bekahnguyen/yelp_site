@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import SingleWinery from "./SingleWinery";
+import AdminWineries from "./ADMIN/AdminWineries";
 import { Link, useParams } from "react-router-dom";
 
-export default function Wineries({ wineries, setWineries }) {
+export default function Wineries({ somm, wineries, setWineries }) {
   const [filteredWineries, setFilteredWineries] = useState([]);
 
   useEffect(() => {
