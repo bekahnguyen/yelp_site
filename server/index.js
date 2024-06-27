@@ -284,14 +284,13 @@ app.post("/api/winery/:wineId/reviews", isLoggedIn, async (req, res, next) => {
 
 //to review or post comments?
 app.post(
-  "/api/wineries/:id/reviews/:review_id/comments/",
+  "/api/wineries/:id/reviews/:somm_review_id/comments/",
   isLoggedIn,
   async (req, res, next) => {
     try {
       res.status(201).send(
         await createComment({
-          winery_id: req.params.id,
-          somm_review_id: req.body.somm_review_id,
+          somm_review_id: req.params.somm_review_id,
           comment: req.body.comment,
         })
       );
@@ -349,34 +348,34 @@ const init = async () => {
   console.log("connecting to database");
   await client.connect();
   console.log("connected to database");
-  await createTables();
+  // await createTables();
   console.log("created tables");
 
   console.log(await fetchSomms()), console.log(await fetchWineries());
-  const nam = await createSomm({
-    first_name: "nam",
-    last_name: "nguyen",
-    username: "namnam",
-    password: "321",
-    email: "nguyen.k.nam@gmail.com",
-    is_admin: true,
-  });
-  const bek = await createSomm({
-    first_name: "bek",
-    last_name: "nguyen",
-    username: "bek",
-    password: "123",
-    email: "bekahritter@gmail.com",
-    is_admin: true,
-  });
-  const dummy = await createSomm({
-    first_name: "dummy",
-    last_name: "nguyen",
-    username: "dummy",
-    password: "123",
-    email: "dumdum@dumdum.com",
-    is_admin: false,
-  });
+  // const nam = await createSomm({
+  //   first_name: "nam",
+  //   last_name: "nguyen",
+  //   username: "namnam",
+  //   password: "321",
+  //   email: "nguyen.k.nam@gmail.com",
+  //   is_admin: true,
+  // });
+  // const bek = await createSomm({
+  //   first_name: "bek",
+  //   last_name: "nguyen",
+  //   username: "bek",
+  //   password: "123",
+  //   email: "bekahritter@gmail.com",
+  //   is_admin: true,
+  // });
+  // const dummy = await createSomm({
+  //   first_name: "dummy",
+  //   last_name: "nguyen",
+  //   username: "dummy",
+  //   password: "123",
+  //   email: "dumdum@dumdum.com",
+  //   is_admin: false,
+  // });
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => {

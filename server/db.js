@@ -194,8 +194,7 @@ const createTables = async () => {
   );  
 CREATE TABLE somm_comments(
 id UUID PRIMARY KEY,
-
-body TEXT,
+comment TEXT,
 somm_review_id UUID REFERENCES somm_reviews(id)
 );
   CREATE TABLE somm_favorites(
