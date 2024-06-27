@@ -124,22 +124,15 @@ const createTables = async () => {
   DROP TABLE IF EXISTS winery;
   DROP TABLE IF EXISTS ava_district;
       DROP TABLE IF EXISTS somm;
-          CREATE TABLE ava_district (
-        id SERIAL PRIMARY KEY,
-        location VARCHAR(255) NOT NULL
-    );
-    INSERT INTO ava_district (location) VALUES ('Adelaida District');
-    INSERT INTO ava_district (location) VALUES ('Creston District');
-    INSERT INTO ava_district (location) VALUES ('El Pomar District');
-    INSERT INTO ava_district (location) VALUES ('Paso Robles Estrella District');
-    INSERT INTO ava_district (location) VALUES ('Paso Robles Geneseo District');
-    INSERT INTO ava_district (location) VALUES ('Paso Robles Highlands District');
-    INSERT INTO ava_district (location) VALUES ('Paso Robles Willow Creek District');
-    INSERT INTO ava_district (location) VALUES ('San Juan Creek');
-    INSERT INTO ava_district (location) VALUES ('San Miguel District');
-    INSERT INTO ava_district (location) VALUES ('Santa Margarita Ranch');
-    INSERT INTO ava_district (location) VALUES ('Templeton Gap District');
-      CREATE table somm(
+            CREATE TABLE somm_favorites(
+    id UUID PRIMARY KEY,   
+    somm_id UUID REFERENCES somm(id) NOT NULL,
+    winery_id INTEGER REFERENCES winery(id) NOT NULL,
+    body text,
+    img text,
+    CONSTRAINT unique_somm_favorites UNIQUE(somm_id, winery_id),
+);  
+           CREATE table somm(
           id UUID PRIMARY KEY,
           first_name VARCHAR (250),
           last_name VARCHAR (250),
@@ -183,29 +176,28 @@ const createTables = async () => {
         winery_id INTEGER REFERENCES winery(id) NOT NULL,
         CONSTRAINT unique_somm_wishlist UNIQUE(somm_id, winery_id)
     );  
-    CREATE TABLE somm_reviews(
+      CREATE TABLE somm_reviews(
       id UUID PRIMARY KEY,
       title VARCHAR,
       rating float,
       comment text,
       somm_id UUID REFERENCES somm(id) NOT NULL,
       winery_id INTEGER REFERENCES winery(id) NOT NULL,
-      img text
+      img text,
   );  
-CREATE TABLE somm_comments(
+  CREATE TABLE somm_comments(
 id UUID PRIMARY KEY,
-comment TEXT,
-somm_review_id UUID REFERENCES somm_reviews(id)
+comment TEXT NOT NULL,
+somm_review_id UUID REFERENCES somm_reviews(id),
 );
-  CREATE TABLE somm_favorites(
+CREATE TABLE somm_favorites(
     id UUID PRIMARY KEY,   
     somm_id UUID REFERENCES somm(id) NOT NULL,
     winery_id INTEGER REFERENCES winery(id) NOT NULL,
     body text,
     img text,
-    CONSTRAINT unique_somm_favorites UNIQUE(somm_id, winery_id)
-);    
-
+    CONSTRAINT unique_somm_favorites UNIQUE(somm_id, winery_id),
+);  
   `;
   await client.query(SQL);
 };
@@ -250,7 +242,7 @@ const createComment = async ({ somm_review_id, comment }) => {
 };
 
 const destroyReviews = async ({ id, somm_id }) => {
-  console.log(id, user_id);
+  console.log(id, somm_id);
   const SQL = `
       DELETE FROM somm_reviews
       WHERE id = $1 AND somm_id=$2

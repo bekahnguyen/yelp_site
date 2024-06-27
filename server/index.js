@@ -1,8 +1,7 @@
-const { getMaxListeners } = require("events");
 const {
   client,
-  createTables,
   createWinery,
+  createTables,
   createSomm,
   fetchSomms,
   fetchWineries,
@@ -10,7 +9,7 @@ const {
   findUserByToken,
   createReview,
   destroyReviews,
-  createComment,
+  createComments,
 } = require("./db");
 
 const express = require("express");
@@ -19,6 +18,7 @@ app.use(express.json());
 
 //for deployment only
 const path = require("path");
+const { send } = require("process");
 app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "../client/index.html"))
 );
@@ -31,10 +31,21 @@ app.use("/assets", express.static(path.join(__dirname, "../client/assets")));
 app.get("/api/wineries", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM winery
-    `;
+      SELECT * FROM winery
+      `;
     const response = await client.query(SQL);
     res.send(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/wineries/reviews", async (req, res, next) => {
+  try {
+    const SQL = `
+      SELECT * FROM somm_reviews`;
+    const response = await client.query(SQL);
+    res.send(response.rows);
   } catch (error) {
     next(error);
   }
@@ -43,8 +54,8 @@ app.get("/api/wineries", async (req, res, next) => {
 app.get("/api/ava_districts", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM ava_district
-    `;
+      SELECT * FROM ava_district
+      `;
     const response = await client.query(SQL);
     res.send(response);
   } catch (error) {
@@ -56,8 +67,8 @@ app.get("/api/ava_districts", async (req, res, next) => {
 app.get("/api/wineries/:id", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM winery WHERE id=$1
-    `;
+      SELECT * FROM winery WHERE id=$1
+      `;
     const response = await client.query(SQL, [req.params.id]);
     res.send(response.rows[0]);
   } catch (error) {
@@ -69,8 +80,8 @@ app.get("/api/wineries/:id", async (req, res, next) => {
 app.get("/api/wineries/ava_district/:id", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM winery WHERE ava_district_id=$1
-    `;
+      SELECT * FROM winery WHERE ava_district_id=$1
+      `;
     const response = await client.query(SQL, [req.params.id]);
     res.send(response.rows);
   } catch (error) {
@@ -81,38 +92,17 @@ app.get("/api/wineries/ava_district/:id", async (req, res, next) => {
 //for admin to create new winery
 //fix the responses. when i do response.rows there are errors
 
-app.post("/api/winery", (req, res, next) => {
-  try {
-    const SQL = `
-    INSERT into winery(name, hours, ava_district_id, location, img, website)
-    VALUES ($1, $2, $3, $4, $5, $6,)
-    RETURNING*;
-    `;
-    const response = client.query(SQL, [
-      req.body.name,
-      req.body.hours,
-      req.body.ava_district_id,
-      req.body.location,
-      req.body.img,
-      req.body.website,
-    ]);
-    res.sendStatus(202);
-  } catch (error) {
-    next(error);
-  }
-});
-
 //admin to update //
 //when first tried, i updated the name and got a lot of errors for not adding any other fields
 // changed a lot of fields from not null to be null, hopefully i dont regret that.
 app.put("/api/winery/:id", (req, res, next) => {
   try {
     const SQL = `
-    UPDATE winery
-    SET name=$1, hours=$2, ava_district_id_id=$3, location=$4, img=$5, website=$6
-    WHERE id=$7
-    RETURNING*;
-    `;
+      UPDATE winery
+      SET name=$1, hours=$2, ava_district_id_id=$3, location=$4, img=$5, website=$6
+      WHERE id=$7
+      RETURNING*;
+      `;
     const response = client.query(SQL, [
       req.body.name,
       req.body.hours,
@@ -134,9 +124,9 @@ app.put("/api/winery/:id", (req, res, next) => {
 app.delete("/api/winery/:id", (req, res, next) => {
   try {
     const SQL = `
-    DELETE * FROM winery
-    WHERE id=$1
-    `;
+      DELETE FROM winery
+      WHERE id=$1
+      `;
     const response = client.query(SQL, [req.params.id]);
     res.sendStatus(204);
   } catch (error) {
@@ -145,9 +135,8 @@ app.delete("/api/winery/:id", (req, res, next) => {
 });
 
 //Routes B- USER:
-//get api/somms/me
+
 const isLoggedIn = async (req, res, next) => {
-  console.log("is logged in route is hit!");
   try {
     req.somm = await findUserByToken(req.headers.authorization);
     next();
@@ -165,7 +154,9 @@ app.post("/api/somms/login", async (req, res, next) => {
   }
 });
 
+//took out the isloggedin. will have to fix later.
 app.get("/api/somms/me", isLoggedIn, async (req, res, next) => {
+  console.log("api/somms/me route hit");
   try {
     res.send(await findUserByToken(req.headers.authorization));
   } catch (ex) {
@@ -176,13 +167,35 @@ app.get("/api/somms/me", isLoggedIn, async (req, res, next) => {
 //register form? DONE!
 app.post("/api/somms/", async (req, res, next) => {
   try {
-    await createSomm({
-      first_name: req.body.firstName,
-      last_name: req.body.lastName,
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-    });
+    res.send(
+      await createSomm({
+        first_name: req.body.firstName,
+        last_name: req.body.lastName,
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+      })
+    );
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.post("/api/wineries/", async (req, res, next) => {
+  try {
+    res.send(
+      await createWinery({
+        name: req.body.name,
+        address: req.body.address,
+        phone: req.body.phone,
+        description: req.body.description,
+        hours: req.body.hours,
+        ava_district_id: req.body.ava_district_id,
+        img: req.body.img,
+        website: req.body.website,
+        reservations_required: req.body.reservations_required,
+      })
+    );
   } catch (ex) {
     next(ex);
   }
@@ -201,8 +214,8 @@ app.get("/api/somms", async (req, res, next) => {
 app.get("/api/somms/:id/reviews", isLoggedIn, async (req, res, next) => {
   try {
     const SQL = `
-    SELECT * FROM somm_reviews WHERE somm_id=$1
-    `;
+      SELECT * FROM somm_reviews WHERE somm_id=$1
+      `;
     const response = await client.query(SQL, [req.params.id]);
     res.send(response.rows);
   } catch (error) {
@@ -215,50 +228,12 @@ app.get("/api/somms/:id/reviews", isLoggedIn, async (req, res, next) => {
 app.get("/api/winery/:wineId/reviews", async (req, res, next) => {
   try {
     const SQL = `
-    SELECT *
-     FROM somm_reviews 
-    WHERE winery_id=$1
-    `;
+      SELECT *
+       FROM somm_reviews 
+      WHERE winery_id=$1
+      `;
     const response = await client.query(SQL, [req.params.wineId]);
     res.send(response.rows);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.get("/api/reviews", async (req, res, next) => {
-  console.log("get wineries route hit");
-  try {
-    const SQL = `
-    SELECT * FROM somm_reviews 
-    `;
-    const response = await client.query(SQL);
-    res.send(response.rows);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.delete("/api/reviews/:id", async (req, res, next) => {
-  try {
-    const SQL = `
-    DELETE FROM somm_reviews 
-where id=$1
-    `;
-    const response = await client.query(SQL, [req.params.id]);
-    res.send(response.rows);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.get("/api/ava_districts", async (req, res, next) => {
-  try {
-    const SQL = `
-    SELECT * FROM ava_district
-    `;
-    const response = await client.query(SQL);
-    res.send(response);
   } catch (error) {
     next(error);
   }
@@ -289,9 +264,10 @@ app.post(
   async (req, res, next) => {
     try {
       res.status(201).send(
-        await createComment({
+        await createComments({
+          winery_id: req.params.id,
           somm_review_id: req.params.somm_review_id,
-          comment: req.body.comment,
+          reply: req.body.reply,
         })
       );
     } catch (ex) {
@@ -300,18 +276,73 @@ app.post(
   }
 );
 
-app.patch("/api/somms/:id/reviews/:id") ??
-  //to delete their reviews.
-
-  //for users to delete their own reviews. and for admin to delete reviews, too.
-  app.delete("/api/somms/:somm_id/reviews/:id", async (req, res, next) => {
+app.get(
+  "/api/wineries/:id/reviews/:reviewId/comments",
+  async (req, res, next) => {
     try {
+      const SQL = `
+      SELECT * FROM somm_comments
+      WHERE somm_review_id=$1 
+      `;
+      const response = await client.query(SQL, [req.params.reviewId]);
+      res.send(response.rows);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+app.patch("/api/somms/:id/reviews/:id");
+const SQL = `
+  `;
+
+//for users to delete their own reviews. and for admin to delete reviews, too.
+
+app.delete(
+  "/api/somms/:somm_id/reviews/:id",
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      console.log("route hit!");
+      if (req.params.somm_id !== req.somm.id) {
+        const error = Error("not authorized");
+        error.status = 401;
+        throw error;
+      }
       await destroyReviews({ somm_id: req.params.somm_id, id: req.params.id });
       res.sendStatus(204);
     } catch (error) {
       next(error);
     }
-  });
+  }
+);
+
+app.get("/api/reviews", async (req, res, next) => {
+  console.log("get wineries route hit");
+  try {
+    const SQL = `
+    SELECT * FROM somm_reviews 
+    `;
+    const response = await client.query(SQL);
+    res.send(response.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//admin delete
+app.delete("/api/reviews/:id", async (req, res, next) => {
+  console.log("route hit");
+  try {
+    const SQL = `
+      DELETE from somm_reviews
+      where id =$1`;
+    const response = await client.query(SQL, [req.params.id]);
+    res.send(response.status);
+  } catch (error) {
+    next(error);
+  }
+});
 
 //how to get SOMMS to make an itinerary with multiple wineries?
 //needs: winery, time, reservation made (with a checkbox), then a + button to add a new one.
@@ -349,8 +380,7 @@ const init = async () => {
   await client.connect();
   console.log("connected to database");
   // await createTables();
-  console.log("created tables");
-
+  // console.log("created tables");
   console.log(await fetchSomms()), console.log(await fetchWineries());
   // const nam = await createSomm({
   //   first_name: "nam",
@@ -360,7 +390,7 @@ const init = async () => {
   //   email: "nguyen.k.nam@gmail.com",
   //   is_admin: true,
   // });
-  // const bek = await createSomm({
+  // const beky = await createSomm({
   //   first_name: "bek",
   //   last_name: "nguyen",
   //   username: "bek",
@@ -373,9 +403,26 @@ const init = async () => {
   //   last_name: "nguyen",
   //   username: "dummy",
   //   password: "123",
-  //   email: "dumdum@dumdum.com",
-  //   is_admin: false,
+  //   email: "dummyaccount@gmail.com",
   // });
+
+  // console.log(nam);
+  // const [wishlist] = await Promise.all([
+  //   createVacation({
+  //     user_id: beky_id,
+  //     winery_id: nyc.id,
+  //     departure_date: "03/03/2023",
+  //   }),
+  //   createVacation({
+  //     user_id: lucy_id,
+  //     place_id: london_id,
+  //     depature_date: "05/05/2025",
+  //   }),
+  // ]);
+
+  // console.log(await fetchVacations());
+  // await destroyVacations({ id: vacation_id, user_id: vacation.user_id });
+  // console.log(await fetchVacations());
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => {
