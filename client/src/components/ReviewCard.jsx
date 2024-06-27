@@ -21,8 +21,6 @@ export default function ReviewCard({ review, setReviews, somm }) {
     setAllReplies(result);
   };
 
-  console.log(allReplies);
-
   const submitComment = async (id) => {
     console.log(token);
     const response = await fetch(

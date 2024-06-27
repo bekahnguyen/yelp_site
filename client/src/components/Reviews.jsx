@@ -29,7 +29,10 @@ export default function Reviews({ somm }) {
     navigate(`/${wineId}`);
   };
 
-  //see all reviews for winery.
+  console.log("reviews", reviews); //see all reviews for winery.
+  const averageRating = reviews.map((review) => {
+    console.log(review.rating);
+  });
 
   const seesReview = async () => {
     try {

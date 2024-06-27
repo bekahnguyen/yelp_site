@@ -140,7 +140,7 @@ ul {
   margin-top: 10vh;
   border-radius: 10px;
   width: 50vh;
-  text-align: center;
+  text-align: left;
 }
 
 .wineCard {
@@ -156,6 +156,11 @@ ul {
   margin: 5%;
 }
 
+#singleWineryPic {
+  height: 50%;
+  width: 50%;
+  margin: 5%;
+}
 .welcome {
   background-color: teal;
 }
