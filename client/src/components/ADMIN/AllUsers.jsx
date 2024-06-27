@@ -15,11 +15,11 @@ export default function AllUsers({ somm }) {
     }
   };
 
-  const handleAuth = async (id) => {
-   const response= await fetch(/api/somms/$(id), {
-    method: PATCH
-   })
-  };
+  // const handleAuth = async (id) => {
+  //  const response= await fetch(/api/somms/$(id), {
+  //   method: PATCH
+  //  })
+  // };
 
   const banUser = () => {
     console.log("user is banned!");
@@ -50,8 +50,10 @@ export default function AllUsers({ somm }) {
                     <li>{user.last_name}</li>
                     <li> {user.id}</li>
                     <li>{user.email}</li>
-                    <button onClick={()=>handleAuth(user.id)}>Make Admin</button>
-                    <button onClick={()=>banUser(user.id)}>Ban User</button>
+                    <button onClick={() => handleAuth(user.id)}>
+                      Make Admin
+                    </button>
+                    <button onClick={() => banUser(user.id)}>Ban User</button>
                   </div>
                 </>
               </ul>
