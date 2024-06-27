@@ -55,8 +55,14 @@ export default function Reviews({ somm }) {
       <form id="reviewForm">
         <label htmlFor="Rating">Rating:</label>
         <input
-          type="number"
-          onChange={(event) => setRating(event.target.value)}
+          value={rating}
+          type="range"
+          id="Rating"
+          name="Rating"
+          min="0"
+          max="5"
+          default="0"
+          onChange={(event) => setRating(Number(event.target.value))}
         />
 
         <label htmlFor="Title">Title:</label>
