@@ -9,7 +9,7 @@ const {
   findUserByToken,
   createReview,
   destroyReviews,
-  createComments,
+  createComment,
 } = require("./db");
 
 const express = require("express");
@@ -199,6 +199,7 @@ app.post("/api/wineries/", async (req, res, next) => {
   } catch (ex) {
     next(ex);
   }
+  return response;
 });
 
 //working!!
@@ -263,11 +264,10 @@ app.post(
   isLoggedIn,
   async (req, res, next) => {
     try {
-      res.status(201).send(
-        await createComments({
-          winery_id: req.params.id,
+      res.send(
+        await createComment({
           somm_review_id: req.params.somm_review_id,
-          reply: req.body.reply,
+          comment: req.body.comment,
         })
       );
     } catch (ex) {

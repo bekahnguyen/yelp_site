@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const JWT = process.env.JWT || "shhh";
 
 // need a new table to update winery times depending on the day.
-const createWinery = async (
+const createWinery = async ({
   name,
   address,
   phone,
@@ -17,8 +17,8 @@ const createWinery = async (
   ava_district_id,
   img,
   website,
-  reservations_required
-) => {
+  reservations_required,
+}) => {
   const SQL = `  
       INSERT INTO winery(name, address, phone, hours, ava_district_id, img, website, reservations_required) 
       VALUES($1, $2, $3, $4, $5, $6, $7, $8) 
