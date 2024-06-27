@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export default function ReviewCard({ review, somm }) {
-  const [reply, setReply] = useState([]);
+export default function ReviewCard({ review, setReviews, somm }) {
+  const [comment, setComment] = useState([]);
   const { wineId } = useParams();
   const [allReplies, setAllReplies] = useState([]);
   const token = window.localStorage.getItem("token");
@@ -31,7 +31,7 @@ export default function ReviewCard({ review, somm }) {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ reply }),
+        body: JSON.stringify({ comment }),
       }
     );
     const result = await response.json();
@@ -48,6 +48,7 @@ export default function ReviewCard({ review, somm }) {
     });
     if (response.ok) {
       alert("Successfully deleted review");
+      setReviews(...review);
     } else {
       console.log(response.status);
     }
@@ -63,13 +64,16 @@ export default function ReviewCard({ review, somm }) {
       <p>Posted by:{review.somm_id}</p>
       <input
         type="text"
-        value={reply}
-        onChange={(event) => setReply(event.target.value)}
+        value={comment}
+        onChange={(event) => setComment(event.target.value)}
       />
       {somm.id === review.somm_id ? (
         <button onClick={() => handleDelete(review.id)}>Delete Review</button>
       ) : null}
-      <button onClick={() => submitComment(review.id)}>Comment</button>
+
+      {somm.id != review.somm_id ? (
+        <button onClick={() => submitComment(review.id)}>Comment</button>
+      ) : null}
       <button>Heart</button>
       <ul>
         <div className="commentBox">

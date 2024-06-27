@@ -61,7 +61,7 @@ export default function Reviews({ somm }) {
           name="Rating"
           min="0"
           max="5"
-          default="0"
+          default="5"
           onChange={(event) => setRating(Number(event.target.value))}
         />
 
@@ -86,7 +86,12 @@ export default function Reviews({ somm }) {
       </form>
       <ul id="reviews">
         {reviews.map((review) => (
-          <ReviewCard review={review} somm={somm} key={review.id} />
+          <ReviewCard
+            review={review}
+            setReviews={setReviews}
+            somm={somm}
+            key={review.id}
+          />
         ))}
       </ul>
     </>
