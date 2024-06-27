@@ -226,6 +226,20 @@ app.get("/api/winery/:wineId/reviews", async (req, res, next) => {
   }
 });
 
+app.get("/api/wineries/reviews", async (req, res, next) => {
+  console.log("route hit");
+  try {
+    const SQL = `
+    SELECT *
+     FROM somm_reviews 
+    `;
+    const response = await client.query(SQL);
+    res.send(response.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //post a review from a certain somm accessing the winery they reviewed.
 
 app.post("/api/winery/:wineId/reviews", isLoggedIn, async (req, res, next) => {
@@ -311,8 +325,8 @@ const init = async () => {
   console.log("connecting to database");
   await client.connect();
   console.log("connected to database");
-
-  // console.log("created tables");
+  // await createTables();
+  console.log("created tables");
 
   console.log(await fetchSomms()), console.log(await fetchWineries());
   // const nam = await createSomm({
@@ -323,23 +337,22 @@ const init = async () => {
   //   email: "nguyen.k.nam@gmail.com",
   //   is_admin: true,
   // });
-  // console.log(nam);
-  // const [wishlist] = await Promise.all([
-  //   createVacation({
-  //     user_id: beky_id,
-  //     winery_id: nyc.id,
-  //     departure_date: "03/03/2023",
-  //   }),
-  //   createVacation({
-  //     user_id: lucy_id,
-  //     place_id: london_id,
-  //     depature_date: "05/05/2025",
-  //   }),
-  // ]);
-
-  // console.log(await fetchVacations());
-  // await destroyVacations({ id: vacation_id, user_id: vacation.user_id });
-  // console.log(await fetchVacations());
+  // const bek = await createSomm({
+  //   first_name: "bek",
+  //   last_name: "nguyen",
+  //   username: "bek",
+  //   password: "123",
+  //   email: "bekahritter@gmail.com",
+  //   is_admin: true,
+  // });
+  // const dummy = await createSomm({
+  //   first_name: "dummy",
+  //   last_name: "nguyen",
+  //   username: "dummy",
+  //   password: "123",
+  //   email: "dumdum@dumdum.com",
+  //   is_admin: false,
+  // });
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => {

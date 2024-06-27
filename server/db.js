@@ -99,7 +99,7 @@ const findUserByToken = async (token) => {
     throw error;
   }
   const SQL = `
-    SELECT id, username
+    SELECT id, username, is_admin
     FROM somm
     WHERE id = $1
   `;
@@ -186,7 +186,7 @@ const createTables = async () => {
     CREATE TABLE somm_reviews(
       id UUID PRIMARY KEY,
       title VARCHAR,
-      rating integer,
+      rating integer DEFAULT 3,
       comment text,
       somm_id UUID REFERENCES somm(id) NOT NULL,
       winery_id INTEGER REFERENCES winery(id) NOT NULL,
@@ -194,8 +194,7 @@ const createTables = async () => {
   );  
 CREATE TABLE somm_comments(
 id UUID PRIMARY KEY,
- created_at TIMESTAMP default now();
- updated_at TIMESTAMP default now();
+
 body TEXT,
 somm_review_id UUID REFERENCES somm_reviews(id)
 );
