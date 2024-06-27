@@ -55,11 +55,12 @@ export default function SingleWinery() {
         <div id="wineryDetails">
           <img id="singleWineryPic" src={selectedWinery.img} />
           <p>Average Review Score:</p>
+          <button onClick={leaveReview}>Reviews</button>
           <p>Description: {selectedWinery.description}</p>
           <p>Hours: {selectedWinery.hours}</p>
           <p>Website: {selectedWinery.website}</p>
           <p>Phone: {selectedWinery.phone}</p>
-          <button onClick={leaveReview}>Notes</button>
+
           {selectedWinery.reservations_required ? (
             <h6>Reservations required.</h6>
           ) : null}

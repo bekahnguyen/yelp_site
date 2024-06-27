@@ -27,7 +27,7 @@ export default function Wineries({ wineries, setWineries }) {
       <div id="container">
         {wineries.map((winery) => (
           <div key={winery.id} className="wineCard">
-            <h3>{winery.name}</h3>
+            <h4>{winery.name}</h4>
             <img className="winePic" src={winery.img} alt={winery.name} />
             <br />
             <Link to={`/${winery.id}`}>More Details!</Link>
