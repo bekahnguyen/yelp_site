@@ -1,4 +1,3 @@
-/* TODO - add your code to create a functional React component that renders details for a single book. Fetch the book data from the provided API. You may consider conditionally rendering a 'Checkout' button for logged in users. */
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
@@ -52,18 +51,20 @@ export default function SingleWinery() {
         </span>
       </h5>
 
-      <div container="singleWineryDetails">
-        <img src={selectedWinery.img} />
-        <p>Average Review Score:</p>
-        <p>Description: {selectedWinery.description}</p>
-        <p>Hours: {selectedWinery.hours}</p>
-        <p>Website: {selectedWinery.website}</p>
-        <p>Phone: {selectedWinery.phone}</p>
-        <button onClick={leaveReview}>Notes</button>
-        {selectedWinery.reservations_required ? (
-          <h6>Reservations required.</h6>
-        ) : null}
-        <button onClick={handleClick}>Back.</button>
+      <div id="container">
+        <div id="wineryDetails">
+          <img id="singleWineryPic" src={selectedWinery.img} />
+          <p>Average Review Score:</p>
+          <p>Description: {selectedWinery.description}</p>
+          <p>Hours: {selectedWinery.hours}</p>
+          <p>Website: {selectedWinery.website}</p>
+          <p>Phone: {selectedWinery.phone}</p>
+          <button onClick={leaveReview}>Notes</button>
+          {selectedWinery.reservations_required ? (
+            <h6>Reservations required.</h6>
+          ) : null}
+          <button onClick={handleClick}>Back.</button>
+        </div>
       </div>
     </>
   );

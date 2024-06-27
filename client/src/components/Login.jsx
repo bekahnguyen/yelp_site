@@ -1,4 +1,3 @@
-/* TODO - add your code to create a functional React component that renders a login form */
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

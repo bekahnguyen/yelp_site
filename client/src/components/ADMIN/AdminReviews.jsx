@@ -4,18 +4,17 @@ import { useState, useEffect } from "react";
 export default function AdminReviews({ somm }) {
   const [allReviews, setAllReviews] = useState([]);
   const token = window.localStorage.getItem("token");
-  const navigate = useNavigate();
 
   const getReviews = async () => {
+    console.log("ok");
     try {
-      const response = await fetch(`/api/wineries/reviews`);
+      const response = await fetch("/api/reviews");
       let result = await response.json();
       if (result.error) throw result.error;
       console.log(result);
       setAllReviews(result);
     } catch (error) {
       console.log("Oh no, couldn't get reviews");
-      return reviews;
     }
   };
 
@@ -35,10 +34,6 @@ export default function AdminReviews({ somm }) {
   useEffect(() => {
     getReviews();
   }, []);
-
-  const backHome = () => {
-    navigate("/AdminHome");
-  };
 
   return (
     <>

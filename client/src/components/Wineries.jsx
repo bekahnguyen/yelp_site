@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
-import AdminWineries from "./ADMIN/AdminWineries";
 import { Link, useParams } from "react-router-dom";
+import React from "react";
 
-export default function Wineries({ somm, wineries, setWineries }) {
-  const [filteredWineries, setFilteredWineries] = useState([]);
-
+export default function Wineries({ wineries, setWineries }) {
   useEffect(() => {
     const getWineryList = async () => {
       const wineryList = await getWineries();
       setWineries(wineryList);
-      setFilteredWineries(wineries);
     };
     getWineryList();
   }, []);
@@ -25,24 +22,8 @@ export default function Wineries({ somm, wineries, setWineries }) {
     }
   };
 
-  const onInputChange = (event) => {
-    const searchTerm = event.target.value.toLowerCase();
-    const filteredWineries = wineries.filter((winery) =>
-      winery.name.toLowerCase().includes(searchTerm)
-    );
-
-    setFilteredWineries(filteredWineries);
-  };
-
   return (
     <>
-      <div className="searchbar">
-        <label>
-          Search for a Winery:
-          <input onChange={onInputChange} />
-        </label>
-      </div>
-
       <div id="container">
         {wineries.map((winery) => (
           <div key={winery.id} className="wineCard">

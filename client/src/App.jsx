@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import React from "react";
 import { Route, Routes, Link } from "react-router-dom";
 import Wineries from "./components/Wineries";
 import AdminWineries from "./components/ADMIN/AdminWineries";
@@ -17,8 +18,8 @@ function App() {
 
   return (
     <>
-      <h1 id="mainPageHeader">Paso App</h1>
-      Hi, {somm.username}
+      <h1 id="mainPageHeader"></h1>
+
       <Navigations somm={somm} setSomm={setSomm} />
       <div id="main-routes">
         <Routes>

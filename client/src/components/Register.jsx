@@ -12,6 +12,7 @@ export default function Register({ setSomm, somm }) {
 
   // Make the Register Form look prettier!!!//
 
+  // !?!?!?????
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch(`/api/somms/`, {
@@ -76,7 +77,7 @@ export default function Register({ setSomm, somm }) {
           />
         </label>
 
-        <button onClick={handleSubmit}>Register today!</button>
+        <button onClick={handleSubmit}>Submit</button>
       </form>
     </>
   );

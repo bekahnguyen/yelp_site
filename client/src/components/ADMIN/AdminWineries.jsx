@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminWineries({ somm, setWineries, wineries }) {
   const [name, setWineryName] = useState("");
@@ -12,6 +12,7 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
   const [website, setWebsite] = useState("");
   const [reservations_required, setReservations] = useState("");
 
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch(`/api/wineries/`, {
