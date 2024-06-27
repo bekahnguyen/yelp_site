@@ -13,13 +13,15 @@ export default function ReviewCard({ review, setReviews, somm }) {
 
   const getComments = async () => {
     const response = await fetch(
-      `/api/wineries/${wineId}/reviews/${review.id}/comments/`
+      `/api/wineries/${wineId}/reviews/${review.id}/comments`
     );
     let result = await response.json();
     console.log(result);
     if (result.error) throw result.error;
     setAllReplies(result);
   };
+
+  console.log(allReplies);
 
   const submitComment = async (id) => {
     console.log(token);
@@ -76,9 +78,9 @@ export default function ReviewCard({ review, setReviews, somm }) {
       ) : null}
       <button>Heart</button>
       <ul>
-        <div className="commentBox">
+        <div>
           {allReplies.map((reply) => {
-            return <li>{reply.reply}</li>;
+            return <li>{reply.comment}</li>;
           })}
         </div>
       </ul>
