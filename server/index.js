@@ -226,15 +226,39 @@ app.get("/api/winery/:wineId/reviews", async (req, res, next) => {
   }
 });
 
-app.get("/api/wineries/reviews", async (req, res, next) => {
-  console.log("route hit");
+app.get("/api/reviews", async (req, res, next) => {
+  console.log("get wineries route hit");
   try {
     const SQL = `
-    SELECT *
-     FROM somm_reviews 
+    SELECT * FROM somm_reviews 
     `;
     const response = await client.query(SQL);
     res.send(response.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete("/api/reviews/:id", async (req, res, next) => {
+  try {
+    const SQL = `
+    DELETE FROM somm_reviews 
+where id=$1
+    `;
+    const response = await client.query(SQL, [req.params.id]);
+    res.send(response.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/ava_districts", async (req, res, next) => {
+  try {
+    const SQL = `
+    SELECT * FROM ava_district
+    `;
+    const response = await client.query(SQL);
+    res.send(response);
   } catch (error) {
     next(error);
   }
@@ -325,34 +349,34 @@ const init = async () => {
   console.log("connecting to database");
   await client.connect();
   console.log("connected to database");
-  // await createTables();
+  await createTables();
   console.log("created tables");
 
   console.log(await fetchSomms()), console.log(await fetchWineries());
-  // const nam = await createSomm({
-  //   first_name: "nam",
-  //   last_name: "nguyen",
-  //   username: "namnam",
-  //   password: "321",
-  //   email: "nguyen.k.nam@gmail.com",
-  //   is_admin: true,
-  // });
-  // const bek = await createSomm({
-  //   first_name: "bek",
-  //   last_name: "nguyen",
-  //   username: "bek",
-  //   password: "123",
-  //   email: "bekahritter@gmail.com",
-  //   is_admin: true,
-  // });
-  // const dummy = await createSomm({
-  //   first_name: "dummy",
-  //   last_name: "nguyen",
-  //   username: "dummy",
-  //   password: "123",
-  //   email: "dumdum@dumdum.com",
-  //   is_admin: false,
-  // });
+  const nam = await createSomm({
+    first_name: "nam",
+    last_name: "nguyen",
+    username: "namnam",
+    password: "321",
+    email: "nguyen.k.nam@gmail.com",
+    is_admin: true,
+  });
+  const bek = await createSomm({
+    first_name: "bek",
+    last_name: "nguyen",
+    username: "bek",
+    password: "123",
+    email: "bekahritter@gmail.com",
+    is_admin: true,
+  });
+  const dummy = await createSomm({
+    first_name: "dummy",
+    last_name: "nguyen",
+    username: "dummy",
+    password: "123",
+    email: "dumdum@dumdum.com",
+    is_admin: false,
+  });
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => {

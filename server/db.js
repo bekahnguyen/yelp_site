@@ -186,7 +186,7 @@ const createTables = async () => {
     CREATE TABLE somm_reviews(
       id UUID PRIMARY KEY,
       title VARCHAR,
-      rating integer DEFAULT 3,
+      rating float,
       comment text,
       somm_id UUID REFERENCES somm(id) NOT NULL,
       winery_id INTEGER REFERENCES winery(id) NOT NULL,
@@ -261,7 +261,7 @@ const destroyReviews = async ({ id, somm_id }) => {
 
 const fetchSomms = async () => {
   const SQL = `
-    SELECT id, username
+    SELECT id, username, email, first_name, last_name
     FROM somm
   `;
   const response = await client.query(SQL);
