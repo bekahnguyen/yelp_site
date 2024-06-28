@@ -20,14 +20,12 @@ app.use(express.json());
 const path = require("path");
 const { send } = require("process");
 app.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, ".../client/dist/index.html"))
+  res.sendFile(path.join(__dirname, "/client/dist/index.html"))
 );
 
 app.use(
   "/assets",
-  express.static(
-    path.join(__dirname, ".../client/dist/assets/index-84be8b46.js")
-  )
+  express.static(path.join(__dirname, "/client/dist/assets/index-84be8b46.js"))
 );
 
 //npm run build
