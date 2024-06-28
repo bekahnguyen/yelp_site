@@ -276,6 +276,34 @@ app.post(
   }
 );
 
+// app.get(
+//   "/api/wineries/:id/reviews/:somm_review_id/comments",
+//   async (req, res, next) => {
+//     try {
+//       const SQL = `
+//     SELECT * FROM somm_comments
+//     WHERE somm_review_id= $1
+//     `;
+//       const response = await client.query(SQL, [req.params.somm_review_id]);
+//       res.send(response.rows);
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
+
+app.patch("/api/somms/:id", async (req, res, next) => {
+  try {
+    const SQL = `
+    UPDATE somm
+    SET is_admin = true
+    where id=$1
+    RETURNING *`;
+    const response = await client.query(SQL, [req.params.id]);
+    res.sendStatus(200);
+  } catch (error) {}
+});
+
 app.get(
   "/api/wineries/:id/reviews/:reviewId/comments",
   async (req, res, next) => {
@@ -292,9 +320,9 @@ app.get(
   }
 );
 
-app.patch("/api/somms/:id/reviews/:id");
-const SQL = `
-  `;
+// app.patch("/api/somms/:id/reviews/:id");
+// const SQL = `
+//   `;
 
 //for users to delete their own reviews. and for admin to delete reviews, too.
 
@@ -346,23 +374,23 @@ app.delete("/api/reviews/:id", async (req, res, next) => {
 
 //how to get SOMMS to make an itinerary with multiple wineries?
 //needs: winery, time, reservation made (with a checkbox), then a + button to add a new one.
-app.post("/api/somms/:id/favorites", isLoggedIn, async (req, res, next) => {
-  try {
-    if (req.params.id !== req.somm.id) {
-      const error = Error("not authorized");
-      error.status = 401;
-      throw error;
-    }
-    res.status(201).send(
-      await createItinerary({
-        user_id: req.params.id,
-        winery_id: req.body.winery_id,
-      })
-    );
-  } catch (ex) {
-    next(ex);
-  }
-});
+// app.post("/api/somms/:id/favorites", isLoggedIn, async (req, res, next) => {
+//   try {
+//     if (req.params.id !== req.somm.id) {
+//       const error = Error("not authorized");
+//       error.status = 401;
+//       throw error;
+//     }
+//     res.status(201).send(
+//       await createItinerary({
+//         user_id: req.params.id,
+//         winery_id: req.body.winery_id,
+//       })
+//     );
+//   } catch (ex) {
+//     next(ex);
+//   }
+// });
 
 //get/post/update/delete api/user/me/user_favorite
 //get/post/update/delete api/user/me/user_wishlist
@@ -379,9 +407,9 @@ const init = async () => {
   console.log("connecting to database");
   await client.connect();
   console.log("connected to database");
-  // await createTables();
+  await createTables();
   // console.log("created tables");
-  console.log(await fetchSomms()), console.log(await fetchWineries());
+  // console.log(await fetchSomms()), console.log(await fetchWineries());
   // const nam = await createSomm({
   //   first_name: "nam",
   //   last_name: "nguyen",
