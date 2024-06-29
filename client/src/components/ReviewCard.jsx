@@ -55,7 +55,7 @@ export default function ReviewCard({ review, setReviews, somm }) {
   };
 
   return (
-    <div className="reviewBox" key={review.id}>
+    <div key={review.id}>
       {review.date}
       <li> {review.rating}</li>
       <li> {review.title}</li>

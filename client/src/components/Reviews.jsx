@@ -54,7 +54,7 @@ export default function Reviews({ somm }) {
     <>
       <p>Winery Reviews HERE:</p>
       What'd you think, of {wineId.name} {somm.username}?
-      <form id="reviewForm">
+      <form>
         <label htmlFor="Rating">Rating:</label>
         <input
           value={rating}
