@@ -1,7 +1,6 @@
 {
   "name": "ecommerce-site",
   "version": "1.0.0",
-  "homepage": "https://paso-app.onrender.com/",
   "description": "",
   "main": "index.js",
   "scripts": {

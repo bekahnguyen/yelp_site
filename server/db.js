@@ -104,7 +104,6 @@ const findUserByToken = async (token) => {
     WHERE id = $1
   `;
   const response = await client.query(SQL, [id]);
-  console.log("response.rows:", response.rows);
   if (!response.rows.length) {
     const error = Error("not authorized");
     error.status = 401;

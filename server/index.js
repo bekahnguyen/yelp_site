@@ -19,13 +19,14 @@ app.use(express.json());
 //for deployment only
 const path = require("path");
 const { send } = require("process");
+
 app.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, "../dist/index.html"))
+  res.sendFile(path.join(__dirname, "../client/dist/index.html)"))
 );
 
 app.use(
   "/assets",
-  express.static(path.join(__dirname, "../dist/assets/index-84be8b46.js"))
+  express.static(path.join(__dirname, "../client/dist/assets"))
 );
 
 //npm run build
@@ -202,7 +203,6 @@ app.post("/api/wineries/", async (req, res, next) => {
   } catch (ex) {
     next(ex);
   }
-  return response;
 });
 
 //working!!
@@ -411,31 +411,31 @@ const init = async () => {
   await client.connect();
   console.log("connected to database");
   await createTables();
-  // console.log("created tables");
-  // console.log(await fetchSomms()), console.log(await fetchWineries());
-  // const nam = await createSomm({
-  //   first_name: "nam",
-  //   last_name: "nguyen",
-  //   username: "namnam",
-  //   password: "321",
-  //   email: "nguyen.k.nam@gmail.com",
-  //   is_admin: true,
-  // });
-  // const beky = await createSomm({
-  //   first_name: "bek",
-  //   last_name: "nguyen",
-  //   username: "bek",
-  //   password: "123",
-  //   email: "bekahritter@gmail.com",
-  //   is_admin: true,
-  // });
-  // const dummy = await createSomm({
-  //   first_name: "dummy",
-  //   last_name: "nguyen",
-  //   username: "dummy",
-  //   password: "123",
-  //   email: "dummyaccount@gmail.com",
-  // });
+  console.log("created tables");
+  console.log(await fetchSomms()), console.log(await fetchWineries());
+  const nam = await createSomm({
+    first_name: "nam",
+    last_name: "nguyen",
+    username: "namnam",
+    password: "321",
+    email: "nguyen.k.nam@gmail.com",
+    is_admin: true,
+  });
+  const beky = await createSomm({
+    first_name: "bek",
+    last_name: "nguyen",
+    username: "bek",
+    password: "123",
+    email: "bekahritter@gmail.com",
+    is_admin: true,
+  });
+  const dummy = await createSomm({
+    first_name: "dummy",
+    last_name: "nguyen",
+    username: "dummy",
+    password: "123",
+    email: "dummyaccount@gmail.com",
+  });
 
   // console.log(nam);
   // const [wishlist] = await Promise.all([
