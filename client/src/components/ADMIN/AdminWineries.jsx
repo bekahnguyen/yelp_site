@@ -13,6 +13,7 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
   const [reservations_required, setReservations] = useState("");
 
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch(`/api/wineries/`, {
@@ -38,12 +39,7 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
     await setWineries(...wineries, result);
     console.log(wineries);
     alert("successfully created!");
-    navigate("/");
-  };
-
-  const editWinery = async (id) => {
-    console.log(id);
-    const response = await fetch("/api/");
+    navigate("/Account");
   };
 
   const deleteWinery = async (id) => {
@@ -63,9 +59,9 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
         404
       ) : (
         <>
-          <p> hello, admin</p>
-          <form>
-            <label>Add new winery:</label>
+          <h3> hello, {somm.username}</h3>
+          <h5>Add new winery:</h5>
+          <form id="wineForm">
             <input
               type="text"
               placeholder="Winery name"
@@ -108,32 +104,36 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
             />
             <input
               type="text"
-              placeholder="reservations required t/f"
+              placeholder="reservations (t/f)"
               onChange={(e) => setReservations(e.target.value)}
             />
             <button type="submit" onClick={handleSubmit}>
               Submit
             </button>
           </form>
+          <br />
           {wineries.map((winery) => {
             return (
               <>
-                <ul id="adminWinery" key={winery.id}>
-                  <>
-                    <li> {winery.name}</li>
-                    <li> {winery.address}</li>
-                    <li>{winery.hours}</li>
-                    <li> {winery.ava_district_id}</li>
-                    <li> {winery.img}</li>
-                    <li> {winery.website}</li>
-                    <li>{website.reservations_required}</li>
-                    <button onClick={() => editWinery(winery.id)}>Edit</button>
-                    <button onClick={() => deleteWinery(winery.id)}>
-                      {" "}
-                      Delete
-                    </button>
-                  </>
-                </ul>
+                <div id="container">
+                  <ul id="adminWinery" key={winery.id}>
+                    <>
+                      <li> {winery.name}</li>
+                      <li> {winery.address}</li>
+                      <li>{winery.hours}</li>
+                      <li> {winery.ava_district_id}</li>
+                      <li> {winery.img}</li>
+                      <li> {winery.website}</li>
+                      <li>{winery.description}</li>
+                      <li>{website.reservations_required}</li>
+                      <button onClick={() => editWinery(winery)}>Edit</button>
+                      <button onClick={() => deleteWinery(winery.id)}>
+                        {" "}
+                        Delete
+                      </button>
+                    </>
+                  </ul>
+                </div>
                 ;
               </>
             );

@@ -27,7 +27,7 @@ export default function Register({ setSomm, somm }) {
     setSomm(result);
     alert("successfully registered!");
     if (somm) {
-      navigate("/Account");
+      navigate("/Login");
     }
   };
 
@@ -35,7 +35,7 @@ export default function Register({ setSomm, somm }) {
 
   return (
     <>
-      <form>
+      <form id="form">
         <label>
           <input
             required={true}

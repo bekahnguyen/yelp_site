@@ -51,10 +51,10 @@ export default function SingleWinery() {
         </span>
       </h5>
 
-      <div id="container">
-        <div id="wineryDetails">
-          <img id="singleWineryPic" src={selectedWinery.img} />
-          <p>Average Review Score:</p>
+      <div id="wineryDetails">
+        <img id="singleWineryPic" src={selectedWinery.img} />
+        <p>Average Review Score:</p>
+        <section className="wineryText">
           <p>Description: {selectedWinery.description}</p>
           <p>Hours: {selectedWinery.hours}</p>
           <p>Website: {selectedWinery.website}</p>
@@ -65,7 +65,7 @@ export default function SingleWinery() {
           ) : null}
           <button onClick={leaveReview}>Reviews</button>
           <button onClick={handleClick}>Back.</button>
-        </div>
+        </section>
       </div>
     </>
   );

@@ -132,12 +132,24 @@ ul {
 }
 
 #wineryDetails {
-  margin-top: 10vh;
   border-radius: 10px;
+  border: 1px solid rgb(68, 6, 6);
+  box-shadow: 5px 5px 5px hsla(0%, 0%, 0%, 0.1);
+  padding: 20px;
   width: 50vh;
-  text-align: left;
+  text-align: center;
+  display: inline-block;
+  justify-self: center;
 }
 
+#wineForm {
+  input[type="text"] {
+    width: 10%;
+    padding: 12px 10px;
+    margin: 2px 0;
+    box-sizing: border-box;
+  }
+}
 .wineCard {
   margin-top: 10vh;
   border-radius: 10px;
@@ -152,9 +164,10 @@ ul {
 }
 
 #singleWineryPic {
+  max-width: 60%;
+  height: auto;
   height: 50%;
-  width: 50%;
-  margin: 5%;
+  margin-bottom: 10px;
 }
 .welcome {
   background-color: teal;

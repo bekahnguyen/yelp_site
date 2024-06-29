@@ -59,11 +59,8 @@ export default function Login({ somm, setSomm }) {
 
   return (
     <>
-      {somm.id ? (
-        <button onClick={logout}>Logout {somm.username}</button>
-      ) : (
-        <h2> Welcome Back! Sign in Below.</h2>
-      )}
+      <h2> Please Sign in Below.</h2>
+
       <form onSubmit={handleSubmit} className="loginForm">
         <input
           type="text"
