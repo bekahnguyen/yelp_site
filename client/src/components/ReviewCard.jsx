@@ -48,7 +48,12 @@ export default function ReviewCard({ review, setReviews, somm }) {
     });
     if (response.ok) {
       alert("Successfully deleted review");
-      setReviews(...review);
+      setReviews((currentReviews) => {
+        return currentReviews.filter((review) => {
+          return review.id != id;
+        });
+      });
+      // setRevi...review);
     } else {
       console.log(response.status);
     }

@@ -8,7 +8,7 @@ export default function Reviews({ somm }) {
   const { wineId } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(3);
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
   const token = window.localStorage.getItem("token");
@@ -29,9 +29,11 @@ export default function Reviews({ somm }) {
     navigate(`/${wineId}`);
   };
 
-  const averageRating = reviews.map((review) => {
-    console.log(review.rating);
+  let totalScore;
+  const averageRating = reviews.forEach((review) => {
+    totalScore += review.rating;
   });
+  console.log(totalScore);
 
   const seesReview = async () => {
     try {
@@ -63,7 +65,7 @@ export default function Reviews({ somm }) {
           name="Rating"
           min="0"
           max="5"
-          default="5"
+          default="3"
           onChange={(event) => setRating(Number(event.target.value))}
         />
 
