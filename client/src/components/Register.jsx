@@ -35,7 +35,7 @@ export default function Register({ setSomm, somm }) {
 
   return (
     <>
-      <form id="form">
+      <form>
         <label>
           <input
             required={true}
