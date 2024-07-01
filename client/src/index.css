@@ -143,12 +143,10 @@ ul {
 }
 
 #wineForm {
-  input[type="text"] {
-    width: 10%;
-    padding: 12px 10px;
-    margin: 2px 0;
-    box-sizing: border-box;
-  }
+  width: 10%;
+  padding: 12px 10px;
+  margin: 2px 0;
+  box-sizing: border-box;
 }
 .wineCard {
   margin-top: 10vh;
@@ -164,9 +162,8 @@ ul {
 }
 
 #singleWineryPic {
-  max-width: 60%;
+  max-width: 80%;
   height: auto;
-  height: 50%;
   margin-bottom: 10px;
 }
 .welcome {

@@ -63,7 +63,7 @@ export default function SingleWinery() {
           {selectedWinery.reservations_required ? (
             <h6>Reservations required.</h6>
           ) : null}
-          <button onClick={leaveReview}>Reviews</button>
+          <button onClick={leaveReview}>Notes</button>
           <button onClick={handleClick}>Back.</button>
         </section>
       </div>
