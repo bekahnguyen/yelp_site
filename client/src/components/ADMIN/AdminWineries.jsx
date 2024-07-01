@@ -36,7 +36,7 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
     console.log(response);
     const result = await response.json();
     console.log(result);
-    await setWineries(...wineries, result);
+    await setWineries([...wineries, result]);
     console.log(wineries);
     alert("successfully created!");
     navigate("/Account");
@@ -48,8 +48,14 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
       method: "DELETE",
     });
     if (response.ok) {
+      setWineries((currentWineries) => {
+        return currentWineries.filter((winery) => {
+          return winery.id != id;
+        });
+      });
       console.log(response.status);
-      setWineries(...wineries);
+
+      //COPY WINERIES() MAKE COPY OF ARRAY) REMOVE WINERY BY ID. SET WINERIES(COPY OF ARRAY)
     }
   };
 
