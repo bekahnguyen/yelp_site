@@ -26,7 +26,7 @@ export default function AllUsers({ somm }) {
   };
 
   const back = () => {
-    navigate("/AdminHome");
+    navigate("/");
   };
 
   useEffect(() => {

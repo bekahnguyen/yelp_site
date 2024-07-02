@@ -2,10 +2,6 @@ import { useState } from "react";
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 
 //show edit or delete button on regular customer page, conditionally render if "is admin?"
 //or
@@ -26,33 +22,43 @@ export default function Navigations({ somm, setSomm }) {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Container>
-          <Navbar.Brand href="#home">Paso</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/Account">Account</Nav.Link>
-              {!somm ? (
-                <NavDropdown title="ADMIN" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="/AllUsers">Somms</NavDropdown.Item>
-                  <NavDropdown.Item href="/AdminWineries">
-                    Wineries
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="/AdminReviews">
-                    Reviews
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">
-                    Separated link
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : null}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <nav>
+        <div id="navbar">
+          <ul>
+            <li>
+              {" "}
+              <a href="/">Search </a>
+            </li>
+            <li>
+              {" "}
+              <a href="/Account">Account</a>
+            </li>
+
+            {somm.is_admin ? (
+              <>
+                {" "}
+                <li>
+                  <select
+                    id="navbar"
+                    onChange={(event) => handleSubmit(event.target.value)}
+                    defaultValue=""
+                  >
+                    <option value="disabled">ADMIN:</option>
+                    <option value="/AllUsers">Users</option>
+                    <option value="/AdminReviews">Reviews</option>
+                    <option value="/AdminWineries">Wineries</option>
+                  </select>
+                </li>
+              </>
+            ) : null}
+            <li>
+              <button id="navButton" onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </>
   );
 }

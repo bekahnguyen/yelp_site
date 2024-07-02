@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 export default function AdminWineries({ somm, setWineries, wineries }) {
   const [name, setWineryName] = useState("");
@@ -13,6 +15,10 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
   const [reservations_required, setReservations] = useState("");
 
   const navigate = useNavigate();
+
+  const handleEdit = (winery) => {
+    <dialog>Hi, you want to edit {winery} ? </dialog>;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -118,21 +124,26 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
             </button>
           </form>
           <br />
+          <h3> Current Wineries Displayed:</h3>
           {wineries.map((winery) => {
             return (
               <>
-                <div id="container">
+                <div>
                   <ul id="adminWinery" key={winery.id}>
                     <>
-                      <li> {winery.name}</li>
-                      <li> {winery.address}</li>
-                      <li>{winery.hours}</li>
-                      <li> {winery.ava_district_id}</li>
-                      <li> {winery.img}</li>
-                      <li> {winery.website}</li>
-                      <li>{winery.description}</li>
-                      <li>{website.reservations_required}</li>
-                      <button onClick={() => editWinery(winery)}>Edit</button>
+                      <li>Winery Name: {winery.name}</li>
+                      <li> Winery Address:{winery.address}</li>
+                      <li>Winery Hours: {winery.hours}</li>
+                      <li> Winery District Id:{winery.ava_district_id}</li>
+                      <li> Winery IMG: {winery.img}</li>
+                      <li> Winery Website:{winery.website}</li>
+                      <li>Winery Description:{winery.description}</li>
+                      <li>
+                        Winery Reservations:{website.reservations_required}
+                      </li>
+                      <button onClick={() => navigate("/EditWinery")}>
+                        Edit
+                      </button>
                       <button onClick={() => deleteWinery(winery.id)}>
                         {" "}
                         Delete

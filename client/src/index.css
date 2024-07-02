@@ -13,6 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  padding: 0;
+  margin: 0;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -62,7 +67,7 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #fcf7f9;
   }
 }
 
@@ -78,6 +83,7 @@ button:focus-visible {
 
 #adminWinery {
   border: 2px solid black;
+  width: 100vh;
 }
 
 .contain {
@@ -168,4 +174,35 @@ ul {
 }
 .welcome {
   background-color: teal;
+}
+
+#navbar ul {
+  margin: 0;
+  padding: 5px;
+  list-style-type: none;
+  text-align: left;
+  background-color: #000;
+}
+
+#navbar ul li {
+  display: inline;
+}
+
+#navButton {
+  text-decoration: none;
+  padding: 0.2em 1em;
+  color: #fff;
+  background-color: #000;
+}
+
+#navbar ul li a {
+  text-decoration: none;
+  padding: 0.2em 1em;
+  color: #fff;
+  background-color: #000;
+}
+
+#navbar ul li a:hover {
+  color: #000;
+  background-color: #fff;
 }

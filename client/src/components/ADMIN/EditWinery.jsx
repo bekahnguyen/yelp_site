@@ -1,5 +1,6 @@
 export default function EditWinery(winery) {
   console.log(winery);
+  console.log(winery);
   return (
     <>
       <form>
