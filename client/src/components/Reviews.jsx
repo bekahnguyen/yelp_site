@@ -48,40 +48,42 @@ export default function Reviews({ somm }) {
 
   return (
     <>
-      <p>Winery Reviews HERE:</p>
-      What'd you think, of {wineId.name} {somm.username}?
-      <form>
-        <label htmlFor="Rating">Rating:</label>
-        <input
-          value={rating}
-          type="range"
-          id="Rating"
-          name="Rating"
-          min="0"
-          max="5"
-          default="3"
-          onChange={(event) => setRating(Number(event.target.value))}
-        />
+      <h1>Thoughts:</h1>
+      <div id="reviewForm">
+        <form>
+          <label htmlFor="Rating">Rating:</label>
+          <input
+            value={rating}
+            type="range"
+            id="Rating"
+            name="Rating"
+            min="0"
+            max="5"
+            default="3"
+            onChange={(event) => setRating(Number(event.target.value))}
+          />
 
-        <label htmlFor="Title">Title:</label>
-        <input
-          value={title}
-          placeholder="Title"
-          onChange={(event) => setTitle(event.target.value)}
-        />
-        <label htmlFor="Comments"> Comments: </label>
-        <input
-          value={comment}
-          onChange={(event) => setComment(event.target.value)}
-          type="textarea"
-          id="Comment"
-          name="Comment"
-        />
+          <label htmlFor="Title"></label>
+          <input
+            value={title}
+            placeholder="Title"
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <label htmlFor="Comments"></label>
+          <input
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+            type="textarea"
+            placeholder="Comments"
+            id="Comment"
+            name="Comment"
+          />
 
-        <button type="submit" onClick={submitReview}>
-          Submit
-        </button>
-      </form>
+          <button type="submit" onClick={submitReview}>
+            Submit
+          </button>
+        </form>
+      </div>
       <ul id="reviews">
         {reviews.map((review) => (
           <ReviewCard
@@ -92,6 +94,13 @@ export default function Reviews({ somm }) {
           />
         ))}
       </ul>
+      <button
+        onClick={() => {
+          navigate(`/${wineId}`);
+        }}
+      >
+        Back
+      </button>
     </>
   );
 }
