@@ -91,9 +91,10 @@ button:focus-visible {
   flex-wrap: wrap;
 }
 
-.reviewBox {
-  border: 2px solid rgb(192, 62, 218);
-  margin-bottom: 3px;
+#reviews {
+  border: 1vh solid rgb(144, 4, 76);
+  margin-bottom: 3vh;
+  padding: 2vh;
 }
 
 #userList {
@@ -138,11 +139,11 @@ ul {
 }
 
 #wineryDetails {
-  border-radius: 10px;
-  border: 1px solid rgb(68, 6, 6);
+  border-radius: 1vh;
+  border: 1vh solid rgb(68, 6, 6);
   box-shadow: 5px 5px 5px hsla(0%, 0%, 0%, 0.1);
-  padding: 20px;
-  width: 50vh;
+  padding: 10vh;
+  width: 100vh;
   text-align: center;
   display: inline-block;
   justify-self: center;
@@ -180,7 +181,7 @@ ul {
   margin: 0;
   padding: 5px;
   list-style-type: none;
-  text-align: left;
+  text-align: center;
   background-color: #000;
 }
 
@@ -188,14 +189,16 @@ ul {
   display: inline;
 }
 
-#navButton {
+/* #navButton{
   text-decoration: none;
   padding: 0.2em 1em;
   color: #fff;
   background-color: #000;
-}
+} */
 
-#navbar ul li a {
+#navbar ul li a,
+#navButton,
+#navbarAdmin {
   text-decoration: none;
   padding: 0.2em 1em;
   color: #fff;
@@ -205,4 +208,11 @@ ul {
 #navbar ul li a:hover {
   color: #000;
   background-color: #fff;
+}
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
 }

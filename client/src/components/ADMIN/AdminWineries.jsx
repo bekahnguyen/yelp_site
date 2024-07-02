@@ -131,19 +131,15 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
                 <div>
                   <ul id="adminWinery" key={winery.id}>
                     <>
-                      <li>Winery Name: {winery.name}</li>
-                      <li> Winery Address:{winery.address}</li>
-                      <li>Winery Hours: {winery.hours}</li>
-                      <li> Winery District Id:{winery.ava_district_id}</li>
-                      <li> Winery IMG: {winery.img}</li>
-                      <li> Winery Website:{winery.website}</li>
-                      <li>Winery Description:{winery.description}</li>
-                      <li>
-                        Winery Reservations:{website.reservations_required}
-                      </li>
-                      <button onClick={() => navigate("/EditWinery")}>
-                        Edit
-                      </button>
+                      <li>Name: {winery.name}</li>
+                      <li> Address:{winery.address}</li>
+                      <li>Hours: {winery.hours}</li>
+                      <li> District Id:{winery.ava_district_id}</li>
+                      <li> IMG: {winery.img}</li>
+                      <li> Website:{winery.website}</li>
+                      <li>Description:{winery.description}</li>
+                      <li>Reservations:{website.reservations_required}</li>
+                      <button onClick={() => handleEdit(winery)}>Edit</button>
                       <button onClick={() => deleteWinery(winery.id)}>
                         {" "}
                         Delete

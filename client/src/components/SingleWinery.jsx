@@ -43,15 +43,10 @@ export default function SingleWinery() {
   //<button onClick={handleCheckOut}>Add to your itinerary.</button>
   return (
     <>
-      <h2> {selectedWinery.name}</h2>
-      <h5>
-        <span>
-          {" "}
-          <input type="checkbox" /> Visited{" "}
-        </span>
-      </h5>
+      <h5></h5>
 
       <div id="wineryDetails">
+        <h2> {selectedWinery.name}</h2>{" "}
         <img id="singleWineryPic" src={selectedWinery.img} />
         <p>Average Review Score:</p>
         <section className="wineryText">

@@ -39,7 +39,7 @@ export default function Navigations({ somm, setSomm }) {
                 {" "}
                 <li>
                   <select
-                    id="navbar"
+                    id="navbarAdmin"
                     onChange={(event) => handleSubmit(event.target.value)}
                     defaultValue=""
                   >
