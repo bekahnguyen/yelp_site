@@ -71,8 +71,8 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
         404
       ) : (
         <>
-          <h3> hello, {somm.username}</h3>
-          <h5>Add new winery:</h5>
+          <h3 id="adminPage"> hello, {somm.username}</h3>
+          <h5 id="adminPage">Add new winery:</h5>
           <form id="wineForm">
             <input
               type="text"
@@ -124,7 +124,7 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
             </button>
           </form>
           <br />
-          <h3> Current Wineries Displayed:</h3>
+          <h3 id="adminPage"> Current Wineries Displayed:</h3>
           {wineries.map((winery) => {
             return (
               <>

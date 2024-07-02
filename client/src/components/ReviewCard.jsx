@@ -60,33 +60,34 @@ export default function ReviewCard({ review, setReviews, somm }) {
   };
 
   return (
-    <div key={review.id}>
-      {review.date}
-      <li> {review.rating}</li>
-      <li> {review.title}</li>
-      <li>{review.comment}</li>
+    <>
+      <div key={review.id}>
+        {review.date}
+        <li> {review.rating}</li>
+        <li> {review.title}</li>
+        <li>{review.comment}</li>
+        <p>Posted by:{review.somm_id}</p>
+        <input
+          type="text"
+          value={comment}
+          onChange={(event) => setComment(event.target.value)}
+        />
+        {somm.id === review.somm_id ? (
+          <button onClick={() => handleDelete(review.id)}>Delete Review</button>
+        ) : null}
 
-      <p>Posted by:{review.somm_id}</p>
-      <input
-        type="text"
-        value={comment}
-        onChange={(event) => setComment(event.target.value)}
-      />
-      {somm.id === review.somm_id ? (
-        <button onClick={() => handleDelete(review.id)}>Delete Review</button>
-      ) : null}
-
-      {somm.id != review.somm_id ? (
-        <button onClick={() => submitComment(review.id)}>Comment</button>
-      ) : null}
-      <button>Heart</button>
-      <ul>
-        <div>
-          {allReplies.map((reply) => {
-            return <li>{reply.comment}</li>;
-          })}
-        </div>
-      </ul>
-    </div>
+        {somm.id != review.somm_id ? (
+          <button onClick={() => submitComment(review.id)}>Comment</button>
+        ) : null}
+        <button>Heart</button>
+        <ul>
+          <div>
+            {allReplies.map((reply) => {
+              return <li>{reply.comment}</li>;
+            })}
+          </div>
+        </ul>
+      </div>
+    </>
   );
 }

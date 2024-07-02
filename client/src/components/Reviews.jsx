@@ -48,7 +48,7 @@ export default function Reviews({ somm }) {
 
   return (
     <>
-      <h1>Thoughts:</h1>
+      <h1 id="reviewPage">Thoughts:</h1>
       <div id="reviewForm">
         <form>
           <label htmlFor="Rating">Rating:</label>
@@ -84,16 +84,19 @@ export default function Reviews({ somm }) {
           </button>
         </form>
       </div>
-      <ul id="reviews">
-        {reviews.map((review) => (
-          <ReviewCard
-            review={review}
-            setReviews={setReviews}
-            somm={somm}
-            key={review.id}
-          />
-        ))}
-      </ul>
+      <h2 id="reviewPage">Reviews:</h2>
+      <div id="reviewPage">
+        <ul id="reviews">
+          {reviews.map((review) => (
+            <ReviewCard
+              review={review}
+              setReviews={setReviews}
+              somm={somm}
+              key={review.id}
+            />
+          ))}
+        </ul>
+      </div>
       <button
         onClick={() => {
           navigate(`/${wineId}`);
