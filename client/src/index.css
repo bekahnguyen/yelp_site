@@ -146,8 +146,14 @@ ul {
   padding: 2%;
   width: 100%;
   text-align: center;
-  display: inline-block;
+  display: flex;
   justify-self: center;
+  justify-content: space-between;
+}
+
+.wineryText {
+  font-size: larger;
+  text-align: left;
 }
 
 #wineForm {
@@ -171,6 +177,25 @@ ul {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+#singleContainer {
+  display: flex;
+  flex-direction: row wrap;
+  width: 100%;
+  background-color: #fff;
+  margin-top: 2%;
+  box-shadow: 0% 4% 8% rgba(0, 0, 0, 0.1);
+  border-radius: 8%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#wineHeading {
+  text-align: left;
+  padding: 2%;
 }
 .winePic {
   height: 50%;
@@ -179,7 +204,7 @@ ul {
 }
 
 #singleWineryPic {
-  max-width: 80%;
+  max-width: 50%;
   height: auto;
   margin-bottom: 10px;
 }

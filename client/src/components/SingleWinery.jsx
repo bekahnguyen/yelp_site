@@ -73,22 +73,20 @@ export default function SingleWinery() {
   //<button onClick={handleCheckOut}>Add to your itinerary.</button>
   return (
     <>
-      <h5></h5>
-
-      <div id="wineryDetails">
-        <h2> {selectedWinery.name}</h2>{" "}
+      <h1 id="wineHeading"> {selectedWinery.name}</h1>{" "}
+      <div id="singleContainer">
         <img id="singleWineryPic" src={selectedWinery.img} />
-        <p>
-          Average Rating:
-          <p
-            onClick={() => {
-              navigate(`/${wineId}/Reviews`);
-            }}
-          >
-            {averageScore}
-          </p>{" "}
-        </p>
         <section className="wineryText">
+          <p>
+            Average Rating:
+            <p
+              onClick={() => {
+                navigate(`/${wineId}/Reviews`);
+              }}
+            >
+              {averageScore}
+            </p>{" "}
+          </p>
           <p>Description: {selectedWinery.description}</p>
           <p>Hours: {selectedWinery.hours}</p>
           <p>Website: {selectedWinery.website}</p>
