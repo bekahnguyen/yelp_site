@@ -139,11 +139,11 @@ ul {
 }
 
 #wineryDetails {
-  border-radius: 1vh;
-  border: 1vh solid rgb(68, 6, 6);
-  box-shadow: 5px 5px 5px hsla(0%, 0%, 0%, 0.1);
-  padding: 10vh;
-  width: 100vh;
+  border-radius: 1%;
+  border: 1% solid rgb(68, 6, 6);
+  box-shadow: 5% 5% 5% hsla(0%, 0%, 0%, 0.1);
+  padding: 2%;
+  width: 100%;
   text-align: center;
   display: inline-block;
   justify-self: center;
