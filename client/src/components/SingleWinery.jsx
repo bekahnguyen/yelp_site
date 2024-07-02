@@ -1,9 +1,39 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { seesReview } from "../API/api";
 
 export default function SingleWinery() {
   const { wineId } = useParams();
   const [selectedWinery, setSelectedWinery] = useState([]);
+  const [reviews, setReviews] = useState([]);
+
+  // Added see review function to API page to import,
+  //so I don't have to pass reviews around between componants (like I did with wineries)
+  useEffect(() => {
+    const getReviews = async () => {
+      const review = await seesReview(`${wineId}`);
+      setReviews(review);
+    };
+    getReviews();
+  }, []);
+
+  let totalScore = [];
+  reviews.map((review) => {
+    totalScore.push(review.rating);
+    console.log(totalScore);
+  });
+
+  let total;
+  if (reviews.length >= 1) {
+    total = totalScore.reduce((a, b) => {
+      return a + b;
+    });
+  }
+  console.log(total);
+  console.log(reviews.length);
+
+  let averageScore = total / reviews.length;
+  console.log(averageScore);
 
   //why is it showing up at the bottom of the page?
   const navigate = useNavigate();
@@ -48,7 +78,16 @@ export default function SingleWinery() {
       <div id="wineryDetails">
         <h2> {selectedWinery.name}</h2>{" "}
         <img id="singleWineryPic" src={selectedWinery.img} />
-        <p>Average Review Score:</p>
+        <p>
+          Average Rating:
+          <p
+            onClick={() => {
+              navigate(`/${wineId}/Reviews`);
+            }}
+          >
+            {averageScore}
+          </p>{" "}
+        </p>
         <section className="wineryText">
           <p>Description: {selectedWinery.description}</p>
           <p>Hours: {selectedWinery.hours}</p>

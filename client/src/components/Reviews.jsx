@@ -29,13 +29,7 @@ export default function Reviews({ somm }) {
     navigate(`/${wineId}`);
   };
 
-  let totalScore;
-  const averageRating = reviews.forEach((review) => {
-    totalScore += review.rating;
-  });
-  console.log(totalScore);
-
-  const seesReview = async () => {
+  async function seesReview() {
     try {
       const response = await fetch(`/api/winery/${wineId}/reviews`);
       let result = await response.json();
@@ -46,7 +40,7 @@ export default function Reviews({ somm }) {
       console.log("Oh no, couldn't get reviews");
       return reviews;
     }
-  };
+  }
 
   useEffect(() => {
     seesReview();
