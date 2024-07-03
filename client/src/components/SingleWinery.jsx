@@ -81,7 +81,7 @@ export default function SingleWinery() {
           <Card.Header>
             Featuring<h5>{selectedWinery.name}</h5>{" "}
           </Card.Header>
-          <Card.Img variant="top" src={selectedWinery.img} />
+          <Card.Img variant="top" id="winePic" src={selectedWinery.img} />
           <Card.Body>
             <Card.Title>Average Rating: {averageScore}</Card.Title>
             <Card.Text>
