@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Wineries({ wineries, setWineries }) {
+  const navigate = useNavigate();
   useEffect(() => {
     const getWineryList = async () => {
       const wineryList = await getWineries();
@@ -28,9 +30,16 @@ export default function Wineries({ wineries, setWineries }) {
         {wineries.map((winery) => (
           <div key={winery.id} className="wineCard">
             <h4>{winery.name}</h4>
-            <img className="winePic" src={winery.img} alt={winery.name} />
+            <img
+              title="Visit!"
+              className="winePic"
+              src={winery.img}
+              alt={winery.name}
+              onClick={() => {
+                navigate(`/${winery.id}`);
+              }}
+            />
             <br />
-            <Link to={`/${winery.id}`}>More Details!</Link>
           </div>
         ))}
       </div>

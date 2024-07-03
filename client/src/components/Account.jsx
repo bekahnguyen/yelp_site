@@ -69,7 +69,7 @@ export default function Account({ somm }) {
   return (
     <>
       {!somm.id ? (
-        <h5>
+        <h5 id="accountPage">
           <Link to="/Login">Sign In </Link>or{" "}
           <Link to="/Register">Create an Account </Link> Today!
         </h5>

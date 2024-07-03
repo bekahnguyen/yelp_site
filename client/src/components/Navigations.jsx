@@ -29,9 +29,20 @@ export default function Navigations({ somm, setSomm }) {
               {" "}
               <a href="/">Search </a>
             </li>
-            <li>
+            <li
+              onClick={() => {
+                navigate(`/Account`);
+              }}
+            >
               {" "}
-              <a href="/Account">Account</a>
+              Account
+            </li>
+            <li
+              onClick={() => {
+                navigate(`/Login`);
+              }}
+            >
+              Login
             </li>
 
             {somm.is_admin ? (

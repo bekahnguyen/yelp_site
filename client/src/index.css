@@ -180,6 +180,10 @@ ul {
   justify-content: center;
 }
 
+#accountPage {
+  padding: 4%;
+  margin-left: 2%;
+}
 #singleContainer {
   display: flex;
   flex-direction: row wrap;
