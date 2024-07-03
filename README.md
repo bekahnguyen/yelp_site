@@ -1,3 +1,7 @@
+#
+An app designed for Paso and it's many many wineries using React, Javascript, PSQL, Node, and Express.
+
+
 # Setup
 
 - create database
@@ -42,4 +46,3 @@ npm install && cd client && npm run build
 node server/index.js
 
 
-An app designed for Paso and it's many many wineries using React, Javascript, PSQL, Node, and Express.
