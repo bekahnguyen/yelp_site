@@ -74,7 +74,7 @@ export default function SingleWinery() {
   return (
     <>
       <h1 id="wineHeading"> {selectedWinery.name}</h1>{" "}
-      <div id="singleContainer">
+      <div id="container">
         <img id="singleWineryPic" src={selectedWinery.img} />
         <section className="wineryText">
           <p>

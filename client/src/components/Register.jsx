@@ -35,50 +35,56 @@ export default function Register({ setSomm, somm }) {
 
   return (
     <>
-      <form id="signupForm">
-        <label>
-          <input
-            required={true}
-            type="text"
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="First Name"
-          />
-        </label>
-        <label>
-          <input
-            required={true}
-            type="text"
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Last Name"
-          />
-        </label>
-        <label>
-          <input
-            required={true}
-            type="username"
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-          />
-        </label>
-        <label>
-          <input
-            required={true}
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-          />
-        </label>
-        <label>
-          <input
-            required={true}
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-          />
-        </label>
+      <div id="containerR">
+        <form id="registerForm">
+          <p>Please fill in this form to create an account.</p>
+          <label>
+            {" "}
+            <input
+              required={true}
+              type="text"
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First Name"
+            />
+          </label>
+          <label>
+            <input
+              required={true}
+              type="text"
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last Name"
+            />
+          </label>
+          <label>
+            <input
+              required={true}
+              type="username"
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+            />
+          </label>
+          <label>
+            <input
+              required={true}
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+            />
+          </label>
+          <label>
+            <input
+              required={true}
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+            />
+          </label>
 
-        <button onClick={handleSubmit}>Submit</button>
-      </form>
+          <button id="registerbtn" onClick={handleSubmit}>
+            Submit
+          </button>
+        </form>
+      </div>
     </>
   );
 }

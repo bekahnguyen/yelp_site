@@ -25,26 +25,32 @@ export default function Navigations({ somm, setSomm }) {
       <nav>
         <div id="navbar">
           <ul>
-            <li>
+            <li
+              onClick={() => {
+                navigate(`/`);
+              }}
+            >
               {" "}
               <a href="/">Search </a>
-            </li>
-            <li
-              onClick={() => {
-                navigate(`/Account`);
-              }}
-            >
-              {" "}
-              Account
-            </li>
-            <li
-              onClick={() => {
-                navigate(`/Login`);
-              }}
-            >
-              Login
-            </li>
-
+            </li>{" "}
+            {somm.id ? (
+              <li
+                onClick={() => {
+                  navigate(`/Account`);
+                }}
+              >
+                {" "}
+                Account
+              </li>
+            ) : (
+              <li
+                onClick={() => {
+                  navigate(`/Login`);
+                }}
+              >
+                Login
+              </li>
+            )}
             {somm.is_admin ? (
               <>
                 {" "}

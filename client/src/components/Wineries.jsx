@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function Wineries({ wineries, setWineries }) {
   const navigate = useNavigate();
+  // const [filteredWineries, setFilteredWineries] = useState([]);
+
   useEffect(() => {
     const getWineryList = async () => {
       const wineryList = await getWineries();
@@ -24,12 +26,20 @@ export default function Wineries({ wineries, setWineries }) {
     }
   };
 
+  // const onInputChange = (event) => {
+  //   const searchTerm = event.target.value.toLowerCase();
+  //   const filter = wineries.filter((winery) => {
+  //     winery.name.toLowerCase().includes(searchTerm);
+  //   });
+  //   setFilteredWineries(filter);
+  // };
+
   return (
     <>
-      <div id="container">
+      <div id="singleContainer">
         {wineries.map((winery) => (
           <div key={winery.id} className="wineCard">
-            <h4>{winery.name}</h4>
+            <h4 id="wineCard">{winery.name}</h4>
             <img
               title="Visit!"
               className="winePic"

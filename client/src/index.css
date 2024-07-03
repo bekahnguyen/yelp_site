@@ -82,11 +82,6 @@ button:focus-visible {
   margin-left: 1%;
 }
 
-.contain {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 #reviews {
   border: 1vh solid rgb(144, 4, 76);
 }
@@ -149,11 +144,11 @@ ul {
   display: flex;
   justify-self: center;
   justify-content: space-between;
+  -ms-flex-align: baseline;
 }
 
 .wineryText {
   font-size: larger;
-  text-align: left;
 }
 
 #wineForm {
@@ -161,23 +156,29 @@ ul {
   margin-left: 2%;
   margin-left: 1%;
   display: flex;
+  border: 2% solid black;
 }
 
 #adminPage {
   padding: 1%;
   margin-left: 2%;
 }
+
+.wineCard:hover {
+  background-color: #213547;
+  color: white;
+}
 .wineCard {
-  margin-top: 5%;
-  width: 30%;
+  width: 20%;
+  margin-top: 2%;
   text-align: center;
+  padding: 1%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
 #accountPage {
@@ -193,27 +194,66 @@ ul {
   box-shadow: 0% 4% 8% rgba(0, 0, 0, 0.1);
   border-radius: 8%;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
 }
 
 #wineHeading {
   text-align: left;
-  padding: 2%;
+  padding: 1%;
 }
 .winePic {
   height: 50%;
   width: 50%;
-  margin: 5%;
 }
 
 #singleWineryPic {
-  max-width: 50%;
-  height: auto;
-  margin-bottom: 10px;
+  height: 40%;
+  width: 40%;
 }
 .welcome {
   background-color: teal;
+}
+
+.containerR {
+  padding: 16px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+#registerForm {
+  width: 100%;
+  padding: 15px;
+  margin: 2% 0% 10% 0%;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+#registerbtn {
+  background-color: #34052e;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+#registerbtn:hover {
+  opacity: 1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
 }
 
 #navbar ul {
@@ -235,7 +275,7 @@ ul {
   background-color: #000;
 } */
 
-#navbar ul li a,
+#navbar ul li,
 #navButton,
 #navbarAdmin {
   text-decoration: none;
@@ -244,7 +284,7 @@ ul {
   background-color: #000;
 }
 
-#navbar ul li a:hover {
+#navbar ul li:hover {
   color: #000;
   background-color: #fff;
 }
@@ -254,4 +294,17 @@ input {
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
+}
+
+/* .wineCard {
+  margin-top: 2%;
+  background-color: white;
+  border-radius: 2%;
+  overflow: hidden;
+  max-width: 25%;
+} */
+
+.wineCard:hover {
+  transform: translateY(-2%);
+  box-shadow: 0 12% 16% rgba(0, 0, 0, 0.2);
 }
