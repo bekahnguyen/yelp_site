@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 export default function Wineries({ wineries, setWineries }) {
   const navigate = useNavigate();
@@ -36,24 +38,28 @@ export default function Wineries({ wineries, setWineries }) {
 
   return (
     <>
-      <div class="flex-container">
+      <div className="flex-container">
         {wineries.map((winery) => (
-          <div
-            key={winery.id}
-            className="wineCard"
-            onClick={() => {
-              navigate(`/${winery.id}`);
-            }}
-          >
-            <h4 id="wineCard">{winery.name}</h4>
-            <img
-              title="Visit!"
-              className="winePic"
+          <Card style={{ width: "18rem" }}>
+            <Card.Img
+              variant="top"
               src={winery.img}
               alt={winery.name}
+              id="winePic"
             />
-            <br />
-          </div>
+            <Card.Body>
+              <Card.Title>{winery.name}</Card.Title>
+              <Card.Text>{winery.description}</Card.Text>
+              <Button
+                variant="light"
+                onClick={() => {
+                  navigate(`/${winery.id}`);
+                }}
+              >
+                Visit{" "}
+              </Button>
+            </Card.Body>
+          </Card>
         ))}
       </div>
     </>

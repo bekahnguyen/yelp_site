@@ -189,9 +189,10 @@ ul {
   display: flex;
   flex-direction: row;
   flex-flow: row wrap;
-  align-items: center;
-  align-items: stretch;
-  align-items: baseline;
+  margin-top: 3%;
+  justify-content:center;
+
+
 }
 
 #singleContainer {
@@ -199,7 +200,7 @@ ul {
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: space-between;
+
 }
 
 #accountPage {
@@ -305,15 +306,15 @@ input {
   box-sizing: border-box;
 }
 
-.wineCard {
+/* .wineCard {
   margin-top: 2%;
   background-color: white;
   border-radius: 2%;
   overflow: hidden;
   max-width: 25%;
-}
+} */
 
-.wineCard:hover {
+.flex-container {
   transform: translateY(-2%);
   box-shadow: 0 12% 16% rgba(0, 0, 0, 0.2);
 }

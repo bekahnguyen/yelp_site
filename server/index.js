@@ -411,32 +411,32 @@ const init = async () => {
   console.log("connecting to database");
   await client.connect();
   console.log("connected to database");
-  // await createTables();
+  await createTables();
   console.log("created tables");
   console.log(await fetchSomms()), console.log(await fetchWineries());
-  // const nam = await createSomm({
-  //   first_name: "nam",
-  //   last_name: "nguyen",
-  //   username: "namnam",
-  //   password: "321",
-  //   email: "nguyen.k.nam@gmail.com",
-  //   is_admin: true,
-  // });
-  // const beky = await createSomm({
-  //   first_name: "bek",
-  //   last_name: "nguyen",
-  //   username: "bek",
-  //   password: "123",
-  //   email: "bekahritter@gmail.com",
-  //   is_admin: true,
-  // });
-  // const dummy = await createSomm({
-  //   first_name: "dummy",
-  //   last_name: "nguyen",
-  //   username: "dummy",
-  //   password: "123",
-  //   email: "dummyaccount@gmail.com",
-  // });
+  const nam = await createSomm({
+    first_name: "nam",
+    last_name: "nguyen",
+    username: "namnam",
+    password: "321",
+    email: "nguyen.k.nam@gmail.com",
+    is_admin: true,
+  });
+  const beky = await createSomm({
+    first_name: "bek",
+    last_name: "nguyen",
+    username: "bek",
+    password: "123",
+    email: "bekahritter@gmail.com",
+    is_admin: true,
+  });
+  const dummy = await createSomm({
+    first_name: "dummy",
+    last_name: "nguyen",
+    username: "dummy",
+    password: "123",
+    email: "dummyaccount@gmail.com",
+  });
 
   // console.log(nam);
   // const [wishlist] = await Promise.all([
