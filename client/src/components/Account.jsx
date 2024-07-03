@@ -18,13 +18,11 @@ export default function Account({ somm }) {
       },
     });
     const result = await response.json();
-    console.log(result);
     setMyReviews(result);
   };
 
   //somm to delete a past review.
   const handleDelete = async (id) => {
-    console.log("route hit!");
     const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
       method: "DELETE",
       headers: {
@@ -33,15 +31,12 @@ export default function Account({ somm }) {
     });
     reviewList();
     if (response.ok) {
-      console.log(":)");
-    } else {
       console.log(response.status);
     }
   };
 
   // somm to edit a review. update table so that only one review per winery.
   const handleEdit = async (id) => {
-    console.log("route hit!");
     const response = await fetch(`/api/somms/${somm.id}/reviews/${id}`, {
       method: "PATCH",
       headers: {

@@ -23,7 +23,6 @@ export default function Register({ setSomm, somm }) {
       body: JSON.stringify({ firstName, lastName, username, email, password }),
     });
     const result = await response.json();
-    console.log(result);
     setSomm(result);
     alert("successfully registered!");
     if (somm) {

@@ -25,7 +25,6 @@ export default function Reviews({ somm }) {
       body: JSON.stringify({ title, rating, comment }),
     });
     const result = await response.json();
-    console.log(typeof rating);
     alert("Thank you for your review!");
     navigate(`/${wineId}`);
   };
@@ -35,7 +34,6 @@ export default function Reviews({ somm }) {
       const response = await fetch(`/api/winery/${wineId}/reviews`);
       let result = await response.json();
       if (result.error) throw result.error;
-      console.log(result);
       setReviews(result);
     } catch (error) {
       console.log("Oh no, couldn't get reviews");
@@ -69,7 +67,6 @@ export default function Reviews({ somm }) {
               placeholder="Title"
               onChange={(event) => setTitle(event.target.value)}
             />
-            {console.log(rating)}
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Control
@@ -79,9 +76,7 @@ export default function Reviews({ somm }) {
               onChange={(event) => setComment(event.target.value)}
             />
             <br />
-            <Button variant="dark" onclick={submitReview}>
-              Submit
-            </Button>
+            <button onClick={submitReview}>Submit</button>
           </Form.Group>
         </Form>
         <br />

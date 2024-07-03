@@ -11,7 +11,6 @@ export default function AdminReviews({ somm }) {
       const response = await fetch("/api/reviews");
       let result = await response.json();
       if (result.error) throw result.error;
-      console.log(result);
       setAllReviews(result);
     } catch (error) {
       console.log("Oh no, couldn't get reviews");

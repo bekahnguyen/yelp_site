@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 export default function Navigations({ somm, setSomm }) {
   const navigate = useNavigate();
   const handleLogout = () => {
-    console.log("logging youout");
     window.localStorage.removeItem("token");
     setSomm({});
     alert("Logged out!");

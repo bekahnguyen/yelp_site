@@ -26,7 +26,6 @@ export default function SingleWinery() {
   let totalScore = [];
   reviews.map((review) => {
     totalScore.push(review.rating);
-    console.log(totalScore);
   });
 
   let total;
@@ -36,11 +35,7 @@ export default function SingleWinery() {
     });
   }
 
-  console.log(total);
-  console.log(reviews.length);
-
   let averageScore = total / reviews.length;
-  console.log(averageScore);
 
   //why is it showing up at the bottom of the page?
   const navigate = useNavigate();

@@ -24,7 +24,6 @@ export default function Login({ somm, setSomm }) {
       body: JSON.stringify({ username, password }),
     });
     const json = await response.json();
-    console.log(json);
     if (response.ok) {
       window.localStorage.setItem("token", json.token);
       attemptLoginWithToken();

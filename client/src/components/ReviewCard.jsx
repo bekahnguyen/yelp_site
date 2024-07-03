@@ -18,7 +18,6 @@ export default function ReviewCard({ review, setReviews, somm }) {
       `/api/wineries/${wineId}/reviews/${review.id}/comments`
     );
     let result = await response.json();
-    console.log(result);
     if (result.error) throw result.error;
     setAllReplies(result);
   };
@@ -37,7 +36,6 @@ export default function ReviewCard({ review, setReviews, somm }) {
       }
     );
     const result = await response.json();
-    console.log(result);
     getComments();
   };
 

@@ -67,7 +67,6 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
           return winery.id != id;
         });
       });
-      console.log(response.status);
 
       //COPY WINERIES() MAKE COPY OF ARRAY) REMOVE WINERY BY ID. SET WINERIES(COPY OF ARRAY)
     }
