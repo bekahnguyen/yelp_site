@@ -15,10 +15,17 @@ export default function AllUsers({ somm }) {
     }
   };
 
+  // const data={is_admin: true}
   // const handleAuth = async (id) => {
   //  const response= await fetch(/api/somms/$(id), {
-  //   method: PATCH
+  //   method:  "PATCH",
+  //   headers:{
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(data)
   //  })
+  // const result= await response.json();
+  //  console.log(result)
   // };
 
   const banUser = () => {

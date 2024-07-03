@@ -98,6 +98,7 @@ export default function Reviews({ somm }) {
         </ul>
       </div>
       <button
+        id="reviewPage"
         onClick={() => {
           navigate(`/${wineId}`);
         }}

@@ -89,6 +89,7 @@ button:focus-visible {
 #reviewPage {
   margin-left: 4%;
   padding: 2%;
+  margin-top: 1%;
 }
 
 #userList {
@@ -152,7 +153,7 @@ ul {
 }
 
 #wineForm {
-  width: auto;
+  width: 40%
   margin-left: 2%;
   margin-left: 1%;
   display: flex;
@@ -169,33 +170,41 @@ ul {
   color: white;
 }
 .wineCard {
-  width: 20%;
+  width: 50%;
   margin-top: 2%;
   text-align: center;
-  padding: 1%;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 #container {
+  display: inline-block;
+}
+
+@media (max-width: 800px) {
+  .flex-container {
+    flex-direction: column;
+  }
+}
+
+.flex-container {
   display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  align-items: center;
+  align-items: stretch;
+  align-items: baseline;
+}
+
+#singleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 #accountPage {
   padding: 4%;
   margin-left: 2%;
-}
-#singleContainer {
-  display: flex;
-  flex-direction: row wrap;
-  width: 100%;
-  background-color: #fff;
-  margin-top: 2%;
-  box-shadow: 0% 4% 8% rgba(0, 0, 0, 0.1);
-  border-radius: 8%;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
 }
 
 #wineHeading {
@@ -208,8 +217,8 @@ ul {
 }
 
 #singleWineryPic {
-  height: 40%;
-  width: 40%;
+  height: 50%;
+  width: 50%;
 }
 .welcome {
   background-color: teal;
@@ -296,13 +305,13 @@ input {
   box-sizing: border-box;
 }
 
-/* .wineCard {
+.wineCard {
   margin-top: 2%;
   background-color: white;
   border-radius: 2%;
   overflow: hidden;
   max-width: 25%;
-} */
+}
 
 .wineCard:hover {
   transform: translateY(-2%);

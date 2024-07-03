@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.21",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "express": "^4.19.2",

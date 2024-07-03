@@ -36,18 +36,21 @@ export default function Wineries({ wineries, setWineries }) {
 
   return (
     <>
-      <div id="singleContainer">
+      <div class="flex-container">
         {wineries.map((winery) => (
-          <div key={winery.id} className="wineCard">
+          <div
+            key={winery.id}
+            className="wineCard"
+            onClick={() => {
+              navigate(`/${winery.id}`);
+            }}
+          >
             <h4 id="wineCard">{winery.name}</h4>
             <img
               title="Visit!"
               className="winePic"
               src={winery.img}
               alt={winery.name}
-              onClick={() => {
-                navigate(`/${winery.id}`);
-              }}
             />
             <br />
           </div>
