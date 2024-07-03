@@ -42,7 +42,7 @@ export default function AdminReviews({ somm }) {
         <>
           {allReviews.map((review) => {
             return (
-              <div>
+              <div id="reviewPage">
                 <li>DATE: {review.created_at}</li>
                 <li>POSTED BY SOMM:{review.somm_id}</li>
                 <li>{review.title}</li>
