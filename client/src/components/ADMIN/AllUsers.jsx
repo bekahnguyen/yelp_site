@@ -63,6 +63,7 @@ export default function AllUsers({ somm }) {
                   </Card.Title>
                   <Card.Text>{user.email}</Card.Text>
                   <Card.Text>{user.id}</Card.Text>
+                  <Card.Text>Admin?{user.is_admin}</Card.Text>
                   <Button variant="primary" onClick={() => editUser(user.id)}>
                     Make Admin
                   </Button>{" "}
