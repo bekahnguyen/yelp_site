@@ -32,13 +32,10 @@ export default function SingleWinery() {
   let total;
   if (reviews.length >= 1) {
     total = totalScore.reduce((a, b) => {
-      if (NAN) {
-        ("Be the First to Leave a Review!");
-      } else {
-        return a + b;
-      }
+      return a + b;
     });
   }
+
   console.log(total);
   console.log(reviews.length);
 

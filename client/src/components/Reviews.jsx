@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReviewCard from "./ReviewCard";
-import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 export default function Reviews({ somm }) {
@@ -50,7 +50,7 @@ export default function Reviews({ somm }) {
   return (
     <>
       <div id="reviewPage">
-        <h1>Thoughts:</h1>
+        <h1 id="reviewHeaders">Thoughts?</h1>
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Rating</Form.Label>
@@ -79,25 +79,25 @@ export default function Reviews({ somm }) {
               onChange={(event) => setComment(event.target.value)}
             />
             <br />
-            <button type="submit" onClick={submitReview}>
+            <Button variant="dark" onclick={submitReview}>
               Submit
-            </button>
+            </Button>
           </Form.Group>
         </Form>
+        <br />
+        <hr />
+        <br />
+        <h5 id="reviewHeaders">Reviews:</h5>
 
-        <h4 id="reviewPage">Reviews:</h4>
-        <div id="reviewPage">
-          <ul id="reviews">
-            {reviews.map((review) => (
-              <ReviewCard
-                review={review}
-                setReviews={setReviews}
-                somm={somm}
-                key={review.id}
-              />
-            ))}
-          </ul>
-        </div>
+        {reviews.map((review) => (
+          <ReviewCard
+            review={review}
+            setReviews={setReviews}
+            somm={somm}
+            key={review.id}
+          />
+        ))}
+
         <button
           id="reviewPage"
           onClick={() => {

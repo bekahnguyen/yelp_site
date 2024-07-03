@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
 export default function AllUsers({ somm }) {
   const [users, setUsers] = useState([]);
@@ -28,8 +30,11 @@ export default function AllUsers({ somm }) {
   //  console.log(result)
   // };
 
-  const banUser = () => {
-    console.log("user is banned!");
+  const banUser = (id) => {
+    console.log(`${id} is banned!`);
+  };
+  const editUser = (id) => {
+    console.log(`${id} is edited!`);
   };
 
   const back = () => {
@@ -45,30 +50,31 @@ export default function AllUsers({ somm }) {
       {!somm.is_admin ? (
         <h6>403</h6>
       ) : (
-        <div>
-          <h1> All Users:</h1>
+        <div id="reviews">
           {users.map((user) => {
             return (
-              <ul id="userList">
-                <>
-                  <div id="userBox">
-                    <li>{user.username}</li>
-                    <li>{user.first_name}</li>
-                    <li>{user.last_name}</li>
-                    <li> {user.id}</li>
-                    <li>{user.email}</li>
-                    <button onClick={() => handleAuth(user.id)}>
-                      Make Admin
-                    </button>
-                    <button onClick={() => banUser(user.id)}>Ban User</button>
-                  </div>
-                </>
-              </ul>
+              <Card key={user.id}>
+                <Card.Header>
+                  Featuring<h5>{user.username}</h5>{" "}
+                </Card.Header>
+                <Card.Body>
+                  <Card.Title>
+                    {user.first_name} {user.last_name}
+                  </Card.Title>
+                  <Card.Text>{user.email}</Card.Text>
+                  <Card.Text>{user.id}</Card.Text>
+                  <Button variant="primary" onClick={() => editUser(user.id)}>
+                    Make Admin
+                  </Button>{" "}
+                  <Button variant="secondary" onClick={() => banUser(user.id)}>
+                    Ban
+                  </Button>
+                </Card.Body>
+              </Card>
             );
           })}
         </div>
       )}
-      <button onClick={back}>Back.</button>
     </>
   );
 }

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
 export default function ReviewCard({ review, setReviews, somm }) {
   const [comment, setComment] = useState([]);
@@ -62,28 +64,36 @@ export default function ReviewCard({ review, setReviews, somm }) {
   return (
     <>
       <div key={review.id}>
-        {review.date}
-        <li> {review.rating}</li>
-        <li> {review.title}</li>
-        <li>{review.comment}</li>
-        <p>Posted by:{review.somm_id}</p>
-        <input
-          type="text"
-          value={comment}
-          onChange={(event) => setComment(event.target.value)}
-        />
-        {somm.id === review.somm_id ? (
-          <button onClick={() => handleDelete(review.id)}>Delete Review</button>
-        ) : null}
+        <Card>
+          <Card.Header>{review.rating}</Card.Header>
 
-        {somm.id != review.somm_id ? (
-          <button onClick={() => submitComment(review.id)}>Comment</button>
-        ) : null}
-        <button>Heart</button>
+          <Card.Body>
+            <Card.Title>{review.title}</Card.Title>
+            <Card.Text>
+              {review.comment}
+              <br /> Posted by {review.id}
+            </Card.Text>
+            <input
+              type="text"
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+            />
+            {somm.id === review.somm_id ? (
+              <button onClick={() => handleDelete(review.id)}>
+                Delete Review
+              </button>
+            ) : null}
+
+            {somm.id != review.somm_id ? (
+              <button onClick={() => submitComment(review.id)}>Comment</button>
+            ) : null}
+            <button>Heart</button>
+          </Card.Body>
+        </Card>
         <ul>
           <div>
             {allReplies.map((reply) => {
-              return <li>{reply.comment}</li>;
+              return <li key={reply.id}>{reply.comment}</li>;
             })}
           </div>
         </ul>

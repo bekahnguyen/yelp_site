@@ -84,12 +84,21 @@ button:focus-visible {
 
 #reviews {
   border: 1vh solid rgb(144, 4, 76);
+  padding: 2%;
+  display: flex;
+  justify-content: space-between;
 }
 
 #reviewPage {
-  margin-left: 4%;
+  margin-left: 2%;
   padding: 2%;
   margin-top: 2%;
+}
+
+#reviewHeaders {
+  text-align: center;
+  margin-top: 2%;
+  padding: 2%;
 }
 
 #userList {
