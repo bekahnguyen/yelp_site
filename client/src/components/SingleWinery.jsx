@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { seesReview } from "../API/api";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
+import Row from "react-bootstrap/Row";
 
 export default function SingleWinery() {
   const { wineId } = useParams();
@@ -75,8 +79,8 @@ export default function SingleWinery() {
     <>
       <h1 id="wineHeading"> {selectedWinery.name}</h1>{" "}
       <div id="singleContainer">
-        {" "}
-        <img id="singleWineryPic" src={selectedWinery.img} />
+        <Image src={selectedWinery.img} rounded />
+
         <section className="wineryText">
           <p>
             Average Rating:

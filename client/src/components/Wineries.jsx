@@ -40,7 +40,12 @@ export default function Wineries({ wineries, setWineries }) {
     <>
       <div className="flex-container">
         {wineries.map((winery) => (
-          <Card style={{ width: "18rem" }}>
+          <Card
+            style={{ width: "18rem" }}
+            onClick={() => {
+              navigate(`/${winery.id}`);
+            }}
+          >
             <Card.Img
               variant="top"
               src={winery.img}
@@ -50,14 +55,6 @@ export default function Wineries({ wineries, setWineries }) {
             <Card.Body>
               <Card.Title>{winery.name}</Card.Title>
               <Card.Text>{winery.description}</Card.Text>
-              <Button
-                variant="light"
-                onClick={() => {
-                  navigate(`/${winery.id}`);
-                }}
-              >
-                Visit{" "}
-              </Button>
             </Card.Body>
           </Card>
         ))}

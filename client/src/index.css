@@ -150,6 +150,7 @@ ul {
 
 .wineryText {
   font-size: larger;
+  margin-left: 2%;
 }
 
 #wineForm {
@@ -196,10 +197,9 @@ ul {
 }
 
 #singleContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
+  display: inline;
+  margin-left:2%;
+  max-width:50%;
 
 }
 
@@ -211,6 +211,7 @@ ul {
 #wineHeading {
   text-align: left;
   padding: 1%;
+  margin-left: 1%;
 }
 .winePic {
   height: 50%;
@@ -314,7 +315,3 @@ input {
   max-width: 25%;
 } */
 
-.flex-container {
-  transform: translateY(-2%);
-  box-shadow: 0 12% 16% rgba(0, 0, 0, 0.2);
-}
