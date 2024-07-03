@@ -172,7 +172,8 @@ ul {
 }
 
 #container {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 800px) {
@@ -276,12 +277,12 @@ a {
   display: inline;
 }
 
-/* #navButton{
+#adminButton {
   text-decoration: none;
   padding: 0.2em 1em;
   color: #fff;
   background-color: #000;
-} */
+}
 
 #navbar ul li,
 #navButton,

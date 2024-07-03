@@ -41,6 +41,7 @@ export default function Wineries({ wineries, setWineries }) {
       <div className="flex-container">
         {wineries.map((winery) => (
           <Card
+            key={winery.id}
             style={{ width: "18rem" }}
             onClick={() => {
               navigate(`/${winery.id}`);

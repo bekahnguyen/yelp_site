@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 export default function Login({ somm, setSomm }) {
   const [username, setUsername] = useState("");
@@ -31,7 +32,6 @@ export default function Login({ somm, setSomm }) {
   };
 
   const attemptLoginWithToken = async () => {
-    console.log("attempt login with token, hit");
     const token = window.localStorage.getItem("token");
     const response = await fetch("/api/somms/me", {
       headers: {
@@ -59,26 +59,31 @@ export default function Login({ somm, setSomm }) {
 
   return (
     <>
-      <h2> Please Sign in Below.</h2>
+      <div id="reviewPage">
+        <h2> Please Sign in Below.</h2>
 
-      <form onSubmit={handleSubmit} className="loginForm">
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        ></input>
-        <input
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
-        <button>Submit.</button>
-      </form>
-      <div className="createAccount">
-        Don't have an account?
-        <Link to="/Register">Create one now!</Link>
+        <form className="loginForm">
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          ></input>
+          <input
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          ></input>
+          <br />{" "}
+          <Button variant="outline-success" onClick={handleSubmit}>
+            Submit
+          </Button>{" "}
+        </form>
+        <div className="createAccount">
+          Don't have an account?
+          <Link to="/Register">Create one now!</Link>
+        </div>
       </div>
     </>
   );

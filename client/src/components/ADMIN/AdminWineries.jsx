@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Popup from "reactjs-popup";
+
 import "reactjs-popup/dist/index.css";
+import Button from "react-bootstrap/Button";
+
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/ListGroup";
 
 export default function AdminWineries({ somm, setWineries, wineries }) {
   const [name, setWineryName] = useState("");
@@ -41,15 +47,14 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
     });
     console.log(response);
     const result = await response.json();
-    console.log(result);
+
     await setWineries([...wineries, result]);
-    console.log(wineries);
+
     alert("successfully created!");
     navigate("/Account");
   };
 
   const deleteWinery = async (id) => {
-    console.log(id);
     const response = await fetch(`/api/winery/${id}`, {
       method: "DELETE",
     });
@@ -71,86 +76,112 @@ export default function AdminWineries({ somm, setWineries, wineries }) {
         404
       ) : (
         <>
-          <h3 id="adminPage"> hello, {somm.username}</h3>
-          <h5 id="adminPage">Add new winery:</h5>
-          <form id="wineForm">
-            <input
-              type="text"
-              placeholder="Winery name"
-              onChange={(e) => setWineryName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="address"
-              onChange={(e) => setAddress(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="description"
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="phone"
-              onChange={(e) => setPhone(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="hours"
-              onChange={(e) => setHours(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="ava district id"
-              onChange={(e) => setAVADistrictId(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="img"
-              onChange={(e) => setImg(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="website"
-              onChange={(e) => setWebsite(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="reservations (t/f)"
-              onChange={(e) => setReservations(e.target.value)}
-            />
-            <button type="submit" onClick={handleSubmit}>
-              Submit
-            </button>
-          </form>
-          <br />
-          <h3 id="adminPage"> Current Wineries Displayed:</h3>
-          {wineries.map((winery) => {
-            return (
-              <>
-                <div>
-                  <ul id="adminWinery" key={winery.id}>
-                    <>
-                      <li>Name: {winery.name}</li>
-                      <li> Address:{winery.address}</li>
-                      <li>Hours: {winery.hours}</li>
-                      <li> District Id:{winery.ava_district_id}</li>
-                      <li> IMG: {winery.img}</li>
-                      <li> Website:{winery.website}</li>
-                      <li>Description:{winery.description}</li>
-                      <li>Reservations:{website.reservations_required}</li>
-                      <button onClick={() => handleEdit(winery)}>Edit</button>
+          <div id="adminPage">
+            <h3> hello, {somm.username}</h3>
+            <h5>Add new winery:</h5>
+
+            <Form id="container">
+              <Row className="mb-3">
+                <Form.Group className="mb-3" controlId="formGridAddress1">
+                  <Form.Control
+                    type="text"
+                    placeholder="name"
+                    onChange={(e) => setWineryName(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formGridAddress1">
+                  <Form.Control
+                    type="text"
+                    placeholder="Address"
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </Form.Group>
+              </Row>
+
+              <Form.Group className="mb-3" controlId="formGridAddress1">
+                <Form.Control
+                  placeholder="Description"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formGridAddress2">
+                <Form.Control
+                  placeholder="Phone"
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formGridAddress2">
+                <Form.Control
+                  placeholder="Hours"
+                  onChange={(e) => setHours(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formGridAddress2">
+                <Form.Control
+                  placeholder="Ava District Id"
+                  onChange={(e) => setAVADistrictId(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formGridAddress2">
+                <Form.Control
+                  placeholder="Image"
+                  onChange={(e) => setImg(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formGridAddress2">
+                <Form.Control
+                  placeholder="Website"
+                  onChange={(e) => setWebsite(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formGridAddress2">
+                <Form.Control
+                  placeholder="Reservations T/F"
+                  onChange={(e) => setReservations(e.target.value)}
+                />
+              </Form.Group>
+
+              <Button variant="primary" type="submit" onClick={handleSubmit}>
+                Submit
+              </Button>
+            </Form>
+            <br />
+            <h3 id="adminPage"> Current Wineries Displayed:</h3>
+            {wineries.map((winery) => {
+              return (
+                <>
+                  <Card style={{ width: "18rem" }} key={winery.id}>
+                    <Card.Header>{winery.name}</Card.Header>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item>Address: {winery.address}</ListGroup.Item>
+                      <ListGroup.Item>Hours: {winery.hours}</ListGroup.Item>
+                      <ListGroup.Item>Img: {winery.img}</ListGroup.Item>
+                      <ListGroup.Item>Website: {winery.website}</ListGroup.Item>
+                      <ListGroup.Item>
+                        AVA District Id: {winery.ava_district_id}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        Description: {winery.description}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        {winery.reservations_required
+                          ? winery.reservations_required
+                          : null}
+                      </ListGroup.Item>
+                      <button onClick={() => handleEdit(winery.id)}>
+                        Edit Winery
+                      </button>
                       <button onClick={() => deleteWinery(winery.id)}>
-                        {" "}
                         Delete
                       </button>
-                    </>
-                  </ul>
-                </div>
-                ;
-              </>
-            );
-          })}
+                    </ListGroup>
+                  </Card>
+                </>
+              );
+            })}
+          </div>
         </>
       )}
     </div>
