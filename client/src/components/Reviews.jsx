@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReviewCard from "./ReviewCard";
 import { Link } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 
 export default function Reviews({ somm }) {
   const { wineId } = useParams();
@@ -48,63 +49,64 @@ export default function Reviews({ somm }) {
 
   return (
     <>
-      <h1 id="reviewPage">Thoughts:</h1>
-      <div id="reviewForm">
-        <form>
-          <label htmlFor="Rating">Rating:</label>
-          <input
-            value={rating}
-            type="range"
-            id="Rating"
-            name="Rating"
-            min="0"
-            max="5"
-            default="3"
-            onChange={(event) => setRating(Number(event.target.value))}
-          />
-
-          <label htmlFor="Title"></label>
-          <input
-            value={title}
-            placeholder="Title"
-            onChange={(event) => setTitle(event.target.value)}
-          />
-          <label htmlFor="Comments"></label>
-          <input
-            value={comment}
-            onChange={(event) => setComment(event.target.value)}
-            type="textarea"
-            placeholder="Comments"
-            id="Comment"
-            name="Comment"
-          />
-
-          <button type="submit" onClick={submitReview}>
-            Submit
-          </button>
-        </form>
-      </div>
-      <h2 id="reviewPage">Reviews:</h2>
       <div id="reviewPage">
-        <ul id="reviews">
-          {reviews.map((review) => (
-            <ReviewCard
-              review={review}
-              setReviews={setReviews}
-              somm={somm}
-              key={review.id}
+        <h1>Thoughts:</h1>
+        <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Rating</Form.Label>
+            <input
+              value={rating}
+              type="range"
+              min="0"
+              max="10"
+              id="Rating"
+              name="Rating"
+              default="3"
+              onChange={(event) => setRating(Number(event.target.value))}
             />
-          ))}
-        </ul>
+            <Form.Control
+              type="text"
+              placeholder="Title"
+              onChange={(event) => setTitle(event.target.value)}
+            />
+            {console.log(rating)}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Control
+              as="textarea"
+              placeholder="Comments"
+              rows={3}
+              onChange={(event) => setComment(event.target.value)}
+            />
+            <br />
+            <button type="submit" onClick={submitReview}>
+              Submit
+            </button>
+          </Form.Group>
+        </Form>
+
+        <h4 id="reviewPage">Reviews:</h4>
+        <div id="reviewPage">
+          <ul id="reviews">
+            {reviews.map((review) => (
+              <ReviewCard
+                review={review}
+                setReviews={setReviews}
+                somm={somm}
+                key={review.id}
+              />
+            ))}
+          </ul>
+        </div>
+        <button
+          id="reviewPage"
+          onClick={() => {
+            navigate(`/${wineId}`);
+          }}
+        >
+          Back
+        </button>
       </div>
-      <button
-        id="reviewPage"
-        onClick={() => {
-          navigate(`/${wineId}`);
-        }}
-      >
-        Back
-      </button>
     </>
   );
 }
