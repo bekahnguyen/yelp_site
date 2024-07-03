@@ -5,6 +5,8 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
 export default function SingleWinery() {
   const { wineId } = useParams();
@@ -77,32 +79,35 @@ export default function SingleWinery() {
   //<button onClick={handleCheckOut}>Add to your itinerary.</button>
   return (
     <>
-      <h1 id="wineHeading"> {selectedWinery.name}</h1>{" "}
+      <h1 id="wineHeading"> </h1>{" "}
       <div id="singleContainer">
-        <Image src={selectedWinery.img} rounded />
-
-        <section className="wineryText">
-          <p>
-            Average Rating:
-            <p
-              onClick={() => {
-                navigate(`/${wineId}/Reviews`);
-              }}
-            >
-              {averageScore}
-            </p>{" "}
-          </p>
-          <p>Description: {selectedWinery.description}</p>
-          <p>Hours: {selectedWinery.hours}</p>
-          <p>Website: {selectedWinery.website}</p>
-          <p>Phone: {selectedWinery.phone}</p>
-
-          {selectedWinery.reservations_required ? (
-            <h6>Reservations required.</h6>
-          ) : null}
-          <button onClick={leaveReview}>Notes</button>
-          <button onClick={handleClick}>Back.</button>
-        </section>
+        <Card>
+          <Card.Header>
+            Featuring<h5>{selectedWinery.name}</h5>{" "}
+          </Card.Header>
+          <Card.Img variant="top" src={selectedWinery.img} />
+          <Card.Body>
+            <Card.Title>Average Rating: {averageScore}</Card.Title>
+            <Card.Text>
+              Description: {selectedWinery.description}
+              <br /> Hours: {selectedWinery.hours}
+              <br /> Website: {selectedWinery.website}
+              <br />
+              Phone: {selectedWinery.phone}
+              <br />
+              District: {selectedWinery.ava_district_id}
+              {selectedWinery.reservations_required ? (
+                <h6>Reservations required.</h6>
+              ) : null}
+            </Card.Text>
+            <Button variant="primary" onClick={leaveReview}>
+              Notes
+            </Button>{" "}
+            <Button variant="secondary" onClick={handleClick}>
+              Back.
+            </Button>
+          </Card.Body>
+        </Card>
       </div>
     </>
   );

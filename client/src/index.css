@@ -148,13 +148,8 @@ ul {
   -ms-flex-align: baseline;
 }
 
-.wineryText {
-  font-size: larger;
-  margin-left: 2%;
-}
-
 #wineForm {
-  width: 40%
+  width: 40%;
   margin-left: 2%;
   margin-left: 1%;
   display: flex;
@@ -191,16 +186,18 @@ ul {
   flex-direction: row;
   flex-flow: row wrap;
   margin-top: 3%;
-  justify-content:center;
-
-
+  justify-content: center;
 }
 
 #singleContainer {
   display: inline;
-  margin-left:2%;
-  max-width:50%;
+  margin-left: 2%;
+  max-width: 50%;
+}
 
+.wineryText {
+  font-size: larger;
+  margin-left: 2%;
 }
 
 #accountPage {
@@ -314,4 +311,3 @@ input {
   overflow: hidden;
   max-width: 25%;
 } */
-
