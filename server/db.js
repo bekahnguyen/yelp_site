@@ -169,13 +169,13 @@ const createTables = async () => {
       ('Denner', '5414 Vineyard Dr, Paso Robles, CA','805-239-4287','10:00 AM - 5:00 PM', 'Denner Vineyards in Paso Robles is renowned for its meticulously crafted Rhône and Bordeaux varietals, produced on its stunning hillside estate with a commitment to innovative and sustainable viticulture.', 'https://ak.jogurucdn.com/media/image/p14/place-2017-03-21-12-c5e1b924d092bcade8d9ecc06b6869ba.jpg','https://www.dennervineyards.com', False, 7),
       ('Peachy Canyon','2020 Nacimiento Lake Dr, Paso Robles, CA','805-239-1918','10:00 AM - 5:00 PM', 'Peachy Canyon Winery in Paso Robles is famous for its rich, flavorful Zinfandels and welcoming, family-owned atmosphere, offering a quintessential wine country experience.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/a9/48/23/the-big-chair-at-our.jpg?w=1200&h=-1&s=1','https://www.peachycanyon.com', False, 1),
       ('Sculpterra','5015 Linne Rd, Paso Robles, CA','805-226-8881','10:00 AM - 5:00 PM', 'Sculpterra Winery in Paso Robles uniquely blends art and wine, offering award-winning wines amidst beautiful sculptures and gardens on its picturesque estate.','https://media-cdn.tripadvisor.com/media/photo-s/02/66/f4/1e/sculpterra-winery-sculpture.jpg','https://sculpterra.com/', False, 3),
-      ('Epoch', '7505 York Mountain Rd, Templeton, CA','805-237-7575','10:00 AM - 4:00 PM', 'better description of epoch', 'https://www.cooperchase.com/wp-content/uploads/2021/12/epoch-1a-768x444.jpg','https://www.epochwines.com', False, 7),
-      ('Brecon','7450 Vineyard Dr, Paso Robles, CA','805-239-2200','11:00 AM - 5:00 PM', 'decription of brecon', 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d1b2e430123665.561457900e12d.jpg', 'https://www.breconestate.com',False, 5),
+      ('Epoch', '7505 York Mountain Rd, Templeton, CA','805-237-7575','10:00 AM - 4:00 PM', 'Epoch in Paso Robles is a renowned winery celebrated for its high-quality, Rhone and Zinfandel varietals, produced from historic and diverse vineyards.', 'https://www.cooperchase.com/wp-content/uploads/2021/12/epoch-1a-768x444.jpg','https://www.epochwines.com', False, 7),
+      ('Brecon','7450 Vineyard Dr, Paso Robles, CA','805-239-2200','11:00 AM - 5:00 PM', 'Brecon Estate in Paso Robles is a boutique winery known for its award-winning, small-batch wines crafted with a focus on innovative blends and sustainable practices.', 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d1b2e430123665.561457900e12d.jpg', 'https://www.breconestate.com',False, 5),
       
-('Tooth & Nail', '3090 Anderson Rd, Paso Robles, CA','805-369-6100','10:00 AM - 6:00 PM', 'description of tooth and nail','https://cdn0.weddingwire.com/vendor/480827/3_2/1280/jpg/1515006875-43878b5c0f751864-castle_no_logo__002__High_Def.jpeg','https://cdn0.weddingwire.com/vendor/480827/3_2/1280/jpg/1515006875-43878b5c0f751864-castle_no_logo__002__High_Def.jpeg', False, 7),
+('Tooth & Nail', '3090 Anderson Rd, Paso Robles, CA','805-369-6100','10:00 AM - 6:00 PM', 'Tooth & Nail Winery in Paso Robles is a unique winery famed for its bold, artfully blended wines and its castle-like tasting room offering an immersive and eclectic experience.','https://cdn0.weddingwire.com/vendor/480827/3_2/1280/jpg/1515006875-43878b5c0f751864-castle_no_logo__002__High_Def.jpeg','https://cdn0.weddingwire.com/vendor/480827/3_2/1280/jpg/1515006875-43878b5c0f751864-castle_no_logo__002__High_Def.jpeg', False, 7),
 
-      ('Niner', '2400 CA-46, Paso Robles, CA','805-239-2233','10:00 AM - 5:00 PM', 'description of niner', 'https://th.bing.com/th/id/OLC.lzBvUs9Q7E5rmQ480x360?&rs=1&pid=ImgDetMain','https://www.ninerwine.com', False, 7),
-      ('Austin Hope & Treana', '1585 Live Oak Rd, Paso Robles, CA','805-238-4112','10:00 AM - 4:00 PM', 'Ausitn Hope Description', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/8b/7f/b1/our-tasting-cellar-feature.jpg?w=1200&h=-1&s=1', 'https://www.hopefamilywines.com', False, 11);
+      ('Niner', '2400 CA-46, Paso Robles, CA','805-239-2233','10:00 AM - 5:00 PM', 'Niner Wine Estates in Paso Robles is a family-owned winery known for its estate-grown wines, stunning Heart Hill Vineyard, and commitment to sustainable farming practices.', 'https://th.bing.com/th/id/OLC.lzBvUs9Q7E5rmQ480x360?&rs=1&pid=ImgDetMain','https://www.ninerwine.com', False, 7),
+      ('Austin Hope & Treana', '1585 Live Oak Rd, Paso Robles, CA','805-238-4112','10:00 AM - 4:00 PM', 'Austin Hope Winery in Paso Robles is renowned for its premium Cabernet Sauvignon and commitment to crafting bold, expressive wines that reflect the regions terroir.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/8b/7f/b1/our-tasting-cellar-feature.jpg?w=1200&h=-1&s=1', 'https://www.hopefamilywines.com', False, 11);
   CREATE TABLE somm_wishlist(
         id UUID PRIMARY KEY,
         somm_id UUID REFERENCES somm(id) NOT NULL,
@@ -194,7 +194,8 @@ const createTables = async () => {
     CREATE TABLE somm_comments(
 id UUID PRIMARY KEY,
 comment TEXT NOT NULL,
-somm_review_id UUID REFERENCES somm_reviews(id)
+somm_review_id UUID REFERENCES somm_reviews(id),
+somm_id UUID REFERENCES somm(id)
 );
 CREATE TABLE somm_favorites(
     id UUID PRIMARY KEY,   

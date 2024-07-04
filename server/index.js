@@ -48,7 +48,8 @@ app.get("/api/wineries", async (req, res, next) => {
 app.get("/api/wineries/reviews", async (req, res, next) => {
   try {
     const SQL = `
-      SELECT * FROM somm_reviews`;
+      SELECT * FROM somm_reviews
+      `;
     const response = await client.query(SQL);
     res.send(response.rows);
   } catch (error) {
