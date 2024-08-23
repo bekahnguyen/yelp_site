@@ -21,8 +21,8 @@ export default function Navigations({ somm, setSomm }) {
 
   return (
     <>
-      <nav>
-        <div id="navbar">
+      <nav id="navbar">
+        <div id="">
           <ul>
             <li
               onClick={() => {
@@ -30,8 +30,8 @@ export default function Navigations({ somm, setSomm }) {
               }}
             >
               {" "}
-              <a href="/">Search </a>
             </li>{" "}
+            <li></li>
             {somm.id ? (
               <li
                 onClick={() => {
@@ -68,7 +68,7 @@ export default function Navigations({ somm, setSomm }) {
               </>
             ) : null}
             <li>
-              <button id="navButton" onClick={handleLogout}>
+              <button id="logout" onClick={handleLogout}>
                 Logout
               </button>
             </li>

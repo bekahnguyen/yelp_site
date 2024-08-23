@@ -7,6 +7,12 @@ import Button from "react-bootstrap/Button";
 
 export default function Wineries({ wineries, setWineries }) {
   const navigate = useNavigate();
+  const [searchItem, setSearchItem] = useState("");
+
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm);
+  };
   // const [filteredWineries, setFilteredWineries] = useState([]);
 
   useEffect(() => {
@@ -38,6 +44,13 @@ export default function Wineries({ wineries, setWineries }) {
 
   return (
     <>
+      <input
+        type="text"
+        value={searchItem}
+        onChange={handleInputChange}
+        placeholder="type to search"
+      />
+
       <div className="flex-container">
         {wineries.map((winery) => (
           <Card
