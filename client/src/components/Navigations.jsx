@@ -29,7 +29,7 @@ export default function Navigations({ somm, setSomm }) {
                 navigate(`/`);
               }}
             >
-              {" "}
+              Home{" "}
             </li>{" "}
             <li></li>
             {somm.id ? (
@@ -59,7 +59,7 @@ export default function Navigations({ somm, setSomm }) {
                     onChange={(event) => handleSubmit(event.target.value)}
                     defaultValue=""
                   >
-                    <option value="disabled">ADMIN:</option>
+                    <option value="/">ADMIN:</option>
                     <option value="/AllUsers">Users</option>
                     <option value="/AdminReviews">Reviews</option>
                     <option value="/AdminWineries">Wineries</option>
@@ -67,6 +67,17 @@ export default function Navigations({ somm, setSomm }) {
                 </li>
               </>
             ) : null}
+            <li>
+              <select
+                id="itinerary"
+                onChange={(event) => handleSubmit(event.target.value)}
+                defaultValue=""
+              >
+                <option value="/">Itineraries</option>
+                <option value="/itinerary">Create Your Own</option>
+                <option value="/browse-itineraries">Browse</option>
+              </select>
+            </li>
             <li>
               <button id="logout" onClick={handleLogout}>
                 Logout

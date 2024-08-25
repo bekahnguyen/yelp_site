@@ -11,6 +11,8 @@ import SingleWinery from "./components/SingleWinery";
 import Navigations from "./components/Navigations";
 import AdminReviews from "./components/ADMIN/AdminReviews";
 import AllUsers from "./components/ADMIN/AllUsers";
+import Itinerary from "./components/Itinerary";
+import BrowseItineraries from "./components/BrowseItineraries";
 
 function App() {
   const [somm, setSomm] = useState({});
@@ -58,6 +60,14 @@ function App() {
           <Route
             path="/:wineId/Reviews"
             element={<Reviews somm={somm} />}
+          ></Route>
+          <Route
+            path="/itinerary"
+            element={<Itinerary wineries={wineries} />}
+          ></Route>
+          <Route
+            path="/browse-itineraries"
+            element={<BrowseItineraries />}
           ></Route>
           <Route
             path="/AdminReviews"

@@ -68,6 +68,10 @@ export default function SingleWinery() {
     //on Submit:
   };
 
+  const handleItinerary = () => {
+    console.log("added!");
+  };
+
   //need to import reviews from reviews table and average them out.
   // have option to click picture and go to website.
   // if checkbox is clicked, add winery to somm_been
@@ -99,6 +103,7 @@ export default function SingleWinery() {
             <Button variant="primary" onClick={leaveReview}>
               Notes
             </Button>{" "}
+            <button onClick={handleItinerary}>Add to Itinerary!</button>
             <Button variant="secondary" onClick={handleClick}>
               Back.
             </Button>
