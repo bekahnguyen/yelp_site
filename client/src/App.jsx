@@ -63,7 +63,7 @@ function App() {
           ></Route>
           <Route
             path="/itinerary"
-            element={<Itinerary wineries={wineries} />}
+            element={<Itinerary wineries={wineries} somm={somm} />}
           ></Route>
           <Route
             path="/browse-itineraries"
@@ -74,7 +74,7 @@ function App() {
             element={<AdminReviews somm={somm} />}
           ></Route>
           <Route path="/AllUsers" element={<AllUsers somm={somm} />}></Route>
-          <Route path="/:wineId" element={<SingleWinery />}></Route>
+          <Route path="/:wineId" element={<SingleWinery somm={somm} />}></Route>
         </Routes>
       </div>
     </>
