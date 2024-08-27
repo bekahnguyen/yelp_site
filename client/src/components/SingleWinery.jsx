@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { seesReview } from "../API/api";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Image from "react-bootstrap/Image";
-import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-export default function SingleWinery() {
+export default function SingleWinery({ somm }) {
   const { wineId } = useParams();
+  const token = window.localStorage.getItem("token");
   const [selectedWinery, setSelectedWinery] = useState([]);
   const [reviews, setReviews] = useState([]);
 
@@ -68,8 +65,18 @@ export default function SingleWinery() {
     //on Submit:
   };
 
-  const handleItinerary = () => {
-    console.log("added!");
+  const handleItinerary = async (id) => {
+    console.log("token one:", token);
+    const response = await fetch(`api/somms/${somm.id}/wishlist`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ wineId }),
+    });
+    const json = await response.json();
+    console.log(json);
   };
 
   //need to import reviews from reviews table and average them out.
@@ -103,7 +110,11 @@ export default function SingleWinery() {
             <Button variant="primary" onClick={leaveReview}>
               Notes
             </Button>{" "}
-            <button onClick={handleItinerary}>Add to Itinerary!</button>
+            {somm.id ? (
+              <button onClick={() => handleItinerary(selectedWinery.id)}>
+                Save for later!
+              </button>
+            ) : null}
             <Button variant="secondary" onClick={handleClick}>
               Back.
             </Button>

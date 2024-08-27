@@ -9,6 +9,7 @@ export default function Itinerary(wineries) {
   const handleClick = (e) => {};
 
   //i want the ability for user to rewrite whatever they want
+  // must be logged in to view saved wishlist
 
   return (
     <>
