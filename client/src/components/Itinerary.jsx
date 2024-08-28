@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Itinerary({ wineries, somm }) {
   const [firstStop, setFirstStop] = useState();
+  const navigate = useNavigate();
   const [savedWineries, setSavedWineries] = useState([]);
   const token = window.localStorage.getItem("token");
 
@@ -52,6 +54,17 @@ export default function Itinerary({ wineries, somm }) {
       </span>
       <button onClick={handleAdd}>Add more stops</button>
       <h4>Saved Spots:</h4>
+      {savedWineries.map((saved) => {
+        return (
+          <p
+            onClick={() => {
+              navigate(`/${saved.winery_id}`);
+            }}
+          >
+            {saved.name}
+          </p>
+        );
+      })}
     </>
   );
 }
