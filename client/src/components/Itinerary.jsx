@@ -2,12 +2,30 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Itinerary({ wineries, somm }) {
-  const [firstStop, setFirstStop] = useState();
   const navigate = useNavigate();
   const [savedWineries, setSavedWineries] = useState([]);
+  const [itinerary, setItinerary] = useState({
+    stop: "",
+    time: "",
+    reservation: false,
+  });
+
   const token = window.localStorage.getItem("token");
 
-  const handleAdd = () => {};
+  const handleStopChange = (e) => {
+    itinerary.stop = e.target.value;
+    console.log(itinerary);
+  };
+  const handleTimeChange = (e) => {
+    itinerary.time = e.target.value;
+    console.log(itinerary);
+  };
+  const handleReservationChange = (e) => {
+    itinerary.reservation = e.target.value;
+    console.log(itinerary);
+  };
+
+  console.log(itinerary);
   const handleClick = (e) => {};
 
   useEffect(() => {
@@ -40,20 +58,20 @@ export default function Itinerary({ wineries, somm }) {
       <div id="itinerarySheet">
         <div>
           <h4 onClick={handleClick}> My first time in Paso Robles Itinerary</h4>
+
           <div id="flexRow">
             <input
               type="text"
+              value={Itinerary.stop}
               placeholder="Where to?"
-              onChange={(e) => {
-                handleChange(e);
-              }}
+              onChange={handleStopChange}
             />
-            <input type="time" />
-            Reservation? <input type="checkbox" />
+            <input type="time" name="time" onChange={handleTimeChange} />
+            Reservation?{" "}
+            <input type="checkbox" onChange={handleReservationChange} />
+            <button type="submit">+</button>
           </div>
-          <button onClick={handleAdd}>+</button>
-        </div>
-        <div>
+
           <h4>Wishlist:</h4>
           {savedWineries.map((saved) => {
             return (
