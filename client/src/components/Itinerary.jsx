@@ -10,6 +10,10 @@ export default function Itinerary({ wineries, somm }) {
     reservation: false,
   });
 
+  const handleAdd = () => {
+    <p>{itinerary.time}</p>;
+  };
+
   const token = window.localStorage.getItem("token");
 
   const handleStopChange = (e) => {
@@ -21,7 +25,7 @@ export default function Itinerary({ wineries, somm }) {
     console.log(itinerary);
   };
   const handleReservationChange = (e) => {
-    itinerary.reservation = e.target.value;
+    itinerary.reservation = e.target.checked;
     console.log(itinerary);
   };
 
@@ -58,7 +62,6 @@ export default function Itinerary({ wineries, somm }) {
       <div id="itinerarySheet">
         <div>
           <h4 onClick={handleClick}> My first time in Paso Robles Itinerary</h4>
-
           <div id="flexRow">
             <input
               type="text"
@@ -69,9 +72,14 @@ export default function Itinerary({ wineries, somm }) {
             <input type="time" name="time" onChange={handleTimeChange} />
             Reservation?{" "}
             <input type="checkbox" onChange={handleReservationChange} />
-            <button type="submit">+</button>
+            <button type="submit" onSubmit={handleAdd}>
+              +
+            </button>
           </div>
-
+          <h3>Itinerary</h3>
+          <p>{itinerary.time}</p>
+          <p>{itinerary.stop}</p>
+          <p>{itinerary.reservation}</p>
           <h4>Wishlist:</h4>
           {savedWineries.map((saved) => {
             return (
