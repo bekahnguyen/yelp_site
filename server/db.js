@@ -89,10 +89,9 @@ const findUserByToken = async (token) => {
   let id;
   try {
     const tokenNoBearer = token.split(" ")[1];
-    console.log("token without bearer:", tokenNoBearer);
     const payload = jwt.verify(tokenNoBearer, JWT);
     id = payload.id;
-    console.log(id);
+    console.log("id:", id);
   } catch (ex) {
     const error = Error("not authorized");
     error.status = 401;
@@ -103,9 +102,11 @@ const findUserByToken = async (token) => {
     FROM somm
     WHERE id = $1
   `;
+  console.log("id:", id);
   const response = await client.query(SQL, [id]);
+  console.log("response:", response);
   if (!response.rows.length) {
-    const error = Error("not authorized");
+    const error = Error("not authorized?");
     error.status = 401;
     throw error;
   }
@@ -120,9 +121,14 @@ const createTables = async () => {
   DROP TABLE IF EXISTS somm_reviews;
   DROP TABLE IF EXISTS somm_favorites;
   DROP TABLE IF EXISTS somm_wishlist;
-  DROP TABLE IF EXISTS winery;
-  DROP TABLE IF EXISTS ava_district;
   DROP TABLE IF EXISTS somm;
+  DROP TABLE if EXISTS itineraries;
+  DROP TABLE IF EXISTS enhancements;
+  DROP TABLE IF EXISTS winery cascade;
+  DROP TABLE IF EXISTS ava_district CASCADE;
+  DROP TABLE IF EXISTS attributes CASCADE;
+  DROP TABLE IF EXISTS winery_attributes ;
+  DROP TABLE IF EXISTS restaurants;
             CREATE TABLE ava_district (
         id SERIAL PRIMARY KEY,
         location VARCHAR(255) NOT NULL
@@ -157,9 +163,9 @@ const createTables = async () => {
           img text,
           website text,
           reservations_required BOOLEAN default false,
-          ava_district_id INTEGER REFERENCES ava_district(id)
-      );
-      INSERT INTO winery(name, address, phone, hours, description, img, website, reservations_required, ava_district_id)
+          ava_district_id INTEGER REFERENCES ava_district(id) 
+);
+        INSERT INTO winery(name, address, phone, hours, description, img, website, reservations_required, ava_district_id)
       VALUES('DAOU','2777 Hidden Mountain Rd, Paso Robles, CA','805-226-5460', '10:00 AM - 5:00 PM','Renowned for its stunning hilltop views and exceptional Bordeaux-style wines.','https://winemaps.com/sites/default/files/styles/large/public/2019-10/readytogo_5.jpg?itok=uspdG2tR','https://www.daouvineyards.com', False, 1),
       ('Halter Ranch', '8910 Adelaida Rd, Paso Robles, CA','805-226-9455','10:00 AM - 5:00 PM', 'Offer a blend of historic charm and sustainable winemaking on its picturesque estate.', 'https://bloximages.chicago2.vip.townnews.com/santamariatimes.com/content/tncms/assets/v3/editorial/4/4e/44e49682-13a4-5944-ba9b-25f6efa9a949/572132e9ac6e1.image.jpg','https://www.halterranch.com', False, 1),
       ('LAventure','2815 Live Oak Rd, Paso Robles, CA','805-227-1588','10:00 AM - 4:00 PM', 'LAventure Winery is celebrated for its innovative, Rhône and Bordeaux-inspired blends crafted by renowned winemaker Stephan Asseo.','https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/57/f6/98/winery.jpg?w=1200&h=-1&s=1','https://www.aventurewine.com', False, 7),
@@ -171,8 +177,11 @@ const createTables = async () => {
       ('Sculpterra','5015 Linne Rd, Paso Robles, CA','805-226-8881','10:00 AM - 5:00 PM', 'Sculpterra Winery in Paso Robles uniquely blends art and wine, offering award-winning wines amidst beautiful sculptures and gardens on its picturesque estate.','https://media-cdn.tripadvisor.com/media/photo-s/02/66/f4/1e/sculpterra-winery-sculpture.jpg','https://sculpterra.com/', False, 3),
       ('Epoch', '7505 York Mountain Rd, Templeton, CA','805-237-7575','10:00 AM - 4:00 PM', 'Epoch in Paso Robles is a renowned winery celebrated for its high-quality, Rhone and Zinfandel varietals, produced from historic and diverse vineyards.', 'https://www.cooperchase.com/wp-content/uploads/2021/12/epoch-1a-768x444.jpg','https://www.epochwines.com', False, 7),
       ('Brecon','7450 Vineyard Dr, Paso Robles, CA','805-239-2200','11:00 AM - 5:00 PM', 'Brecon Estate in Paso Robles is a boutique winery known for its award-winning, small-batch wines crafted with a focus on innovative blends and sustainable practices.', 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d1b2e430123665.561457900e12d.jpg', 'https://www.breconestate.com',False, 5),
-      
-('Tooth & Nail', '3090 Anderson Rd, Paso Robles, CA','805-369-6100','10:00 AM - 6:00 PM', 'Tooth & Nail Winery in Paso Robles is a unique winery famed for its bold, artfully blended wines and its castle-like tasting room offering an immersive and eclectic experience.','https://cdn0.weddingwire.com/vendor/480827/3_2/1280/jpg/1515006875-43878b5c0f751864-castle_no_logo__002__High_Def.jpeg','https://cdn0.weddingwire.com/vendor/480827/3_2/1280/jpg/1515006875-43878b5c0f751864-castle_no_logo__002__High_Def.jpeg', False, 7),
+      ('Linne Calodo','3030 Vineyard Dr, Paso Robles, CA', '805-227-0797', '10:00Am -5:00 PM', 'Linne Calodo Winery, located in Paso Robles, California, is known for producing innovative, small-batch Rhône-style blends and Zinfandels that emphasize the unique terroir of the region.', 'https://pults.com/wp-content/uploads/2012/10/Linne_Calodo_Winery_Main_Entrance1.jpg','linnecalodo.com', True, 7),
+      ('Alta Colina', '2825 Adelaida Rd, Paso Robles, CA', '805-227-4191', '10:00 AM- 4:00 PM', 'Alta Colina is a family-owned winery in Paso Robles, California, known for producing high-quality Rhône-style wines from organically farmed, estate-grown grapes.', 'https://media-cdn.tripadvisor.com/media/photo-s/10/8d/cd/68/alta-colina-vineyard.jpg', 'altacolina.com', False, 1  ),
+('Tooth & Nail', '3090 Anderson Rd, Paso Robles, CA','805-369-6100','10:00 AM - 6:00 PM', 'Tooth & Nail Winery in Paso Robles is a unique winery famed for its bold, artfully blended wines and its castle-like tasting room offering an immersive and eclectic experience.','https://cdn0.weddingwire.com/vendor/480827/3_2/1280/jpg/1515006875-43878b5c0f751864-castle_no_logo__002__High_Def.jpeg','www.toothandnailwine.com', False, 7),
+('Adelaida', '5805 Adelaida Rd, Paso Robles, CA', '805-239-8980', '10:00 Am - 4:00 PM WED-MON', 'Adelaida Vineyards and Winery is a family-owned winery in Paso Robles, California, known for its sustainably farmed estate vineyards and premium wines, particularly Rhône and Bordeaux varietals.', 'https://www.adelaida.com/assets/images/contentblock/photos/Adelaidapanophotoshopped.jpg', 'www.adelaida.com', False, 1  ),
+('Booker', '2640 Anderson Rd, Paso Robles, CA', '805-237-7367', '10:00 AM- 4:00 PM', 'Booker Vineyard, situated in Paso Robles, California, is renowned for its high-quality, limited-production wines made from estate-grown Rhône varietals, with a focus on sustainable farming and minimalist winemaking practices.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1e/79/a6/6e/main-tasting-room.jpg?w=1200&h=-1&s=1', 'www.bookerwines.com', True, 7),
 
       ('Niner', '2400 CA-46, Paso Robles, CA','805-239-2233','10:00 AM - 5:00 PM', 'Niner Wine Estates in Paso Robles is a family-owned winery known for its estate-grown wines, stunning Heart Hill Vineyard, and commitment to sustainable farming practices.', 'https://th.bing.com/th/id/OLC.lzBvUs9Q7E5rmQ480x360?&rs=1&pid=ImgDetMain','https://www.ninerwine.com', False, 7),
       ('Austin Hope & Treana', '1585 Live Oak Rd, Paso Robles, CA','805-238-4112','10:00 AM - 4:00 PM', 'Austin Hope Winery in Paso Robles is renowned for its premium Cabernet Sauvignon and commitment to crafting bold, expressive wines that reflect the regions terroir.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/8b/7f/b1/our-tasting-cellar-feature.jpg?w=1200&h=-1&s=1', 'https://www.hopefamilywines.com', False, 11);
@@ -205,10 +214,63 @@ CREATE TABLE somm_favorites(
     img text,
     CONSTRAINT unique_somm_favorites UNIQUE(somm_id, winery_id)
 ); 
+CREATE TABLE attributes(
+id INTEGER PRIMARY KEY,
+name VARCHAR
+);
+
+CREATE TABLE winery_attributes(
+id INTEGER PRIMARY KEY,
+winery_id INTEGER references winery(id) NOT NULL,
+attributes_id INTEGER REFERENCES attributes(id) NOT NULL);
+
+CREATE TABLE restaurants(
+id SERIAL PRIMARY KEY,
+name VARCHAR, 
+description VARCHAR, 
+address VARCHAR,
+hours VARCHAR,
+phone VARCHAR);
+ 
+INSERT INTO restaurants(name, description, address, hours, phone)
+VALUES
+('Les Petites Canailles', 'Fine Dining Modern French', '1215 Spring Street, Paso Robles, CA 93446', '2:00 PM- 10:00PM TR-M', '805-296-3754'),
+('McPhees Grill', 'Steakhouse, Seafood, and Pasta Cuisine', '416 S Main St, Templeton, CA 93465', '5:00 PM- 9:00 PM Wed-Sun', '805-434-3204');
+
+CREATE TABLE enhancements(
+id SERIAL PRIMARY KEY,
+name VARCHAR,
+description VARCHAR,
+address VARCHAR,
+hours VARCHAR,
+phone VARCHAR
+);
+
+INSERT INTO enhancements(name, description, address, hours, phone) 
+VALUES
+('Sensorio Field of Lights', '58,000 Fiber Optic LED Light Art Display', '4380 E Highway 46, Paso Robles, CA, 93446', '10:00 AM- 5:00 PM M-F', '805-226-4287' ),
+('River Oak Hot Springs', 'Natural Paso Robles Hot Springs Spa', '800 Clubhouse Dr, Paso Robles, CA, 93446', '9:00 AM- 9:00 PM', '805-238-4600'),
+('Pasolivo Olive Oil Ranch', 'Award Winning Artisanal Olive Oil', '8530 Vineyard Drive, Paso Robles, CA, 93446', '11:00 AM- 5:00 PM', '805-227-0186');
+
+CREATE TABLE itineraries(
+id SERIAL PRIMARY KEY,
+notes VARCHAR,
+time TIME,
+winery_id INTEGER references winery(id) NOT NULL,
+time2 TIME,
+winery_id_2 INTEGER references winery(id) NOT NULL,
+time3 TIME,
+lunch VARCHAR,
+time4 TIME,
+winery_id_4 INTEGER references winery(id),
+time5 TIME,
+dinner VARCHAR
+)
 
 
 
-  `;
+
+`;
   await client.query(SQL);
 };
 
@@ -281,6 +343,7 @@ const fetchWineries = async () => {
 
 //how to create wishlists. to finish tomorrow!!!
 const createWishlist = async ({ somm_id, winery_id }) => {
+  console.log("route hit");
   const SQL = `
     INSERT INTO somm_wishlist(id, somm_id, winery_id) VALUES ($1, $2, $3) RETURNING * 
   `;
@@ -294,6 +357,7 @@ module.exports = {
   client,
   createWinery,
   createTables,
+  createWishlist,
   createSomm,
   fetchSomms,
   fetchWineries,
