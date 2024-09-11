@@ -10,6 +10,7 @@ const {
   createReview,
   destroyReviews,
   createComment,
+  createWishlist,
 } = require("./db");
 
 const express = require("express");
@@ -20,7 +21,7 @@ app.use(express.json());
 const path = require("path");
 const { send } = require("process");
 
-//deploy site on netlify on ffront end
+// deploy site on netlify on ffront end
 app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "../client/dist/index.html"))
 );
@@ -73,7 +74,8 @@ app.get("/api/ava_districts", async (req, res, next) => {
 app.get("/api/wineries/:id", async (req, res, next) => {
   try {
     const SQL = `
-      SELECT * FROM winery WHERE id=$1
+      SELECT * FROM winery 
+WHERE id=$1
       `;
     const response = await client.query(SQL, [req.params.id]);
     res.send(response.rows[0]);
@@ -145,6 +147,7 @@ app.delete("/api/winery/:id", (req, res, next) => {
 const isLoggedIn = async (req, res, next) => {
   try {
     req.somm = await findUserByToken(req.headers.authorization);
+    console.log("req.somm:", req.somm);
     next();
   } catch (ex) {
     next(ex);
@@ -263,24 +266,6 @@ app.post("/api/winery/:wineId/reviews", isLoggedIn, async (req, res, next) => {
   }
 });
 
-//to review or post comments?
-app.post(
-  "/api/wineries/:id/reviews/:somm_review_id/comments/",
-  isLoggedIn,
-  async (req, res, next) => {
-    try {
-      res.send(
-        await createComment({
-          somm_review_id: req.params.somm_review_id,
-          comment: req.body.comment,
-        })
-      );
-    } catch (ex) {
-      next(ex);
-    }
-  }
-);
-
 // app.get(
 //   "/api/wineries/:id/reviews/:somm_review_id/comments",
 //   async (req, res, next) => {
@@ -354,7 +339,7 @@ app.get("/api/reviews", async (req, res, next) => {
   console.log("get wineries route hit");
   try {
     const SQL = `
-    SELECT * FROM somm_reviews 
+    SELECT * FROM somm_reviews
     `;
     const response = await client.query(SQL);
     res.send(response.rows);
@@ -374,6 +359,74 @@ app.delete("/api/reviews/:id", async (req, res, next) => {
     res.send(response.status);
   } catch (error) {
     next(error);
+  }
+});
+
+app.get("/api/somms/:id/wishlist", isLoggedIn, async (req, res, next) => {
+  try {
+    console.log("get wishlist route hit!");
+    // if (req.params.id !== req.somm.id) {
+    //   const error = Error("not authorized");
+    //   error.status = 401;
+    //   throw error;
+    // }
+    const SQL = `
+      SELECT *
+      FROM winery
+      INNER JOIN somm_wishlist on somm_wishlist.winery_id = winery.id      
+       where somm_id=$1`;
+    const response = await client.query(SQL, [req.params.id]);
+    res.send(response.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/somms/:id/wishlist", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(
+      await createWishlist({
+        somm_id: req.params.id,
+        winery_id: req.body.wineId,
+      })
+    );
+  } catch (error) {
+    next(error);
+  }
+});
+
+//to review or post comments?
+app.post(
+  "/api/wineries/:id/reviews/:somm_review_id/comments/",
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      res.send(
+        await createComment({
+          somm_review_id: req.params.somm_review_id,
+          comment: req.body.comment,
+        })
+      );
+    } catch (ex) {
+      next(ex);
+    }
+  }
+);
+
+//register form? DONE!
+app.post("/api/somms/", async (req, res, next) => {
+  try {
+    res.send(
+      await createSomm({
+        first_name: req.body.firstName,
+        last_name: req.body.lastName,
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+      })
+    );
+  } catch (ex) {
+    next(ex);
   }
 });
 
@@ -399,6 +452,7 @@ app.delete("/api/reviews/:id", async (req, res, next) => {
 
 //get/post/update/delete api/user/me/user_favorite
 //get/post/update/delete api/user/me/user_wishlist
+
 //get/delete/post/update api/user/me/user_reviews
 //get all review comments//
 
@@ -415,14 +469,14 @@ const init = async () => {
   await createTables();
   console.log("created tables");
   console.log(await fetchSomms()), console.log(await fetchWineries());
-  const nam = await createSomm({
-    first_name: "nam",
-    last_name: "nguyen",
-    username: "namnam",
-    password: "321",
-    email: "nguyen.k.nam@gmail.com",
-    is_admin: true,
-  });
+  // const nam = await createSomm({
+  //   first_name: "nam",
+  //   last_name: "nguyen",
+  //   username: "namnam",
+  //   password: "321",
+  //   email: "nguyen.k.nam@gmail.com",
+  //   is_admin: true,
+  // });
   const beky = await createSomm({
     first_name: "bek",
     last_name: "nguyen",
@@ -431,13 +485,13 @@ const init = async () => {
     email: "bekahritter@gmail.com",
     is_admin: true,
   });
-  const dummy = await createSomm({
-    first_name: "dummy",
-    last_name: "nguyen",
-    username: "dummy",
-    password: "123",
-    email: "dummyaccount@gmail.com",
-  });
+  // const dummy = await createSomm({
+  //   first_name: "dummy",
+  //   last_name: "nguyen",
+  //   username: "dummy",
+  //   password: "123",
+  //   email: "dummyaccount@gmail.com",
+  // });
 
   // console.log(nam);
   // const [wishlist] = await Promise.all([

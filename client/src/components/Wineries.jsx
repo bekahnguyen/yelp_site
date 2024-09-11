@@ -10,8 +10,9 @@ export default function Wineries({ wineries, setWineries }) {
   const [searchItem, setSearchItem] = useState("");
 
   const handleInputChange = (e) => {
-    const searchTerm = e.target.value;
+    const searchTerm = e.target.value.toLowerCase();
     setSearchItem(searchTerm);
+    console.log(searchTerm);
   };
   // const [filteredWineries, setFilteredWineries] = useState([]);
 
@@ -34,13 +35,13 @@ export default function Wineries({ wineries, setWineries }) {
     }
   };
 
-  // const onInputChange = (event) => {
-  //   const searchTerm = event.target.value.toLowerCase();
-  //   const filter = wineries.filter((winery) => {
-  //     winery.name.toLowerCase().includes(searchTerm);
-  //   });
-  //   setFilteredWineries(filter);
-  // };
+  const onInputChange = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    const filter = wineries.filter((winery) => {
+      winery.name.toLowerCase().includes(searchTerm);
+    });
+    setFilteredWineries(filter);
+  };
 
   return (
     <>
