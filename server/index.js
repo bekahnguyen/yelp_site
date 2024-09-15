@@ -232,6 +232,34 @@ app.get("/api/somms/:id/reviews", isLoggedIn, async (req, res, next) => {
   }
 });
 
+app.get("/api/winery/itineraries", async (req, res, next) => {
+  try {
+    const SQL = `
+      SELECT 
+      itinerary.id, itinerary.notes, itinerary.time, 
+      w1.name AS winery_stop_1,
+      itinerary.time2,
+      w2.name AS winery_stop_2,
+      itinerary.time4,
+      w3.name AS winery_stop_4,
+      itinerary.time5,
+      r.name as restaurant_name
+
+      FROM itinerary
+   
+    JOIN winery w1 on w1.id = itinerary.winery_id
+    JOIN winery w2 on w2.id=  itinerary.winery_id_2
+    LEFT JOIN winery w3 on w3.id = itinerary.winery_id_4
+    LEFT JOIN restaurant r on r.id= itinerary.restaurant_id
+      
+      `;
+    const response = await client.query(SQL);
+    res.send(response.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //is this an inner join????
 //how to filter reviews based on winery?
 app.get("/api/winery/:wineId/reviews", async (req, res, next) => {

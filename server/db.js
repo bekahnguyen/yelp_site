@@ -122,13 +122,13 @@ const createTables = async () => {
   DROP TABLE IF EXISTS somm_favorites;
   DROP TABLE IF EXISTS somm_wishlist;
   DROP TABLE IF EXISTS somm;
-  DROP TABLE if EXISTS itineraries;
-  DROP TABLE IF EXISTS enhancements;
+  DROP TABLE if EXISTS itinerary;
+  DROP TABLE IF EXISTS enhancement;
   DROP TABLE IF EXISTS winery cascade;
   DROP TABLE IF EXISTS ava_district CASCADE;
   DROP TABLE IF EXISTS attributes CASCADE;
   DROP TABLE IF EXISTS winery_attributes ;
-  DROP TABLE IF EXISTS restaurants;
+  DROP TABLE IF EXISTS restaurant;
             CREATE TABLE ava_district (
         id SERIAL PRIMARY KEY,
         location VARCHAR(255) NOT NULL
@@ -167,8 +167,8 @@ const createTables = async () => {
 );
         INSERT INTO winery(name, address, phone, hours, description, img, website, reservations_required, ava_district_id)
       VALUES('DAOU','2777 Hidden Mountain Rd, Paso Robles, CA','805-226-5460', '10:00 AM - 5:00 PM','Renowned for its stunning hilltop views and exceptional Bordeaux-style wines.','https://winemaps.com/sites/default/files/styles/large/public/2019-10/readytogo_5.jpg?itok=uspdG2tR','https://www.daouvineyards.com', False, 1),
-      ('Halter Ranch', '8910 Adelaida Rd, Paso Robles, CA','805-226-9455','10:00 AM - 5:00 PM', 'Offer a blend of historic charm and sustainable winemaking on its picturesque estate.', 'https://bloximages.chicago2.vip.townnews.com/santamariatimes.com/content/tncms/assets/v3/editorial/4/4e/44e49682-13a4-5944-ba9b-25f6efa9a949/572132e9ac6e1.image.jpg','https://www.halterranch.com', False, 1),
-  
+      ('Halter Ranch', '8910 Adelaida Rd, Paso Robles, CA','805-226-9455','10:00 AM - 5:00 PM', 'Offers a blend of historic charm and sustainable winemaking on its picturesque estate.', 'https://bloximages.chicago2.vip.townnews.com/santamariatimes.com/content/tncms/assets/v3/editorial/4/4e/44e49682-13a4-5944-ba9b-25f6efa9a949/572132e9ac6e1.image.jpg','https://www.halterranch.com', False, 1),
+  ('Opolo', '7110 Vineyard Dr, Paso Robles, CA', '805-238-9593', '10:00 AM - 5:00 PM', 'Opolo Vineyards known for producing a diverse range of high-quality wines, including Zinfandel, Cabernet Sauvignon, and blends, with a focus on bold, fruit-forward flavors.', 'https://assets.simpleviewinc.com/simpleview/image/fetch/c_limit,h_1200,q_75,w_1200/https://assets.simpleviewinc.com/simpleview/image/upload/crm/slocal/Opolo_food_wine_9B9FB8EC-5056-A36A-0BF39B6A8C8E82E8-9b9fb70e5056a36_9b9fc0b1-5056-a36a-0bde3399705c8c98.jpg', 'opolo.com', False, 7 ),
       ('LAventure','2815 Live Oak Rd, Paso Robles, CA','805-227-1588','10:00 AM - 4:00 PM', 'LAventure Winery is celebrated for its innovative, Rhône and Bordeaux-inspired blends crafted by renowned winemaker Stephan Asseo.','https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/57/f6/98/winery.jpg?w=1200&h=-1&s=1','https://www.aventurewine.com', False, 7),
       ('Turley', '2900 Vineyard Dr, Templeton, CA','805-434-1030', '10:00 AM - 5:00 PM', 'Turley Wine Cellars is acclaimed for its robust Zinfandels and Petite Syrahs, sourced from historic old vine vineyards across California.', 'https://media-cdn.tripadvisor.com/media/photo-s/17/d9/21/b2/main-entrance-to-the.jpg', 'https://www.turleywinecellars.com', False, 7),
       ('Eberle', '3810 CA-46, Paso Robles, CA','805-238-9607', '10:00 AM - 5:00 PM', 'Eberle Winery in Paso Robles is celebrated for its award-winning wines and pioneering role in the regions winemaking, offering a unique experience with its vineyard tours and underground caves.','https://www.eberlewinery.com/images/about-the-eberle-caves-paso-robles.jpg', 'https://www.eberlewinery.com', False, 11),
@@ -225,7 +225,7 @@ id INTEGER PRIMARY KEY,
 winery_id INTEGER references winery(id) NOT NULL,
 attributes_id INTEGER REFERENCES attributes(id) NOT NULL);
 
-CREATE TABLE restaurants(
+CREATE TABLE restaurant(
 id SERIAL PRIMARY KEY,
 name VARCHAR, 
 description VARCHAR, 
@@ -233,12 +233,15 @@ address VARCHAR,
 hours VARCHAR,
 phone VARCHAR);
  
-INSERT INTO restaurants(name, description, address, hours, phone)
+INSERT INTO restaurant(name, description, address, hours, phone)
 VALUES
 ('Les Petites Canailles', 'Fine Dining Modern French', '1215 Spring Street, Paso Robles, CA 93446', '2:00 PM- 10:00PM TR-M', '805-296-3754'),
+('Il Cortile', 'Northern Italian Cuisine', '608 12th St, Paso Robles, CA, 93446', '5:00 PM- 10:00 PM Wed-Sun', '805-226,0300' ),
+('The Catch', 'Casual Seafood Cuisine', '836 11th St, Paso Robles, CA, 93446', '4:00 PM- 9:00 PM', '805-239-3332' ),
+('Thomas Hill Organics', 'Farm to Table Seasonal Cuisine', '1313 Park St, Paso Robles, CA, 93446', '11:00 AM- 3:00 PM, 5:00 PM- 9:30 PM Thurs- Tues', '805-226-5888'),
 ('McPhees Grill', 'Steakhouse, Seafood, and Pasta Cuisine', '416 S Main St, Templeton, CA 93465', '5:00 PM- 9:00 PM Wed-Sun', '805-434-3204');
 
-CREATE TABLE enhancements(
+CREATE TABLE enhancement(
 id SERIAL PRIMARY KEY,
 name VARCHAR,
 description VARCHAR,
@@ -247,13 +250,13 @@ hours VARCHAR,
 phone VARCHAR
 );
 
-INSERT INTO enhancements(name, description, address, hours, phone) 
+INSERT INTO enhancement(name, description, address, hours, phone) 
 VALUES
 ('Sensorio Field of Lights', '58,000 Fiber Optic LED Light Art Display', '4380 E Highway 46, Paso Robles, CA, 93446', '10:00 AM- 5:00 PM M-F', '805-226-4287' ),
 ('River Oak Hot Springs', 'Natural Paso Robles Hot Springs Spa', '800 Clubhouse Dr, Paso Robles, CA, 93446', '9:00 AM- 9:00 PM', '805-238-4600'),
 ('Pasolivo Olive Oil Ranch', 'Award Winning Artisanal Olive Oil', '8530 Vineyard Drive, Paso Robles, CA, 93446', '11:00 AM- 5:00 PM', '805-227-0186');
 
-CREATE TABLE itineraries(
+CREATE TABLE itinerary(
 id SERIAL PRIMARY KEY,
 notes VARCHAR,
 time TIME,
@@ -265,11 +268,11 @@ lunch VARCHAR,
 time4 TIME,
 winery_id_4 INTEGER references winery(id),
 time5 TIME,
-dinner VARCHAR
-)
+restaurant_id INTEGER references restaurant(id)
+);
 
-
-
+INSERT INTO itinerary(time, winery_id, time2, winery_id_2, time4, winery_id_4, time5, restaurant_id)
+VALUES ('11:00', 8, '12:00', 13, '1:30', 17, '8:00', 1  )
 
 `;
   await client.query(SQL);
