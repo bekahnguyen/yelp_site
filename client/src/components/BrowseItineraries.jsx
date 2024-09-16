@@ -18,12 +18,24 @@ export default function BrowseItineraries() {
     console.log(result);
     return result;
   };
+  console.log(itineraries);
 
   return (
     <>
-      {itineraries.map((itinerary) => {
-        <li>{itinerary}</li>;
-      })}
+      {itineraries.map((itinerary) => (
+        <>
+          <h2>{itinerary.id} </h2>
+          <li>{itinerary.notes}</li>
+          <li> {itinerary.time}</li>
+          <li>{itinerary.winery_stop_1}</li>
+          <li>{itinerary.time2}</li>
+          <li>{itinerary.winery_stop_2}</li>
+          <li>{itinerary.time4}</li>
+          <li>{itinerary.winery_stop_4}</li>
+          <li>{itinerary.time5}</li>
+          <li>{itinerary.restaurant_name}</li>
+        </>
+      ))}
     </>
   );
 }

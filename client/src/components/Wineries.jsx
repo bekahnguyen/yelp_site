@@ -29,6 +29,7 @@ export default function Wineries({ wineries, setWineries }) {
       const response = await fetch("/api/wineries");
       const result = await response.json();
       if (result.error) throw result.error;
+      console.log(result.rows);
       return result.rows;
     } catch (error) {
       console.log("Oh no, couldn't get wineries");
