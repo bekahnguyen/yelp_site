@@ -25,23 +25,22 @@ export default function BrowseItineraries() {
   return (
     <>
       {itineraries.map((itinerary) => (
-        <div key={itinerary.id}>
+        <div id="itinerary" key={itinerary.id}>
           <>
-            <h2>West side Quality Itinerary </h2>
             <i>{itinerary.notes}</i>
-            <h3> {itinerary.time}</h3>
+            <h1> {itinerary.time}</h1>
             <h4>{itinerary.w_stop_1}</h4>
             <i>{itinerary.w_stop_1_description}</i>
-            <h3>{itinerary.time2}</h3>
+            <h1>{itinerary.time2}</h1>
             <h4>{itinerary.w_stop_2}</h4>
             <i>{itinerary.w_stop_2_description}</i>
-            <h3>{itinerary.time3}</h3>
+            <h1>{itinerary.time3}</h1>
             <h4>{itinerary.w_stop_3}</h4>
             <i>{itinerary.w_stop_3_description}</i>
-            <h3>{itinerary.time4}</h3>
+            <h1>{itinerary.time4}</h1>
             <h4>{itinerary.w_stop_4}</h4>
             <i>{itinerary.w_stop_4_description}</i>
-            <h3>{itinerary.time5}</h3>
+            <h1>{itinerary.time5}</h1>
             <h4>{itinerary.restaurant_name}</h4>
             <i>{itinerary.restaurant_description}</i>
           </>
