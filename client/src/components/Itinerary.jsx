@@ -10,10 +10,6 @@ export default function Itinerary({ wineries, somm }) {
     reservation: false,
   });
 
-  const handleAdd = () => {
-    <p>{itinerary.time}</p>;
-  };
-
   const token = window.localStorage.getItem("token");
 
   const handleStopChange = (e) => {
