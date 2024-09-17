@@ -239,7 +239,8 @@ VALUES
 ('Il Cortile', 'Northern Italian Cuisine', '608 12th St, Paso Robles, CA, 93446', '5:00 PM- 10:00 PM Wed-Sun', '805-226,0300' ),
 ('The Catch', 'Casual Seafood Cuisine', '836 11th St, Paso Robles, CA, 93446', '4:00 PM- 9:00 PM', '805-239-3332' ),
 ('Thomas Hill Organics', 'Farm to Table Seasonal Cuisine', '1313 Park St, Paso Robles, CA, 93446', '11:00 AM- 3:00 PM, 5:00 PM- 9:30 PM Thurs- Tues', '805-226-5888'),
-('McPhees Grill', 'Steakhouse, Seafood, and Pasta Cuisine', '416 S Main St, Templeton, CA 93465', '5:00 PM- 9:00 PM Wed-Sun', '805-434-3204');
+('Goshi', 'Quaint, low-key restaurant with quality sushi', '722 Pine Street, Paso Robles, CA, 93446', '11:30 AM - 1:30 PM, 5:00 PM- 8:00 PM TUES-SAT', '805-227-4860' ),
+('McPhees Grill', 'Steakhouse, Seafood, and Pasta Cuisine', '416 S Main St, Templeton, CA 93465', '5:00 PM- 9:00 PM Wed-Sun','805-434-3204');
 
 CREATE TABLE enhancement(
 id SERIAL PRIMARY KEY,
@@ -264,6 +265,8 @@ winery_id INTEGER references winery(id) NOT NULL,
 time2 TIME,
 winery_id_2 INTEGER references winery(id) NOT NULL,
 time3 TIME,
+winery_id_3 INTEGER references winery(id),
+timeL TIME,
 lunch VARCHAR,
 time4 TIME,
 winery_id_4 INTEGER references winery(id),
@@ -271,8 +274,9 @@ time5 TIME,
 restaurant_id INTEGER references restaurant(id)
 );
 
-INSERT INTO itinerary(time, winery_id, time2, winery_id_2, time4, winery_id_4, time5, restaurant_id)
-VALUES ('11:00', 8, '12:00', 13, '1:30', 17, '8:00', 1  )
+INSERT INTO itinerary(notes, time, winery_id, time2, winery_id_2, time3, winery_id_3, timeL, lunch, time4, winery_id_4, time5, restaurant_id)
+VALUES ('When you want premium west side wines and do not mind the high price points', '11:00', 8, '12:00', 13, null, null, null, null, '1:30', 17, '8:00', 1 ),
+('When you are looking for Paso staples and incredible views', '11:00', 2, '12:00',  16, '1:00', 1, null, null, '2:45',  14, '7:00', 5)
 
 `;
   await client.query(SQL);

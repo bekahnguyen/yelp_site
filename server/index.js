@@ -236,21 +236,37 @@ app.get("/api/winery/itineraries", async (req, res, next) => {
   try {
     const SQL = `
       SELECT 
-      itinerary.id, itinerary.notes, itinerary.time, 
-      w1.name AS winery_stop_1,
+      itinerary.id, 
+      itinerary.notes,
+       itinerary.time, 
+      w1.name AS w_stop_1,
+      w1.description AS w_stop_1_description,
       itinerary.time2,
-      w2.name AS winery_stop_2,
-      itinerary.time4,
-      w3.name AS winery_stop_4,
+      w2.name AS w_stop_2,
+       w2.description AS w_stop_2_description,
+      itinerary.time3,
+      w3.name AS w_stop_3,
+       w3.description as w_stop_3_description,
+      itinerary.timeL, 
+       itinerary.lunch,
+       r.description as lunch_description,
+       w4.name AS w_stop_4,
+       w4.description as w_stop_4_description,
       itinerary.time5,
-      r.name as restaurant_name
+      r.name as restaurant_name,
+       r.description as restaurant_description
 
       FROM itinerary
    
     JOIN winery w1 on w1.id = itinerary.winery_id
+    
     JOIN winery w2 on w2.id=  itinerary.winery_id_2
-    LEFT JOIN winery w3 on w3.id = itinerary.winery_id_4
+
+    LEFT JOIN winery w3 on w3.id = itinerary.winery_id_3
+    LEFT JOIN winery w4 on w4.id= itinerary.winery_id_4
+       
     LEFT JOIN restaurant r on r.id= itinerary.restaurant_id
+  
       
       `;
     const response = await client.query(SQL);
