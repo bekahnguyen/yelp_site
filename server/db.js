@@ -188,7 +188,8 @@ const createTables = async () => {
       ('Austin Hope & Treana', '1585 Live Oak Rd, Paso Robles, CA','805-238-4112','10:00 AM - 4:00 PM', 'Austin Hope Winery in Paso Robles is renowned for its premium Cabernet Sauvignon and commitment to crafting bold, expressive wines that reflect the regions terroir.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/8b/7f/b1/our-tasting-cellar-feature.jpg?w=1200&h=-1&s=1', 'https://www.hopefamilywines.com', False, 11),
       ('J Dusi', '1401 W Highway 46, Paso Robles, CA, 93446', '805-226-2034', '11:00 AM - 4:00 PM', 'A family-owned winery known for its Zinfandel wines and its rich winemaking heritage dating back to the 1920s.', 'https://www.jdusiwines.com/images/headers/j-dusi-wines-tasting-room-westside-paso-robles-winery.jpg', 'https://www.jdusiwines.com/', False, 7),
       ('Jack Creek', '5265 Jack Creek Rd, Templeton, CA, 93465', '805-226-8283', '10:00 AM - 5:00 PM, MON-SAT', 'Jack Creek Cellars is a boutique winery specializing in small-batch, estate-grown wines with a focus on quality and sustainability.', 'https://s3-media0.fl.yelpcdn.com/bphoto/YxPWqzREPHAt6I9---Xh8A/l.jpg','https://www.jackcreekcellars.com/', False, 11),
-      ('Wineward', '1380 Live Oak Road, Paso Robles, CA, 93446', '805-237-1425', '10:30 AM - 5:00 PM', 'A family owned vineyard dedicated to crafting small-lot wines that emphasize sustainability and the unique character of their estate-grown grapes.', 'https://media-cdn.tripadvisor.com/media/photo-s/18/92/9f/5f/our-tasting-room.jpg', 'www.windwardvineyard.com', False, 11)
+      ('Wineward', '1380 Live Oak Road, Paso Robles, CA, 93446', '805-237-1425', '10:30 AM - 5:00 PM', 'A family owned vineyard dedicated to crafting small-lot wines that emphasize sustainability and the unique character of their estate-grown grapes.', 'https://media-cdn.tripadvisor.com/media/photo-s/18/92/9f/5f/our-tasting-room.jpg', 'www.windwardvineyard.com', False, 11),
+      ('Monochrome', '3075 Blue Rock Rd, Paso Robles, CA, 93446', '805-674-2160', '11:00 AM - 4:00 PM WED- SAT', 'Complex, creative, completely unique white wines.', 'https://th.bing.com/th/id/OIP.nJVxr4V-RASpbUTQZLVsPAHaFj?rs=1&pid=ImgDetMain', 'https://monochromewines.com/', True, 1 );
       ;
   CREATE TABLE somm_wishlist(
         id UUID PRIMARY KEY,
@@ -287,7 +288,8 @@ VALUES ('When you want premium west side wines and do not mind the high price po
 ('When you want delicious wines and a pit stop for lunch', null, null, '11:00', 12, '12:00', 3, '1:30', 8, null, null, '2:30', 13, null, null ),
 ('When you want the best cabs', null, null, '11:00', 16, '12:30', 1, '2:30',  2, null, null, null, null, null, null  ),
 ('When you want the best Pinots', '12:30', 4, '2:00', 21, '4:00', 22, null, null, null, null, null, null,'7:30', 2),
-('When...', null, null, '12:00', 18, '1:15', 17, null, null, null, null, null, null, '7:30', 2  )
+('When...', null, null, '12:00', 18, '1:15', 17, null, null, null, null, null, null, '7:30', 2  );
+
 
 `;
   await client.query(SQL);

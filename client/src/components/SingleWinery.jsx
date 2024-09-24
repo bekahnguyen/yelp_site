@@ -94,7 +94,10 @@ export default function SingleWinery({ somm }) {
           </Card.Header>
           <Card.Img variant="top" id="winePic" src={selectedWinery.img} />
           <Card.Body>
-            <Card.Title>Average Rating: {averageScore}</Card.Title>
+            <Card.Title>
+              Your Rating:{" "}
+              {averageScore ? { averageScore } : <h6>Nothing yet!</h6>}
+            </Card.Title>
             <Card.Text>
               Description: {selectedWinery.description}
               <br /> Hours: {selectedWinery.hours}

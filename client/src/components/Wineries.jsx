@@ -52,6 +52,7 @@ export default function Wineries({ wineries, setWineries }) {
         onChange={handleInputChange}
         placeholder="type to search"
       />
+      <p>To rate and keep track of all your Paso Robles Wineries.</p>
 
       <div className="flex-container">
         {wineries.map((winery) => (
