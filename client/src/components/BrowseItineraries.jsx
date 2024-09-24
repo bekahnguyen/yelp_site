@@ -29,7 +29,7 @@ export default function BrowseItineraries() {
           <>
             <i>{itinerary.notes}</i>
             <h1>{itinerary.eatfirst}</h1>
-            <h4>{itinerary.eat_before_go}</h4>
+            <h4>{itinerary.lunch_spot}</h4>
             <h1> {itinerary.time}</h1>
             <h4>{itinerary.w_stop_1}</h4>
             <i>{itinerary.w_stop_1_description}</i>

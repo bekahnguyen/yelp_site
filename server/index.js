@@ -239,7 +239,7 @@ app.get("/api/winery/itineraries", async (req, res, next) => {
       itinerary.id, 
       itinerary.notes,
       eatFirst,
-      lunchFirst as lunch_description,
+      r.description as lunch_spot,
        itinerary.time, 
        itinerary.winery_id,
       w1.name AS w_stop_1,
@@ -270,7 +270,8 @@ app.get("/api/winery/itineraries", async (req, res, next) => {
     LEFT JOIN winery w4 on w4.id= itinerary.winery_id_4
        
     LEFT JOIN restaurant r on r.id= itinerary.restaurant_id
-    LEFT JOIN restaurant r on r.id = itinerary.lunchFirst
+    
+
     
   
       

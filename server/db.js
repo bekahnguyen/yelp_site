@@ -265,7 +265,7 @@ CREATE TABLE itinerary(
 id SERIAL PRIMARY KEY,
 notes VARCHAR,
 eatFirst TIME,
-lunchFirst INTEGER references restaurant(id),
+lunch_id INTEGER references restaurant(id),
 time TIME,
 winery_id INTEGER references winery(id) NOT NULL,
 time2 TIME,
@@ -280,7 +280,7 @@ time5 TIME,
 restaurant_id INTEGER references restaurant(id)
 );
 
-INSERT INTO itinerary(notes, eatFirst, lunchFirst, time, winery_id, time2, winery_id_2, time3, winery_id_3, timeL, lunch, time4, winery_id_4, time5, restaurant_id)
+INSERT INTO itinerary(notes, eatFirst, lunch_id, time, winery_id, time2, winery_id_2, time3, winery_id_3, timeL, lunch, time4, winery_id_4, time5, restaurant_id)
 VALUES ('When you want premium west side wines and do not mind the high price points', null, null, '11:00', 8, '12:00', 13, null, null, null, null, '1:30', 17, '8:00', 1 ),
 ('When you are staying at Allegretto', null, null, '11:00', 12, '12:00', 11, '1:00', 18, null, null, '2:00', 20, '7:00', 1 ),
 ('When you are looking for Paso staples and incredible views', null, null, '11:00', 2, '12:00',  16, '1:00', 1, null, null, '2:45',  14, '7:00', 5),
